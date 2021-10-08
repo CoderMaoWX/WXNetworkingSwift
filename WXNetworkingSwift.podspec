@@ -1,6 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'WXNetworkingSwift'
+<<<<<<< HEAD
   s.version          ='0.1.5'
+=======
+  s.version          ='0.1.0'
+>>>>>>> e719da047961887ad8d6bb3782e60b9c4569bcf5
   s.summary          = 'iOS基于Alamofire封装的可定制多功能网络请求框架'
 
   s.description      = <<-DESC
