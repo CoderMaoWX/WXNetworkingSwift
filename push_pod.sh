@@ -6,7 +6,7 @@
 git pull
 
 #检索出 spec.version  =''
-VersionText=`grep -E 'spec.version.*=' WXNetworking.podspec`
+VersionText=`grep -E 'spec.version.*=' WXNetworkingSwift.podspec`
 
 #获取版本号 '2.0'
 VersionNumber=${VersionText#*=}
@@ -20,10 +20,10 @@ echo ${NewVersionNumber}
 ReplaceVersion="'$NewVersionNumber'"
 
 #获取到spec.version所在的行
-LineNumber=`grep -nE 'spec.version.*=' WXNetworking.podspec | cut -d : -f1`
+LineNumber=`grep -nE 'spec.version.*=' WXNetworkingSwift.podspec | cut -d : -f1`
 
 #替换里面的版本号数字
-sed -i "" "${LineNumber}s/${VersionNumber}/${ReplaceVersion}/g" WXNetworking.podspec
+sed -i "" "${LineNumber}s/${VersionNumber}/${ReplaceVersion}/g" WXNetworkingSwift.podspec
 
 echo "\033[41;36m 当前版本号为: ${VersionNumber}, 新制作的版本号为: ${ReplaceVersion} \033[0m "
 
@@ -44,15 +44,15 @@ git tag ${NewVersionNumber}
 git push --tags
 
 # 制作并推到远程库
-pod trunk push WXNetworking.podspec --allow-warnings --verbose --use-libraries
+pod trunk push WXNetworkingSwift.podspec --allow-warnings --verbose --use-libraries
 
 if [ $? == 0 ] ; then
-    echo "\033[41;36m 第三方库 WXNetworking Pod库制作成功, 请在项目中使用: pod 'WXNetworking', '~>${NewVersionNumber}' 导入 \033[0m "
+    echo "\033[41;36m 第三方库 WXNetworkingSwift Pod库制作成功, 请在项目中使用: pod 'WXNetworkingSwift', '~>${NewVersionNumber}' 导入 \033[0m "
     
-    NewVersionURL="https://cocoapods.org/pods/WXNetworking"
+    NewVersionURL="https://cocoapods.org/pods/WXNetworkingSwift"
     echo "最新版本号: $NewVersionURL"
     open $NewVersionURL
     
 else
-    echo "\033[41;36m 第三方库 WXNetworking Pod库制作失败, 请查看终端打印日志排查原因 \033[0m "
+    echo "\033[41;36m 第三方库 WXNetworkingSwift Pod库制作失败, 请查看终端打印日志排查原因 \033[0m "
 fi
