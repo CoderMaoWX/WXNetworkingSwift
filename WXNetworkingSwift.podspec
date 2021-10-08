@@ -1,42 +1,25 @@
-#
-# Be sure to run `pod lib lint WXNetworkingSwift.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = 'WXNetworkingSwift'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of WXNetworkingSwift.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+  s.summary          = 'iOS基于Alamofire封装的可定制多功能网络请求框架'
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  封装一套网络请求,自动处理是否缓存, 请求失败多多次重试, 上传接口日志, 极简上传下载文件监听, 约定全局请求成功keyPath模型映射,约定全局请求的提示tipKey,请求遇到相应Code时触发通知,网络请求过程多链路回调管理,格式化打印网络日志, 批量请求, 调试响应json等使用功能 ...
                        DESC
 
-  s.homepage         = 'https://github.com/maowangxin/WXNetworkingSwift'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.homepage         = 'https://github.com/CoderMaoWX/WXNetworkingSwift'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'maowangxin' => 'maowangxin@globalegrow.com' }
-  s.source           = { :git => 'https://github.com/maowangxin/WXNetworkingSwift.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.author           = { 'maowangxin' => 'maowangxin_2013@163.com' }
+  s.source           = { :git => 'https://github.com/CoderMaoWX/WXNetworkingSwift.git', :tag => s.version.to_s }
+   s.social_media_url = 'https://www.jianshu.com/u/c4ac9f9adf58'
 
-  s.ios.deployment_target = '9.0'
+  s.requires_arc = true
+  s.swift_version = "5.0"
+  s.ios.deployment_target = '10.0'
+  s.source_files = 'WXNetworkingSwift/*.swift'
 
-  s.source_files = 'WXNetworkingSwift/Classes/**/*'
+  s.dependency 'Alamofire'
+  s.dependency 'Cache'
+  s.dependency 'KakaJSON'
   
-  # s.resource_bundles = {
-  #   'WXNetworkingSwift' => ['WXNetworkingSwift/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end

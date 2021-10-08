@@ -1,5 +1,5 @@
 import XCTest
-import WXNetworkingSwift
+//import WXNetworkingSwift
 
 class Tests: XCTestCase {
     

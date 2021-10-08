@@ -1,0 +1,20 @@
+PODS:
+  - Alamofire (5.4.4)
+  - YYCache (1.0.4)
+
+DEPENDENCIES:
+  - Alamofire
+  - YYCache
+
+SPEC REPOS:
+  https://cdn.cocoapods.org/:
+    - Alamofire
+    - YYCache
+
+SPEC CHECKSUMS:
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
+
+PODFILE CHECKSUM: d362157da158b7d97340df711b73371c24a86928
+
+COCOAPODS: 1.11.2

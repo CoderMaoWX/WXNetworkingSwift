@@ -1,0 +1,6 @@
+framework module Pods_Pods_WXNetworkingSwift_Example {
+  umbrella header "Pods-Pods-WXNetworkingSwift_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
