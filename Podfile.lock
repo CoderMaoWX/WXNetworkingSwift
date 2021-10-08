@@ -1,20 +1,24 @@
 PODS:
   - Alamofire (5.4.4)
-  - YYCache (1.0.4)
+  - Cache (5.3.0)
+  - KakaJSON (1.1.2)
 
 DEPENDENCIES:
   - Alamofire
-  - YYCache
+  - Cache
+  - KakaJSON
 
 SPEC REPOS:
   https://cdn.cocoapods.org/:
     - Alamofire
-    - YYCache
+    - Cache
+    - KakaJSON
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
-  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
+  Cache: 48762993ec44e1d93483c4d4a13edd18452326f4
+  KakaJSON: cc5ff50a8c1cfbb09413db8496cb709a209e6137
 
-PODFILE CHECKSUM: 6e7eaaedbb032dfba85f8475391a126826d36034
+PODFILE CHECKSUM: 031127fb4c17b67e6f1cceb9a300ad982a6076c4
 
 COCOAPODS: 1.11.2

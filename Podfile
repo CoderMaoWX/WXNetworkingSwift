@@ -6,8 +6,9 @@ target 'Pods-WXNetworkingSwift_Example' do
   use_frameworks!
 
   # Pods for Pods-WXNetworkingSwift_Example
-  pod 'YYCache'
   pod 'Alamofire'
+  pod 'Cache'
+  pod 'KakaJSON'
 
 end
 
@@ -23,8 +24,9 @@ target 'WXNetworkingSwift' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   
-  pod 'YYCache'
   pod 'Alamofire'
+  pod 'Cache'
+  pod 'KakaJSON'
   
   # Pods for WXNetworkingSwift
 
