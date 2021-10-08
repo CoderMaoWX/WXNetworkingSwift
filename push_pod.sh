@@ -5,8 +5,8 @@
 #拉取最新
 git pull
 
-#检索出 spec.version  =''
-VersionText=`grep -E 'spec.version.*=' WXNetworkingSwift.podspec`
+#检索出 s.version  =''
+VersionText=`grep -E 's.version.*=' WXNetworkingSwift.podspec`
 
 #获取版本号 '2.0'
 VersionNumber=${VersionText#*=}
@@ -19,8 +19,8 @@ echo ${NewVersionNumber}
 
 ReplaceVersion="'$NewVersionNumber'"
 
-#获取到spec.version所在的行
-LineNumber=`grep -nE 'spec.version.*=' WXNetworkingSwift.podspec | cut -d : -f1`
+#获取到s.version所在的行
+LineNumber=`grep -nE 's.version.*=' WXNetworkingSwift.podspec | cut -d : -f1`
 
 #替换里面的版本号数字
 sed -i "" "${LineNumber}s/${VersionNumber}/${ReplaceVersion}/g" WXNetworkingSwift.podspec
