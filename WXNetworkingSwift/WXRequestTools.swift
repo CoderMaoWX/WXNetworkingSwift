@@ -2,7 +2,7 @@
 //  WXRequestTools.swift
 //  WXNetworkingSwift
 //
-//  Created by 610582 on 2021/8/21.
+//  Created by CoderMaoWX on 2021/8/21.
 //
 
 import Foundation
@@ -160,7 +160,7 @@ public class WXRequestTools {
     ///缓存目录
     internal static func fetchCachePath() -> String {
         let cacheDirectory = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).last! as NSString
-        var cachePath = cacheDirectory.appendingPathComponent(kWXNetworkResponseCache)
+        let cachePath = cacheDirectory.appendingPathComponent(kWXNetworkResponseCache)
         return cachePath
     }
     
