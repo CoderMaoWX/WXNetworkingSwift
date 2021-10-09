@@ -47,7 +47,7 @@ pod 'WXNetworkingSwift'
 
 ## Usage
 
-1.测试单个请求
+1.单个请求
     
 ```
 func testRequest() {
@@ -62,7 +62,7 @@ func testRequest() {
         }
     }
 ```
-2.测试批量请求
+2.批量请求
     
 ```
 func testBatchRequest() {
@@ -83,7 +83,7 @@ func testBatchRequest() {
         }, waitAllDone: true)
     }
 ```
-3.测试Json请求解析模型
+3.Json请求解析模型
     
 ```
 func testParseModel() {
@@ -113,7 +113,7 @@ func testParseModel() {
         }
     }
 ```
-4.测试上传文件
+4.上传文件
     
 ```
 func testUploadFile() {
@@ -148,7 +148,7 @@ func testUploadFile() {
         }
     }
 ```
-5.测试下载文文件
+5.下载文文件
     
 ```
 func testDownloadFile() {

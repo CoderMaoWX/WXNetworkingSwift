@@ -1,10 +1,8 @@
 PODS:
   - Alamofire (5.4.4)
-  - Cache (5.3.0)
   - KakaJSON (1.1.2)
-  - WXNetworkingSwift (0.1.1):
+  - WXNetworkingSwift (0.1.4):
     - Alamofire
-    - Cache
     - KakaJSON
 
 DEPENDENCIES:
@@ -13,7 +11,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://cdn.cocoapods.org/:
     - Alamofire
-    - Cache
     - KakaJSON
 
 EXTERNAL SOURCES:
@@ -22,9 +19,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
-  Cache: 48762993ec44e1d93483c4d4a13edd18452326f4
   KakaJSON: cc5ff50a8c1cfbb09413db8496cb709a209e6137
-  WXNetworkingSwift: 93077e6d79a1b9d2bb98bbf2045ec13524469cc7
+  WXNetworkingSwift: 92337eb9baa02bd527f4dab02ff927a0282c1169
 
 PODFILE CHECKSUM: 44a52d7c247614024c113eae92a046fa74743dc6
 

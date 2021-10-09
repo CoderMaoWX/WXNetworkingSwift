@@ -614,17 +614,6 @@ public class WXRequestApi: WXBaseRequest {
         return KWXRequestFailueDefaultMessage
     }
     
-    //MARK: - DealWithCache
-    
-    lazy var cacheKey: String = {
-        if cacheResponseBlock != nil || autoCacheResponse {
-            let parameterJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters)
-            let originValue = requestURL + (parameterJson ?? "")
-            return WXRequestTools.convertToMD5(originStr: originValue)
-        }
-        return ""
-    }()
-    
     ///检查是否有相同请求在请求, 有则取消旧的请求
     fileprivate func cancelTheSameOldRequest() {
         for request in _globleRequestList {
@@ -640,57 +629,62 @@ public class WXRequestApi: WXBaseRequest {
             }
         }
     }
+    
+    //MARK: - DealWithCache
+    
+    lazy var cacheKey: String = {
+        if cacheResponseBlock != nil || autoCacheResponse {
+            let parameterJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters)
+            let originValue = requestURL + (parameterJson ?? "")
+            return WXRequestTools.convertToMD5(originStr: originValue)
+        }
+        return ""
+    }()
 
     ///如果本地需要有缓存: 则读取接口本地缓存数据返回
     fileprivate func readRequestCacheWithBlock(fetchCacheBlock: @escaping WXAnyObjectBlock) {
         if cacheResponseBlock != nil || autoCacheResponse {
-            let networkCache = WXRequestConfig.shared.networkDiskCache
-            networkCache.async.object(forKey: cacheKey) { result in
-                switch result {
-                    case .value(let json):
-                    if var cacheDcit = WXRequestTools.jsonToDictionary(jsonString: json) {
-                        cacheDcit[kWXRequestDataFromCacheKey] = true
-                        if Thread.isMainThread {
-                            fetchCacheBlock(cacheDcit as AnyObject)
-                        } else {
+            
+            DispatchQueue.global().async {
+                var cachePath = WXRequestTools.fetchCachePath() ///缓存目录
+                cachePath = (cachePath as NSString).appendingPathComponent(self.cacheKey)
+                let fileManager = FileManager.default
+                if fileManager.fileExists(atPath: cachePath), let cacheData = fileManager.contents(atPath: cachePath) {
+                    if let cacheJsonStr = String(data: cacheData, encoding: .utf8) {
+                        if var cacheDcit = WXRequestTools.jsonToDictionary(jsonString: cacheJsonStr) {
+                            cacheDcit[kWXRequestDataFromCacheKey] = true
                             DispatchQueue.main.async {
                                 fetchCacheBlock(cacheDcit as AnyObject)
                             }
                         }
                     }
-                    case .error(_):
-                    //WXDebugLog(error)
-                    break
-                  }
+                }
             }
         }
     }
     
     ///保存接口响应数据到本地缓存
     fileprivate func saveResponseObjToCache(responseModel: WXResponseModel) {
+        var saveRspJson: String? = nil
         if let cacheBlock = cacheResponseBlock, let saveResponseDict = cacheBlock(responseModel) {
             if let responseJson = WXRequestTools.dictionaryToJSON(dictionary: saveResponseDict) {
-                let networkCache = WXRequestConfig.shared.networkDiskCache
-                networkCache.async.setObject(responseJson, forKey: cacheKey) { result in
-//                      switch result {
-//                        case .value:
-//                          WXDebugLog("saved successfully")
-//                        case .error(let error):
-//                          WXDebugLog(error)
-//                      }
-                }
+                saveRspJson = responseJson
             }
         } else if autoCacheResponse, let responseDict = responseModel.responseDict {
             if let responseJson = WXRequestTools.dictionaryToJSON(dictionary: responseDict) {
-                let networkCache = WXRequestConfig.shared.networkDiskCache
-                networkCache.async.setObject(responseJson, forKey: cacheKey) { result in
-//                      switch result {
-//                        case .value:
-//                          WXDebugLog("saved successfully")
-//                        case .error(let error):
-//                          WXDebugLog(error)
-//                      }
+                saveRspJson = responseJson
+            }
+        }
+        
+        if let saveJson = saveRspJson {
+            DispatchQueue.global().async {
+                var cachePath = WXRequestTools.fetchCachePath() ///缓存目录
+                let fileManager = FileManager.default
+                if fileManager.fileExists(atPath: cachePath) == false {
+                    try? fileManager.createDirectory(atPath: cachePath, withIntermediateDirectories: true)
                 }
+                cachePath = (cachePath as NSString).appendingPathComponent(self.cacheKey)
+                try? saveJson.write(toFile: cachePath, atomically: true, encoding: .utf8)
             }
         }
     }

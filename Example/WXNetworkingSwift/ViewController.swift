@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     @IBAction func requestButtonAction(_ sender: UIBarButtonItem) {
         requestTask?.cancel()
         
-        testBatchRequest()
+        testRequest()
     }
     
     //MARK: ----- 测试单个请求 -----
@@ -43,6 +43,7 @@ class ViewController: UIViewController {
         api.successStatusMap = (key: "returnCode",  value: "SUCCESS")
         requestTask = api.startRequest { [weak self] responseModel in
             self?.textView.text = responseModel.responseDict?.description
+            WXDebugLog(NSHomeDirectory())
         }
     }
     

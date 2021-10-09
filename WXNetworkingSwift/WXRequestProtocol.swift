@@ -8,7 +8,7 @@
 import Foundation
 
 let KWXUploadAppsFlyerStatisticsKey = "KWXUploadAppsFlyerStatisticsKey"
-let kWXNetworkResponseCacheKey = "kWXNetworkResponseCacheKey"
+let kWXNetworkResponseCache = "kWXNetworkResponseCache"
 let kWXNetworkIsTestResponseKey = "kWXNetworkIsTestResponseKey"
 let KWXRequestFailueDefaultMessage = "Loading failed, please try again later."
 let kWXRequestDataFromCacheKey = "WXNetwork_DataFromCacheKey"

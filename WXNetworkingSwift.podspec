@@ -20,7 +20,6 @@ Pod::Spec.new do |s|
   s.source_files = 'WXNetworkingSwift/*.swift'
 
   s.dependency 'Alamofire'
-  s.dependency 'Cache'
   s.dependency 'KakaJSON'
   
 end

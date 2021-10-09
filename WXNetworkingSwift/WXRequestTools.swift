@@ -157,6 +157,13 @@ public class WXRequestTools {
         }
     }
     
+    ///缓存目录
+    internal static func fetchCachePath() -> String {
+        let cacheDirectory = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).last! as NSString
+        var cachePath = cacheDirectory.appendingPathComponent(kWXNetworkResponseCache)
+        return cachePath
+    }
+    
     // MARK: 字典/JSON字符串相互转化
     /// 字典转换为JSONString
     public static func dictionaryToJSON(dictionary: Dictionary<String, Any>?) -> String? {
