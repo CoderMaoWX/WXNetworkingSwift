@@ -24,53 +24,34 @@ class ViewController: UIViewController {
         testRequestDelay()
     }
     
+    //MARK: ----- 测试代码 -----
+    
     func testRequestDelay() {
         let url = "https://httpbin.org/delay/5"
         let param: [String : Any] = ["name" : "张三"]
         let api = WXRequestApi(url, method: .get, parameters: param)
-//        api.autoCacheResponse = true
         api.timeOut = 40
         api.loadingSuperView = view
         api.startRequest { responseModel in
             print(" ==== 测试接口请求完成 ====== \(api)")
         }
     }
-
-    //MARK: ----- 测试代码 -----
     
     func testBatchData() {
         let url0 = "http://123.207.32.32:8000/home/multidata"
         let api0 = WXRequestApi(url0, method: .get, parameters: nil)
         api0.successStatusMap = (key: "returnCode",  value: "SUCCESS")
-//        api0.autoCacheResponse = true
+        api0.autoCacheResponse = true
         
         
         let url1 = "https://httpbin.org/delay/5"
-        //let para0: [String : Any] = ["name" : "张三"]
-        let api1 = WXRequestApi(url1, method: .get)
-//        api1.autoCacheResponse = true
-        
+        let para1: [String : Any] = ["name" : "张三"]
+        let api1 = WXRequestApi(url1, method: .get, parameters: para1)
         
         let api = WXBatchRequestApi(requestArray: [api0, api1], loadingTo: view)
         api.startRequest({ batchApi in
             print("批量请求回调", batchApi.responseDataArray)
         }, waitAllDone: false)
-        
-    }
-    
-    func testAFMethod() {
-        let url = "https://httpbin.org/image"
-        AF.request(url,
-                   method: .get,
-                   parameters: nil,
-                   headers: ["accept" : "image/webp"]).responseJSON { response in
-                    switch response.result {
-                    case .success(let json):
-                        print(json)
-                    case .failure(let error):
-                        print(error)
-                    }
-                   }
     }
     
     func testloadData() {

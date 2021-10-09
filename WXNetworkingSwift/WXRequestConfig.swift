@@ -1,6 +1,6 @@
 //
 //  WXRequestConfig.swift
-//  Manga
+//  WXNetworkingSwift
 //
 //  Created by Luke on 2021/8/20.
 //
