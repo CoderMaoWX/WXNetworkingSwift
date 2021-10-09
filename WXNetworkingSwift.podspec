@@ -14,7 +14,6 @@ Pod::Spec.new do |s|
    s.social_media_url = 'https://www.jianshu.com/u/c4ac9f9adf58'
 
   s.requires_arc = true
-  s.swift_version = "5.0"
   s.frameworks  = "Foundation"
   s.ios.deployment_target = '10.0'
   s.source_files = 'WXNetworkingSwift/*.swift'
