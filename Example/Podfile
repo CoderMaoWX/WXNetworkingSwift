@@ -1,13 +1,9 @@
-use_frameworks!
+#use_frameworks!
+inhibit_all_warnings! #屏蔽所有warning
 
 platform :ios, '10.0'
 
 target 'WXNetworkingSwift_Example' do
   pod 'WXNetworkingSwift', :path => '../'
 
-  target 'WXNetworkingSwift_Tests' do
-    inherit! :search_paths
-
-    
-  end
 end

@@ -1,6 +1,0 @@
-framework module Pods_WXNetworkingSwift_Tests {
-  umbrella header "Pods-WXNetworkingSwift_Tests-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -1,4 +1,4 @@
-framework module KakaJSON {
+module KakaJSON {
   umbrella header "KakaJSON-umbrella.h"
 
   export *
