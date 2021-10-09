@@ -23,7 +23,34 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Egf-HT-5Ik">
                                 <rect key="frame" x="16" y="44" width="343" height="623"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                <string key="text">WXNetworkingSwift : 封装一套网络请求,自动处理是否缓存, 请求失败多多次重试, 上传接口日志, 极简上传下载文件监听, 约定全局请求成功keyPath模型映射,约定全局请求的提示tipKey,请求遇到相应Code时触发通知,网络请求过程多链路回调管理,格式化打印网络日志, 批量请求, 调试响应json等使用功能 ...</string>
+                                <string key="text">  WXNetworkingSwift功能列表:
+
+1、封装一套网络请求;
+
+2、自动处理是否缓存;
+
+3、请求失败多多次重试;
+
+4、上传接口日志;
+
+5、极简上传下载文件监听;
+
+6、约定全局请求成功keyPath模型映射;
+
+7、约定全局请求的提示tipKey;
+
+8、请求遇到相应Code时触发通知;
+
+9、网络请求过程多链路回调管理;
+
+10、格式化打印网络日志;
+
+11、批量请求;
+
+12、调试响应json等使用功能;
+
+  ...  ...    pod 'WXNetworkingSwift'
+</string>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -38,6 +65,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="WXNetworkingSwift" id="p7c-Pm-9b9">
+                        <barButtonItem key="leftBarButtonItem" title="giveStars" id="CIp-zZ-IRu">
+                            <connections>
+                                <action selector="giveStarsAction:" destination="vXZ-lx-hvc" id="lJC-F3-8Y6"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="  Request" id="9kw-rB-jjV">
                             <connections>
                                 <action selector="requestButtonAction:" destination="vXZ-lx-hvc" id="bSG-rD-YaH"/>

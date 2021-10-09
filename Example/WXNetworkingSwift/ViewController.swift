@@ -21,6 +21,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    ///感谢你的点赞
+    @IBAction func giveStarsAction(_ sender: UIBarButtonItem) {
+        let url = URL(string: "https://github.com/CoderMaoWX/WXNetworkingSwift")
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    }
+    
     @IBAction func requestButtonAction(_ sender: UIBarButtonItem) {
         requestTask?.cancel()
         
@@ -40,6 +46,7 @@ class ViewController: UIViewController {
         }
     }
     
+    
     //MARK: ----- 测试批量请求 -----
     func testBatchRequest() {
         let url1 = "https://httpbin.org/get"
@@ -58,6 +65,7 @@ class ViewController: UIViewController {
             
         }, waitAllDone: true)
     }
+    
     
     //MARK: ----- 测试Json请求解析模型 -----
     func testParseModel() {
@@ -86,6 +94,7 @@ class ViewController: UIViewController {
             }
         }
     }
+    
     
     //MARK: ----- 测试上传文件 -----
     func testUploadFile() {
@@ -119,6 +128,7 @@ class ViewController: UIViewController {
             }
         }
     }
+    
     
     //MARK: ----- 测试下载文文件 -----
     func testDownloadFile() {
