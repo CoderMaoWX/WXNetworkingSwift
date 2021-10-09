@@ -43,7 +43,6 @@ class ViewController: UIViewController {
         api.successStatusMap = (key: "returnCode",  value: "SUCCESS")
         requestTask = api.startRequest { [weak self] responseModel in
             self?.textView.text = responseModel.responseDict?.description
-            WXDebugLog(NSHomeDirectory())
         }
     }
     
