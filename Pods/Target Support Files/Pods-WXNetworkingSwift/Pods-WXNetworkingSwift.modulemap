@@ -1,4 +1,4 @@
-framework module Pods_WXNetworkingSwift {
+module Pods_WXNetworkingSwift {
   umbrella header "Pods-WXNetworkingSwift-umbrella.h"
 
   export *

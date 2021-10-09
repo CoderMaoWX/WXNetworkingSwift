@@ -1,4 +1,4 @@
-framework module Cache {
+module Cache {
   umbrella header "Cache-umbrella.h"
 
   export *

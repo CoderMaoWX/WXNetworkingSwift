@@ -18,6 +18,7 @@
 		13E62623092B680C6A5C349D48B8A4FD /* CachedResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB4F96A80C63AE88D89D6477424E075 /* CachedResponseHandler.swift */; };
 		1773084DECF68CADD45567FBEC56036D /* Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCB1695B72F1C35950FB5AACE2BAB18 /* Alamofire-dummy.m */; };
 		1902CF3AD1C9225D8640971F2B66EEE2 /* Array+KJ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D0E57C32897EF091A000322C56AC0B /* Array+KJ.swift */; };
+		1B6B8EDE390A704CBACA8E72 /* libPods-WXNetworkingSwift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA587D24817F6DF0C6577CE5 /* libPods-WXNetworkingSwift.a */; };
 		1CDA66659E7C90DF8A6E2179C9E66CEF /* ProtocolLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2901F74F50D9EEE849056AB8DE750058 /* ProtocolLayout.swift */; };
 		1D17B83410DC98911D539F2BD5254C05 /* RequestTaskMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A2399601253DEAB981379F641FF60F /* RequestTaskMap.swift */; };
 		1D2D27AED4C1B5485077A402108F24D4 /* Storage+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266B676A8D2EDCE0A3392AEB74442CC /* Storage+Transform.swift */; };
@@ -40,7 +41,6 @@
 		327C46DD752B6B19FFE7103850D96C30 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B30D066080EDA7369306855B786600 /* Layout.swift */; };
 		33F86FAB918B148A63A1575667F9B570 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D3D57353834825F7B52B816066B7789 /* CFNetwork.framework */; };
 		36881DFBAE7B3A058A5B8255E5487528 /* FieldDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F9C2838277BD6D49607911E917F349 /* FieldDescriptor.swift */; };
-		382BC602F7C80F99AB23DBDD /* Pods_WXNetworkingSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD008E5D56D3BF137321FBC /* Pods_WXNetworkingSwift.framework */; };
 		3FD70A6CB9CBCBA389461A8220326AA0 /* MemoryCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000EAC7BD44EA319071624E9500776B /* MemoryCapsule.swift */; };
 		405B1A7A7C31844FB1AA33B5576AEBB1 /* BaseLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9D79C6D851B1C5EF87602536EE6171 /* BaseLayout.swift */; };
 		40768F4776D10D8A0A1A464882EE33CF /* JSONDictionaryWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C010E3877E1118ED6B89C3E1AB4C944 /* JSONDictionaryWrapper.swift */; };
@@ -106,10 +106,10 @@
 		BD2738AD5CA3F88C37FB5C54109D9696 /* ClassType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22AF85A1C4905935D835953EBC2FD50 /* ClassType.swift */; };
 		BD97842DFDE6492C24FB8C82F40D7340 /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79C403D964D3C90FDEF17B9A9A4558F /* Convertible.swift */; };
 		BDACA9B3E2AA0D0D020C95C957108D66 /* EnumLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51641FF0D5A98B61091B4968F444043 /* EnumLayout.swift */; };
+		BDAFD0991F37EBF85DF34B64 /* libPods-Pods-WXNetworkingSwift_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94FB725E27F4A6C668B34715 /* libPods-Pods-WXNetworkingSwift_Example.a */; };
 		C0482E792D53301D066852A9E0BA0A3B /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4184FD7191C0AD893E2DD204CC5370F /* Optional+Extension.swift */; };
 		C16A047C4E8D856309A486182A490993 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9017CDDFE6AD4D0EB8BDAB446EF0980 /* MultipartFormData.swift */; };
 		C3E73E40511CDF0EC0DB09D2DCB43535 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD0CE05D5D076B1B5190EE5DF97FD54E /* Foundation.framework */; };
-		C48DABAB2E8008A0E9BFEF70 /* Pods_Pods_WXNetworkingSwift_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDFC8CC681A083F94B86FFF /* Pods_Pods_WXNetworkingSwift_Example.framework */; };
 		C494AFEB43BC008FF332A60BAD84F3F2 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFB7CA7A3CE3423BF30C3A83DD5614D /* Date+Extensions.swift */; };
 		C631B6AB6F84BDF5A8749D4D7F6EC532 /* String+KJ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529EC3A29CE9ED1204EC907E0A5A70FD /* String+KJ.swift */; };
 		C77CEA7CAEB39ADF3234C8F8F777D973 /* EnumType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D354D6C1B830A5EA961CDA1A141BDA8D /* EnumType.swift */; };
@@ -213,6 +213,7 @@
 		022BC23DCA625FCE723AC1163FE8ED22 /* KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KJ.swift; path = Sources/KakaJSON/Convert/KJ.swift; sourceTree = "<group>"; };
 		098D0408CB9941F390E196B6BF97EC5C /* FunctionLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FunctionLayout.swift; path = Sources/KakaJSON/Metadata/Layout/FunctionLayout.swift; sourceTree = "<group>"; };
 		09F51FE11E9E7D3BA19D1A4D7A261717 /* ParameterEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoder.swift; path = Source/ParameterEncoder.swift; sourceTree = "<group>"; };
+		09FD5A47DD390EA900762ADF /* Pods-WXNetworkingSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WXNetworkingSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WXNetworkingSwift/Pods-WXNetworkingSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		0A497644F41D994A4537EA96699AC73C /* ImageWrapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageWrapper.swift; path = Source/Shared/Library/ImageWrapper.swift; sourceTree = "<group>"; };
 		0AE09967F126C4CB07C717DF02D7AEE9 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
 		0BC41D275ED6D56BEC74057616160ACA /* ClassLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ClassLayout.swift; path = Sources/KakaJSON/Metadata/Layout/ClassLayout.swift; sourceTree = "<group>"; };
@@ -246,7 +247,7 @@
 		2DA4502DAE82F3A21D1464CA0C72E2B6 /* Pods-WXNetworkingSwift_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WXNetworkingSwift_Tests-Info.plist"; sourceTree = "<group>"; };
 		2DF3C5F6CCDCFA9CC71F5B94D589C5E5 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		2FA3C7E61FAC969F8C6CFC0A050251AC /* KakaJSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KakaJSON.release.xcconfig; sourceTree = "<group>"; };
-		31831FBBFB153882E9854AB8E4F46197 /* WXNetworkingSwift.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = WXNetworkingSwift.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		31831FBBFB153882E9854AB8E4F46197 /* WXNetworkingSwift.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WXNetworkingSwift.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		326902A6B68A139835D753982019EE8A /* BaseType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BaseType.swift; path = Sources/KakaJSON/Metadata/Type/BaseType.swift; sourceTree = "<group>"; };
 		35D14A1DBBEC979F5AB979109621FF7C /* Pods-WXNetworkingSwift_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WXNetworkingSwift_Example-dummy.m"; sourceTree = "<group>"; };
 		372C87B9883BB0EB45FDAD33C245CC05 /* KakaJSON-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "KakaJSON-Info.plist"; sourceTree = "<group>"; };
@@ -254,7 +255,6 @@
 		3A5EBC94003D755E4798897A0C97A94F /* Entry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Entry.swift; path = Source/Shared/Library/Entry.swift; sourceTree = "<group>"; };
 		3CEAB3E33AC773122A851983BDECFBC7 /* ProtocolType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProtocolType.swift; path = Sources/KakaJSON/Metadata/Type/ProtocolType.swift; sourceTree = "<group>"; };
 		3DD430F87E97993F32F327A5273EB8FF /* Cache-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Cache-dummy.m"; sourceTree = "<group>"; };
-		3FDFC8CC681A083F94B86FFF /* Pods_Pods_WXNetworkingSwift_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pods_WXNetworkingSwift_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40DD61B4A56BB2DA8E5846AF251B645B /* Cache-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Cache-prefix.pch"; sourceTree = "<group>"; };
 		420E77BC1077989D730897409C59E80A /* WXNetworkingSwift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "WXNetworkingSwift-Info.plist"; sourceTree = "<group>"; };
 		4519B92119E7C16FA7C86B5F378C1475 /* Session.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Source/Session.swift; sourceTree = "<group>"; };
@@ -294,20 +294,17 @@
 		715E1F0B9E57BD7BA7D57711280171C3 /* AuthenticationInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthenticationInterceptor.swift; path = Source/AuthenticationInterceptor.swift; sourceTree = "<group>"; };
 		717F768FF526C8008A9B8E5F916CB1BD /* RequestInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestInterceptor.swift; path = Source/RequestInterceptor.swift; sourceTree = "<group>"; };
 		7339099C16C0EAEFDAEC85EEF97BD22B /* SessionDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDelegate.swift; path = Source/SessionDelegate.swift; sourceTree = "<group>"; };
-		736B64357A6C420C3A7062C6D479AC7F /* Cache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Cache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		736B64357A6C420C3A7062C6D479AC7F /* Cache */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Cache; path = Cache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		737CFCD32E6EF3DEE656E822ED2D7605 /* Model.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Model.swift; path = Sources/KakaJSON/Global/Model.swift; sourceTree = "<group>"; };
 		744BFDC99C4BB9C8785D4A67247A3C7C /* Pods-WXNetworkingSwift_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WXNetworkingSwift_Example-frameworks.sh"; sourceTree = "<group>"; };
 		754047BE4F28D8255B27801247B9A4DE /* DiskConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DiskConfig.swift; path = Source/Shared/Configuration/DiskConfig.swift; sourceTree = "<group>"; };
 		763831DAF3BD2118DB8083433DC21592 /* StorageError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StorageError.swift; path = Source/Shared/Library/StorageError.swift; sourceTree = "<group>"; };
-		77B003922C21B59D3FDECB7F /* Pods-Pods-WXNetworkingSwift_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pods-WXNetworkingSwift_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pods-WXNetworkingSwift_Example/Pods-Pods-WXNetworkingSwift_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		7A2C0580C0759DE285915818CB1981C9 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		7A53298DE3C5D2E235443647A56CD503 /* Cache.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Cache.release.xcconfig; sourceTree = "<group>"; };
 		7BD2C80AF7E860B24DB93289DE63DFBF /* StructDescriptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StructDescriptor.swift; path = Sources/KakaJSON/Metadata/Descriptor/StructDescriptor.swift; sourceTree = "<group>"; };
 		7BE59FB67A0373F41FF40D2A19EAB1AF /* TupleType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TupleType.swift; path = Sources/KakaJSON/Metadata/Type/TupleType.swift; sourceTree = "<group>"; };
 		7C681C5252D0858D69FDF3AA4D8455D0 /* Pods-WXNetworkingSwift_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WXNetworkingSwift_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		7D3ECBBFDE3A5E800F07584A97048F05 /* KakaJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KakaJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7DD008E5D56D3BF137321FBC /* Pods_WXNetworkingSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WXNetworkingSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E90D2B213C6BE6C44279A1D /* Pods-WXNetworkingSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WXNetworkingSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-WXNetworkingSwift/Pods-WXNetworkingSwift.release.xcconfig"; sourceTree = "<group>"; };
+		7D3ECBBFDE3A5E800F07584A97048F05 /* KakaJSON */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KakaJSON; path = KakaJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F47C2672A6C16B48CA23EBCBD2A8409 /* TupleLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TupleLayout.swift; path = Sources/KakaJSON/Metadata/Layout/TupleLayout.swift; sourceTree = "<group>"; };
 		819E5C10021E9EB178D1098F4AB534A8 /* Cache-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Cache-Info.plist"; sourceTree = "<group>"; };
 		89B1DD9695D3B2295831DE3B66FE674C /* URLSessionConfiguration+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URLSessionConfiguration+Alamofire.swift"; path = "Source/URLSessionConfiguration+Alamofire.swift"; sourceTree = "<group>"; };
@@ -318,33 +315,34 @@
 		8DF62A511E3815C1BD695228B8FDA55D /* Pods-WXNetworkingSwift_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WXNetworkingSwift_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		8E69DC1FC891123DE2A2B5D3A0B759AA /* StringEncoding+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "StringEncoding+Alamofire.swift"; path = "Source/StringEncoding+Alamofire.swift"; sourceTree = "<group>"; };
 		9049BBB97073CA2733FCA9F9577EE757 /* Cache.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Cache.debug.xcconfig; sourceTree = "<group>"; };
+		921907764926EAD67B3104E5 /* Pods-Pods-WXNetworkingSwift_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pods-WXNetworkingSwift_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pods-WXNetworkingSwift_Example/Pods-Pods-WXNetworkingSwift_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		92C302C73A08D53E2186FC4FE2FA339A /* DataSerializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataSerializer.swift; path = Source/Shared/Library/DataSerializer.swift; sourceTree = "<group>"; };
 		940EAE7F3B3D5A15C1AB656CF4E9C3AD /* StorageObservationRegistry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StorageObservationRegistry.swift; path = Source/Shared/Storage/StorageObservationRegistry.swift; sourceTree = "<group>"; };
+		94FB725E27F4A6C668B34715 /* libPods-Pods-WXNetworkingSwift_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pods-WXNetworkingSwift_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		95A46C2696963FABC675F6A94F73550E /* Pods-WXNetworkingSwift_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WXNetworkingSwift_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		98B8A9F402301408F13010E53E38174B /* ExpirationMode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpirationMode.swift; path = Source/Shared/Library/ExpirationMode.swift; sourceTree = "<group>"; };
 		9964BB3226EFC40E3F816112C339B8EB /* Pods-WXNetworkingSwift_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WXNetworkingSwift_Tests-umbrella.h"; sourceTree = "<group>"; };
-		9B2671A92C833752710F47554FCC15A2 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9B2671A92C833752710F47554FCC15A2 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		9C554A3FE874850B04E5D206F4AAE1FF /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E15ED026BE615730CC596600E6CF878 /* HTTPMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPMethod.swift; path = Source/HTTPMethod.swift; sourceTree = "<group>"; };
 		9E3043D64E5FF803F8A462C428F044DA /* Data+KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+KJ.swift"; path = "Sources/KakaJSON/Extension/Data+KJ.swift"; sourceTree = "<group>"; };
 		A08FC441B6D9D49CDB6C4CC12EA98695 /* ObservationToken.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ObservationToken.swift; path = Source/Shared/Library/ObservationToken.swift; sourceTree = "<group>"; };
-		A374E80A04B27E9705A909D8 /* Pods-Pods-WXNetworkingSwift_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pods-WXNetworkingSwift_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pods-WXNetworkingSwift_Example/Pods-Pods-WXNetworkingSwift_Example.release.xcconfig"; sourceTree = "<group>"; };
 		A7B65FD5FB1DA620E60F5F92C0AD2447 /* MultipartUpload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartUpload.swift; path = Source/MultipartUpload.swift; sourceTree = "<group>"; };
 		AA471142021D51D7BE98F76C87E379B4 /* Kind.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Kind.swift; path = Sources/KakaJSON/Metadata/Type/Kind.swift; sourceTree = "<group>"; };
 		AADA288036F958220F9A67C97B0DF21E /* WXRequestTools.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestTools.swift; path = WXNetworkingSwift/WXRequestTools.swift; sourceTree = "<group>"; };
 		ABD096AEFD5043742FE4DE82200931DC /* MemoryConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MemoryConfig.swift; path = Source/Shared/Configuration/MemoryConfig.swift; sourceTree = "<group>"; };
-		AE023CC55682AC87B047D22713BE5552 /* WXNetworkingSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WXNetworkingSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE023CC55682AC87B047D22713BE5552 /* WXNetworkingSwift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = WXNetworkingSwift; path = WXNetworkingSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE0DD675EBDAE3150D525F17C7E6D4D0 /* RedirectHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RedirectHandler.swift; path = Source/RedirectHandler.swift; sourceTree = "<group>"; };
 		B266B676A8D2EDCE0A3392AEB74442CC /* Storage+Transform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Storage+Transform.swift"; path = "Source/Shared/Storage/Storage+Transform.swift"; sourceTree = "<group>"; };
 		B270CE8CB00B13E1D48C0D15AD9980C6 /* Coding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Coding.swift; path = Sources/KakaJSON/Global/Coding.swift; sourceTree = "<group>"; };
 		B29092EF54D566EF78B99507ACC0989E /* EventMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EventMonitor.swift; path = Source/EventMonitor.swift; sourceTree = "<group>"; };
 		B29D25E4783945F7D4DA0128B734C2A1 /* HTTPHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPHeaders.swift; path = Source/HTTPHeaders.swift; sourceTree = "<group>"; };
+		B3A0E152BA6347FFC3F4915D /* Pods-WXNetworkingSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WXNetworkingSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-WXNetworkingSwift/Pods-WXNetworkingSwift.release.xcconfig"; sourceTree = "<group>"; };
 		B40BC92A0BD2DF99C6C72FF99B5A3FE2 /* WXRequestProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestProtocol.swift; path = WXNetworkingSwift/WXRequestProtocol.swift; sourceTree = "<group>"; };
 		B4184FD7191C0AD893E2DD204CC5370F /* Optional+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Optional+Extension.swift"; path = "Source/Shared/Library/Optional+Extension.swift"; sourceTree = "<group>"; };
 		B51241B85127D5689CD1762A6040D2E7 /* KakaJSON-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KakaJSON-dummy.m"; sourceTree = "<group>"; };
-		B629A0EFAFEE1F8E80E00454 /* Pods-WXNetworkingSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WXNetworkingSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WXNetworkingSwift/Pods-WXNetworkingSwift.debug.xcconfig"; sourceTree = "<group>"; };
-		B75801313AD24BF921B24CE17932C367 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		B75801313AD24BF921B24CE17932C367 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		B7D097993B13C85F529375D57A51B6D8 /* SyncStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SyncStorage.swift; path = Source/Shared/Storage/SyncStorage.swift; sourceTree = "<group>"; };
 		B957AC8A973F5610FB5DAFDB05FDF4A8 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
 		B971DD22519464C759EA6C312F65B58A /* FunctionType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FunctionType.swift; path = Sources/KakaJSON/Metadata/Type/FunctionType.swift; sourceTree = "<group>"; };
@@ -355,6 +353,7 @@
 		C4B30D066080EDA7369306855B786600 /* Layout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Layout.swift; path = Sources/KakaJSON/Metadata/Layout/Layout.swift; sourceTree = "<group>"; };
 		C51641FF0D5A98B61091B4968F444043 /* EnumLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumLayout.swift; path = Sources/KakaJSON/Metadata/Layout/EnumLayout.swift; sourceTree = "<group>"; };
 		C5AD3617D0D39C6DCEA74FABDF598454 /* Alamofire.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.release.xcconfig; sourceTree = "<group>"; };
+		C5FE5F5FB7366E1F5C3E788D /* Pods-Pods-WXNetworkingSwift_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pods-WXNetworkingSwift_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pods-WXNetworkingSwift_Example/Pods-Pods-WXNetworkingSwift_Example.release.xcconfig"; sourceTree = "<group>"; };
 		C82B7205B55720EA9CFB53133D58FF44 /* NSObject+KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSObject+KJ.swift"; path = "Sources/KakaJSON/Extension/NSObject+KJ.swift"; sourceTree = "<group>"; };
 		C8C56F682D92D220F50BB90241EE0F5B /* WXNetworkingSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WXNetworkingSwift-umbrella.h"; sourceTree = "<group>"; };
 		C8F9C2838277BD6D49607911E917F349 /* FieldDescriptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FieldDescriptor.swift; path = Sources/KakaJSON/Metadata/Descriptor/FieldDescriptor.swift; sourceTree = "<group>"; };
@@ -369,6 +368,7 @@
 		D354D6C1B830A5EA961CDA1A141BDA8D /* EnumType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumType.swift; path = Sources/KakaJSON/Metadata/Type/EnumType.swift; sourceTree = "<group>"; };
 		D3894067924F50586D8B3DE903F7BBC5 /* Type.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Type.swift; path = Sources/KakaJSON/Metadata/Type/Type.swift; sourceTree = "<group>"; };
 		D5DD76C4405FD9758EFF74AE4B1D6FE6 /* DiskStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DiskStorage.swift; path = Source/Shared/Storage/DiskStorage.swift; sourceTree = "<group>"; };
+		DA587D24817F6DF0C6577CE5 /* libPods-WXNetworkingSwift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WXNetworkingSwift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEF8DE2A43E4C1DB2F29B8578A31CC0 /* JSONSerialization+KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "JSONSerialization+KJ.swift"; path = "Sources/KakaJSON/Extension/JSONSerialization+KJ.swift"; sourceTree = "<group>"; };
 		DD397AB5E65DDD61017DEFCDBC4776FC /* JSONArrayWrapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JSONArrayWrapper.swift; path = Source/Shared/Library/JSONArrayWrapper.swift; sourceTree = "<group>"; };
 		DF0DE515840EB4776AD5BF7D4A0A8EDC /* ForeignClassType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ForeignClassType.swift; path = Sources/KakaJSON/Metadata/Type/ForeignClassType.swift; sourceTree = "<group>"; };
@@ -399,7 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				568DC344F71C271FD0EAE6C222CBD878 /* Foundation.framework in Frameworks */,
-				C48DABAB2E8008A0E9BFEF70 /* Pods_Pods_WXNetworkingSwift_Example.framework in Frameworks */,
+				BDAFD0991F37EBF85DF34B64 /* libPods-Pods-WXNetworkingSwift_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,7 +433,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91CE08A4E9DAE907D85A52A40ACD5CD8 /* Foundation.framework in Frameworks */,
-				382BC602F7C80F99AB23DBDD /* Pods_WXNetworkingSwift.framework in Frameworks */,
+				1B6B8EDE390A704CBACA8E72 /* libPods-WXNetworkingSwift.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +501,7 @@
 				C9048EF7BE68FDA01D27EB54020F2F5C /* Values.swift */,
 				145339CC6B09FE8673367701A92FDBD5 /* Support Files */,
 			);
+			name = KakaJSON;
 			path = KakaJSON;
 			sourceTree = "<group>";
 		};
@@ -510,10 +511,10 @@
 				EDA783ED753A8A747EE1D22B33605F79 /* Alamofire */,
 				1A32D9539DAE40E2887D25330B1CAFA1 /* Cache */,
 				04CC0EDC45D09859796B24C45C8314AE /* KakaJSON */,
-				77B003922C21B59D3FDECB7F /* Pods-Pods-WXNetworkingSwift_Example.debug.xcconfig */,
-				A374E80A04B27E9705A909D8 /* Pods-Pods-WXNetworkingSwift_Example.release.xcconfig */,
-				B629A0EFAFEE1F8E80E00454 /* Pods-WXNetworkingSwift.debug.xcconfig */,
-				7E90D2B213C6BE6C44279A1D /* Pods-WXNetworkingSwift.release.xcconfig */,
+				921907764926EAD67B3104E5 /* Pods-Pods-WXNetworkingSwift_Example.debug.xcconfig */,
+				C5FE5F5FB7366E1F5C3E788D /* Pods-Pods-WXNetworkingSwift_Example.release.xcconfig */,
+				09FD5A47DD390EA900762ADF /* Pods-WXNetworkingSwift.debug.xcconfig */,
+				B3A0E152BA6347FFC3F4915D /* Pods-WXNetworkingSwift.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -537,8 +538,8 @@
 			isa = PBXGroup;
 			children = (
 				61C8CC330A5CA84DA2F5F1D32AB07069 /* iOS */,
-				3FDFC8CC681A083F94B86FFF /* Pods_Pods_WXNetworkingSwift_Example.framework */,
-				7DD008E5D56D3BF137321FBC /* Pods_WXNetworkingSwift.framework */,
+				94FB725E27F4A6C668B34715 /* libPods-Pods-WXNetworkingSwift_Example.a */,
+				DA587D24817F6DF0C6577CE5 /* libPods-WXNetworkingSwift.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -580,6 +581,7 @@
 				50FD4D290AF5DB9407619A9A3A0E5E9B /* UIImage+Extensions.swift */,
 				F4EB7ECFAF865CE9DCA768F908EB357B /* Support Files */,
 			);
+			name = Cache;
 			path = Cache;
 			sourceTree = "<group>";
 		};
@@ -748,6 +750,7 @@
 				7A2C0580C0759DE285915818CB1981C9 /* Validation.swift */,
 				C657BC8911BF8F59C66DACCCC515ABAC /* Support Files */,
 			);
+			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -770,11 +773,11 @@
 			isa = PBXGroup;
 			children = (
 				5D797E9A5C5782CE845840781FA1CC81 /* Alamofire */,
-				736B64357A6C420C3A7062C6D479AC7F /* Cache.framework */,
-				7D3ECBBFDE3A5E800F07584A97048F05 /* KakaJSON.framework */,
+				736B64357A6C420C3A7062C6D479AC7F /* Cache */,
+				7D3ECBBFDE3A5E800F07584A97048F05 /* KakaJSON */,
 				CCF440130886DF7B4CD6D37BCFE3B307 /* Pods-WXNetworkingSwift_Example */,
 				24FAFF8B52CC62C98A5CD8BF75FAD267 /* Pods-WXNetworkingSwift_Tests */,
-				AE023CC55682AC87B047D22713BE5552 /* WXNetworkingSwift.framework */,
+				AE023CC55682AC87B047D22713BE5552 /* WXNetworkingSwift */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -848,14 +851,14 @@
 			);
 			name = KakaJSON;
 			productName = KakaJSON;
-			productReference = 7D3ECBBFDE3A5E800F07584A97048F05 /* KakaJSON.framework */;
+			productReference = 7D3ECBBFDE3A5E800F07584A97048F05 /* KakaJSON */;
 			productType = "com.apple.product-type.framework";
 		};
 		808A47A41E57D469FF4355391C87C303 /* Pods-WXNetworkingSwift_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E368924C71BD7F55D082A2B735D1581C /* Build configuration list for PBXNativeTarget "Pods-WXNetworkingSwift_Example" */;
 			buildPhases = (
-				7C56B4D06ED9685FFFA673B9 /* [CP] Check Pods Manifest.lock */,
+				042EE0A654DC5CE9C2A81E50 /* [CP] Check Pods Manifest.lock */,
 				F18B09D87B7DCF0A1110312E8667DB98 /* Headers */,
 				1BF59BE4A6C93483B99E8D4C7DE3B598 /* Sources */,
 				0DB0325BDD1CD6AFB92E5B4EB4321049 /* Frameworks */,
@@ -889,14 +892,14 @@
 			);
 			name = Cache;
 			productName = Cache;
-			productReference = 736B64357A6C420C3A7062C6D479AC7F /* Cache.framework */;
+			productReference = 736B64357A6C420C3A7062C6D479AC7F /* Cache */;
 			productType = "com.apple.product-type.framework";
 		};
 		B1DE62FA36C98209E36588DC5174A1EE /* WXNetworkingSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 141FB7B84D8C5881554CAF169BD6ACC6 /* Build configuration list for PBXNativeTarget "WXNetworkingSwift" */;
 			buildPhases = (
-				2A4BBCF176D239593CBE725C /* [CP] Check Pods Manifest.lock */,
+				9879544CDBDEB09FEE8A100A /* [CP] Check Pods Manifest.lock */,
 				468FC1F83FEB293DD1A9DF99B8AADF54 /* Headers */,
 				80A0613BC3FD60A237283E7C3212EE41 /* Sources */,
 				4439C33C4A1D949255DA08F52BDC70D2 /* Frameworks */,
@@ -911,7 +914,7 @@
 			);
 			name = WXNetworkingSwift;
 			productName = WXNetworkingSwift;
-			productReference = AE023CC55682AC87B047D22713BE5552 /* WXNetworkingSwift.framework */;
+			productReference = AE023CC55682AC87B047D22713BE5552 /* WXNetworkingSwift */;
 			productType = "com.apple.product-type.framework";
 		};
 		EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */ = {
@@ -960,7 +963,7 @@
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 			};
-			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "_Pods" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1029,29 +1032,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2A4BBCF176D239593CBE725C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WXNetworkingSwift-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7C56B4D06ED9685FFFA673B9 /* [CP] Check Pods Manifest.lock */ = {
+		042EE0A654DC5CE9C2A81E50 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1067,6 +1048,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Pods-WXNetworkingSwift_Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9879544CDBDEB09FEE8A100A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WXNetworkingSwift-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1312,7 +1315,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/KakaJSON/KakaJSON-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/KakaJSON/KakaJSON-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/KakaJSON/KakaJSON.modulemap";
 				PRODUCT_MODULE_NAME = KakaJSON;
@@ -1410,7 +1413,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Cache/Cache-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Cache/Cache-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/Cache/Cache.modulemap";
 				PRODUCT_MODULE_NAME = Cache;
@@ -1474,7 +1477,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/KakaJSON/KakaJSON-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/KakaJSON/KakaJSON-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/KakaJSON/KakaJSON.modulemap";
 				PRODUCT_MODULE_NAME = KakaJSON;
@@ -1576,7 +1579,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
@@ -1605,7 +1609,6 @@
 				PRODUCT_NAME = WXNetworkingSwift;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1638,7 +1641,6 @@
 				PRODUCT_NAME = WXNetworkingSwift;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1761,7 +1763,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Cache/Cache-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Cache/Cache-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/Cache/Cache.modulemap";
 				PRODUCT_MODULE_NAME = Cache;
@@ -1820,7 +1822,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "_Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D299434AB35E7FD6F7921C8EF24742FF /* Debug */,
