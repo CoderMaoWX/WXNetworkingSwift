@@ -43,11 +43,11 @@ public class WXBaseRequest: NSObject {
     
     ///底层最终的请求参数 (页面上可实现<WXPackParameters>协议来实现重新包装请求参数)
     lazy var finalParameters: WXDictionaryStrAny? = {
-        var parameters = parameters
         if conforms(to: WXPackParameters.self) {
-            parameters = (self as? WXPackParameters)?.parametersWillTransformFromOriginParamete(parameters: parameters)
+            return (self as? WXPackParameters)?.parametersWillTransformFromOriginParamete(parameters: parameters)
+        } else {
+            return parameters
         }
-        return parameters
     }()
     
     /// 网络请求方法 (不做任何额外处理的原始Alamofire请求，页面上不建议直接用，请使用子类请求方法)
