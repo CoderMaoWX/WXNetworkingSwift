@@ -96,7 +96,7 @@ public class WXRequestTools {
                                   responseModel: WXResponseModel) -> String {
         let isSuccess   = (responseModel.responseDict == nil) ? false : true
         let isCacheData = responseModel.isCacheData
-        let requestJson = dictionaryToJSON(dictionary: request.finalParameters) ?? ""
+        let requestJson = dictionaryToJSON(dictionary: request.finalParameters) ?? "{}"
         let hostTitle = WXRequestConfig.shared.urlResponseLogTuple.hostTitle ?? ""
         let requestHeaders = responseModel.urlRequest?.allHTTPHeaderFields ?? [:]
         let headersJson = dictionaryToJSON(dictionary: requestHeaders)
@@ -268,7 +268,6 @@ public class WXRequestTools {
                                                         attribute: .centerX,
                                                         multiplier: 1,
                                                         constant: 0))
-            
             var loadingView: UIActivityIndicatorView
             if #available(iOS 13.0, *) {
                 loadingView = UIActivityIndicatorView(style: .large)
