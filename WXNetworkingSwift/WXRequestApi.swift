@@ -9,6 +9,10 @@ import Foundation
 import Alamofire
 import KakaJSON
 
+// 另起别名为了桥接作用
+public typealias WXDataRequest = DataRequest
+public typealias WXDownloadRequest = DownloadRequest
+
 public typealias WXDictionaryStrAny = Dictionary<String, Any>
 public typealias WXAnyObjectBlock = (AnyObject) -> ()
 public typealias WXProgressBlock = (Progress) -> Void
@@ -62,7 +66,7 @@ public class WXBaseRequest: NSObject {
     /// - Returns: 求Session对象
     @discardableResult
     public func baseRequestBlock(successClosure: WXAnyObjectBlock?,
-                          failureClosure: WXAnyObjectBlock?) -> DataRequest {
+                          failureClosure: WXAnyObjectBlock?) -> WXDataRequest {
         let dataRequest = AF.request(requestURL,
                                      method: requestMethod,
                                      parameters: finalParameters,
@@ -92,7 +96,7 @@ public class WXBaseRequest: NSObject {
     public func baseUploadFile(successClosure: WXAnyObjectBlock?,
                         failureClosure: WXAnyObjectBlock?,
                         formDataClosure: @escaping ((MultipartFormData) -> Void),
-                        uploadClosure: @escaping WXProgressBlock) -> DataRequest {
+                        uploadClosure: @escaping WXProgressBlock) -> WXDataRequest {
         
         let dataRequest = AF.upload(
                     multipartFormData: formDataClosure,
@@ -122,7 +126,7 @@ public class WXBaseRequest: NSObject {
     @discardableResult
     public func baseDownloadFile(successClosure: WXAnyObjectBlock?,
                           failureClosure: WXAnyObjectBlock?,
-                          progressClosure: @escaping WXProgressBlock) -> DownloadRequest {
+                          progressClosure: @escaping WXProgressBlock) -> WXDownloadRequest {
 
         let dataRequest = AF.download(requestURL,
                                       method: requestMethod,
@@ -214,7 +218,7 @@ public class WXRequestApi: WXBaseRequest {
     /// - Parameter responseBlock: 请求回调
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
-    public func startRequest(responseBlock: @escaping WXNetworkResponseBlock) -> DataRequest? {
+    public func startRequest(responseBlock: @escaping WXNetworkResponseBlock) -> WXDataRequest? {
         guard let _ = URL(string: requestURL) else {
             WXDebugLog("\n❌❌❌无效的 URL 请求地址= \(requestURL)")
             configResponseBlock(responseBlock: responseBlock, responseObj: nil)
@@ -248,7 +252,7 @@ public class WXRequestApi: WXBaseRequest {
     /// - Parameter responseBlock: 请求回调
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
-    public func uploadFile(responseBlock: @escaping WXNetworkResponseBlock) -> DataRequest? {
+    public func uploadFile(responseBlock: @escaping WXNetworkResponseBlock) -> WXDataRequest? {
         guard let _ = URL(string: requestURL) else {
             WXDebugLog("\n❌❌❌无效的 URL 上传地址= \(requestURL)")
             configResponseBlock(responseBlock: responseBlock, responseObj: nil)
@@ -305,7 +309,7 @@ public class WXRequestApi: WXBaseRequest {
     /// - Parameter responseBlock: 请求回调
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
-    public func downloadFile(responseBlock: @escaping WXNetworkResponseBlock) -> DownloadRequest? {
+    public func downloadFile(responseBlock: @escaping WXNetworkResponseBlock) -> WXDownloadRequest? {
         guard let _ = URL(string: requestURL) else {
             WXDebugLog("\n❌❌❌无效的 URL 下载地址= \(requestURL)")
             configResponseBlock(responseBlock: responseBlock, responseObj: nil)

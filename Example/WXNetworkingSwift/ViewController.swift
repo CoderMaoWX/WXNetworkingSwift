@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 import WXNetworkingSwift
 ///判断文件类型
 import MobileCoreServices
@@ -15,7 +14,7 @@ import MobileCoreServices
 class ViewController: UIViewController {
     
     @IBOutlet weak var textView: UITextView!
-    var requestTask: Request? = nil;
+    var requestTask: WXDataRequest? = nil;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +27,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestButtonAction(_ sender: UIBarButtonItem) {
-        requestTask?.cancel()
-        
         testRequest()
     }
     
@@ -148,7 +145,7 @@ class ViewController: UIViewController {
             let percentage = completed / total * 100.0
             print("下载进度: \(String(format:"%.2f",percentage)) %")
         }
-        requestTask = api.downloadFile { [weak self] responseModel in
+        api.downloadFile { [weak self] responseModel in
             if let rspData = responseModel.responseObject as? Data {
                 if let image = UIImage(data: rspData) {
                     self?.textView.backgroundColor = .init(patternImage: image)
