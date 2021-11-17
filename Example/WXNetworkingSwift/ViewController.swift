@@ -42,7 +42,6 @@ class ViewController: UIViewController {
         
         //测试设置全局: 请求状态/解析模型
         WXRequestConfig.shared.successStatusMap = (key: "returnCode",  value: "SUCCESS")
-        WXRequestConfig.shared.parseModelMap = (parseKey: "data.dKeyword", modelType: DKeywordModel.self)
         WXRequestConfig.shared.uploadRequestLogTuple = (url: "http://10.8.31.5:8090/pullLogcat", catchTag: "mwx345")
     }
     
@@ -69,7 +68,6 @@ class ViewController: UIViewController {
             WXDebugLog("测试单个请求回调了")
             self?.textView.text = responseModel.responseDict?.description
         }
-//        api.startRequest(responseBlock: nil)
     }
     
     

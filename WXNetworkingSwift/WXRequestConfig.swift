@@ -15,11 +15,6 @@ public class WXRequestConfig {
     ///(key可以是KeyPath模式进行匹配 如: (key: "data.status", value: "200")
     public var successStatusMap: (key: String, value: String)? = nil
     
-    ///约定全局解析数据模型 (注意: 优先使用WXRequestApi中的parseModelMap来判断)
-    ///请求成功时自动解析数据模型映射:Key/ModelType, (key可以是KeyPath模式进行匹配 如: data.returnData)
-    ///成功解析的模型在 WXResponseModel.parseKeyPathModel 中返回
-    public var parseModelMap: (parseKey: String, modelType: Convertible.Type)? = nil
-    
     ///约定全局请求的提示tipKey, 返回值会保存在: WXResponseModel.responseMsg中
     ///如果接口没有返回此key 或者HTTP连接失败时 则取defaultTip当做通用提示文案, 页面直接取responseMsg当作通用提示即可
     public var messageTipKeyAndFailInfo: (tipKey: String, defaultTip: String)? = nil

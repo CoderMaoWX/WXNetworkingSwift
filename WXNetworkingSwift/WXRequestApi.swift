@@ -874,7 +874,7 @@ public class WXResponseModel: NSObject {
     ///解析响应数据的数据模型 (支持KeyPath匹配)
     fileprivate func parseResponseKeyPathModel(requestApi: WXRequestApi,
                                                responseDict: WXDictionaryStrAny) {
-        guard let keyPathInfo = requestApi.parseModelMap ?? WXRequestConfig.shared.parseModelMap else { return }
+        guard let keyPathInfo = requestApi.parseModelMap else { return }
         
         let parseKey: String = keyPathInfo.parseKey
         guard parseKey.count > 0 else { return }
