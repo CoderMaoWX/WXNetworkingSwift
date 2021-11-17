@@ -218,7 +218,7 @@ public class WXRequestApi: WXBaseRequest {
     /// - Parameter responseBlock: 请求回调
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
-    public func startRequest(responseBlock: @escaping WXNetworkResponseBlock) -> WXDataRequest? {
+    public func startRequest(responseBlock: WXNetworkResponseBlock?) -> WXDataRequest? {
         guard let _ = URL(string: requestURL) else {
             WXDebugLog("\n❌❌❌无效的 URL 请求地址= \(requestURL)")
             configResponseBlock(responseBlock: responseBlock, responseObj: nil)
@@ -242,7 +242,7 @@ public class WXRequestApi: WXBaseRequest {
             if retryCount == 0 {
                 WXDebugLog("\n👉👉👉已发出网络请求=", requestURL)
             } else {
-                WXDebugLog("\n👉👉👉请求失败,第 \(retryCount) 次尝试重新请求=", requestURL)
+                WXDebugLog("\n👉👉👉请求失败,第【 \(retryCount) 】次尝试重新请求=", requestURL)
             }
         }
         return dataRequest
@@ -252,7 +252,7 @@ public class WXRequestApi: WXBaseRequest {
     /// - Parameter responseBlock: 请求回调
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
-    public func uploadFile(responseBlock: @escaping WXNetworkResponseBlock) -> WXDataRequest? {
+    public func uploadFile(responseBlock: WXNetworkResponseBlock?) -> WXDataRequest? {
         guard let _ = URL(string: requestURL) else {
             WXDebugLog("\n❌❌❌无效的 URL 上传地址= \(requestURL)")
             configResponseBlock(responseBlock: responseBlock, responseObj: nil)
@@ -299,7 +299,7 @@ public class WXRequestApi: WXBaseRequest {
             if retryCount == 0 {
                 WXDebugLog("\n👉👉👉已开始上传文件=", requestURL)
             } else {
-                WXDebugLog("\n👉👉👉上传文件失败,第 \(retryCount) 次尝试重新上传=", requestURL)
+                WXDebugLog("\n👉👉👉上传文件失败,第【 \(retryCount) 】次尝试重新上传=", requestURL)
             }
         }
         return dataRequest
@@ -331,7 +331,7 @@ public class WXRequestApi: WXBaseRequest {
             if retryCount == 0 {
                 WXDebugLog("\n👉👉👉已开始下载文件=", requestURL)
             } else {
-                WXDebugLog("\n👉👉👉下载文件失败,第 \(retryCount) 次尝试重新下载=", requestURL)
+                WXDebugLog("\n👉👉👉下载文件失败,第【 \(retryCount) 】次尝试重新下载=", requestURL)
             }
         }
         return dataRequest
@@ -353,19 +353,19 @@ public class WXRequestApi: WXBaseRequest {
         return nil
     }
     
-    fileprivate func configResponseBlock(responseBlock: @escaping WXNetworkResponseBlock, responseObj: AnyObject?) {
+    fileprivate func configResponseBlock(responseBlock: WXNetworkResponseBlock?, responseObj: AnyObject?) {
 		let responseModel = configResponseModel(responseObj: responseObj)
-		responseBlock(responseModel)
+		responseBlock?(responseModel)
 		handleMulticenter(type: .DidCompletion, responseModel: responseModel)
 
-        // code = 15: is manual cancelled
+        // code = 15 (isExplicitlyCancelledError): is manual cancelled
 		if let retryTuple = retryWhenFailTuple {
-			if retryCount < retryTuple.times, let error = responseObj as? Error, error._code != 15 {
-				DispatchQueue.main.asyncAfter(deadline: (.now() + retryTuple.delay)) {
-					self.retryCount += 1
-					self.startRequest(responseBlock: responseBlock)
-				}
-			}
+            if retryCount < retryTuple.times, let error = responseObj as? AFError, error.isExplicitlyCancelledError == false {
+                DispatchQueue.main.asyncAfter(deadline: (.now() + retryTuple.delay)) {
+                    self.retryCount += 1
+                    self.startRequest(responseBlock: responseBlock)
+                }
+            }
 		}
     }
     
@@ -449,12 +449,13 @@ public class WXRequestApi: WXBaseRequest {
 
         var code: Int? = nil
         var domain: String = configFailMessage
-        if let error = responseObj as? Error {
+        if let error = responseObj as? AFError {
+            code = error.responseCode ?? error._code
+            domain = error.errorDescription ?? configFailMessage
+            
+        } else if let error = responseObj as? Error {
             code = error._code
-            domain = error._domain
-        } else if let error = responseObj as? NSError {
-            code = error.code
-            domain = error.domain
+            domain = error._domain ?? configFailMessage
         } else if responseObj == nil {
             code = -444
         }

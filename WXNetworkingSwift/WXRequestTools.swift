@@ -122,7 +122,6 @@ public class WXRequestTools {
     public static func appendingPrintfLogFooter(responseModel: WXResponseModel) -> String {
         if let responseDict = responseModel.responseDict {
             let jsonData = try? JSONSerialization.data(withJSONObject: responseDict, options: .prettyPrinted)
-            
             var responseJson = responseDict.description
             if let jsonData = jsonData {
                 responseJson = String(data: jsonData, encoding: .utf8) ?? responseJson

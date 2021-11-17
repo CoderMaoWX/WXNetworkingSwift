@@ -69,6 +69,7 @@ class ViewController: UIViewController {
             WXDebugLog("测试单个请求回调了")
             self?.textView.text = responseModel.responseDict?.description
         }
+//        api.startRequest(responseBlock: nil)
     }
     
     
