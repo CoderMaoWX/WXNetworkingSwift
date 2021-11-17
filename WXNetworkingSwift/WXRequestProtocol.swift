@@ -8,10 +8,10 @@
 import Foundation
 
 let KWXUploadAppsFlyerStatisticsKey = "KWXUploadAppsFlyerStatisticsKey"
-let kWXNetworkResponseCache = "kWXNetworkResponseCache"
-let kWXNetworkIsTestResponseKey = "kWXNetworkIsTestResponseKey"
-let KWXRequestFailueDefaultMessage = "Loading failed, please try again later."
-let kWXRequestDataFromCacheKey = "WXNetwork_DataFromCacheKey"
+let kWXNetworkResponseCache         = "kWXNetworkResponseCache"
+let kWXNetworkIsTestResponseKey     = "kWXNetworkIsTestResponseKey"
+let KWXRequestFailueDefaultMessage  = "Loading failed, please try again later."
+let kWXRequestDataFromCacheKey      = "WXNetwork_DataFromCacheKey"
 
 enum WXRequestMulticenterType: Int {
     case WillStart

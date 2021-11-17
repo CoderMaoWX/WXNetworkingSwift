@@ -382,9 +382,7 @@ public class WXRequestApi: WXBaseRequest {
     }
 
 	///检查请求成功状态
-	fileprivate func checkingSuccessStatus(responseDict: WXDictionaryStrAny, rspModel: WXResponseModel) -> Bool {
-		var hasMapSuccess = false
-
+	fileprivate func checkingSuccessStatus(responseDict: WXDictionaryStrAny, rspModel: WXResponseModel) {
 		if let successKeyValue = successStatusMap ?? WXRequestConfig.shared.successStatusMap {
 			let matchKey: String = successKeyValue.key
 			let mapSuccessValue: String = successKeyValue.value
@@ -401,30 +399,42 @@ public class WXRequestApi: WXBaseRequest {
 				}
 				//寻找匹配请求成功的关键key
 				if lastMatchValue is String, (lastMatchValue as! String) == mapSuccessValue {
-					hasMapSuccess = true
 					rspModel.isSuccess = true
 					rspModel.responseCode = Int(lastMatchValue as! String)
 
 				} else if lastMatchValue is Int, (lastMatchValue as! Int) == Int(mapSuccessValue) {
-					hasMapSuccess = true
 					rspModel.isSuccess = true
 					rspModel.responseCode = lastMatchValue as? Int
 				}
 			} else if let responseCode = responseDict[matchKey] {
 				//2.采用直接查找匹配请求成功标识
 				if responseCode is String, (responseCode as! String) == mapSuccessValue {
-					hasMapSuccess = true
 					rspModel.isSuccess = true
 					rspModel.responseCode = Int(responseCode as! String)
 
 				} else if responseCode is Int, (responseCode as! Int) == Int(mapSuccessValue) {
-					hasMapSuccess = true
 					rspModel.isSuccess = true
 					rspModel.responseCode = responseCode as? Int
 				}
 			}
 		}
-		return hasMapSuccess
+        //取返回的提示信息
+        if let msgTipKeyOrFailInfo = WXRequestConfig.shared.messageTipKeyAndFailInfo {
+            if let responseMsg = responseDict[ (msgTipKeyOrFailInfo.tipKey) ] {
+                rspModel.responseMsg = responseMsg as? String
+            } else {
+                rspModel.responseMsg = msgTipKeyOrFailInfo.defaultTip
+            }
+        }
+        //如果失败时没有返回Msg,则填一个全局默认提示信息
+        if rspModel.isSuccess == false {
+            if rspModel.responseMsg == nil {
+                rspModel.responseMsg = configFailMessage
+            }
+            let domain = rspModel.responseMsg ?? KWXRequestFailueDefaultMessage
+            let code = rspModel.responseCode ?? -444
+            rspModel.error = NSError(domain: domain, code: code, userInfo: responseDict)
+        }
 	}
 
 	///配置数据响应回调模型
@@ -458,22 +468,10 @@ public class WXRequestApi: WXBaseRequest {
             let responseDict = packagingResponseObj(responseObj: responseObj!, responseModel: rspModel)
             rspModel.responseDict = responseDict
             
-            let hasMapSuccess = checkingSuccessStatus(responseDict: responseDict, rspModel: rspModel)
+            checkingSuccessStatus(responseDict: responseDict, rspModel: rspModel)
 
             if rspModel.isSuccess {
                 rspModel.parseResponseKeyPathModel(requestApi: self, responseDict: responseDict)
-                
-            } else if hasMapSuccess {
-                if let msgTipKeyOrFailInfo = WXRequestConfig.shared.messageTipKeyAndFailInfo {
-                    if let responseMsg = responseDict[ (msgTipKeyOrFailInfo.tipKey) ] {
-                        rspModel.responseMsg = responseMsg as? String
-                    } else {
-                        rspModel.responseMsg = msgTipKeyOrFailInfo.defaultTip
-                    }
-                }
-                let domain = rspModel.responseMsg ?? configFailMessage
-                let code = rspModel.responseCode ?? -444
-                rspModel.error = NSError(domain: domain, code: code, userInfo: responseDict)
             }
         }
         if rspModel.isCacheData == false {
@@ -875,7 +873,7 @@ public class WXResponseModel: NSObject {
     ///解析响应数据的数据模型 (支持KeyPath匹配)
     fileprivate func parseResponseKeyPathModel(requestApi: WXRequestApi,
                                                responseDict: WXDictionaryStrAny) {
-        guard let keyPathInfo = requestApi.parseModelMap else { return }
+        guard let keyPathInfo = requestApi.parseModelMap ?? WXRequestConfig.shared.parseModelMap else { return }
         
         let parseKey: String = keyPathInfo.parseKey
         guard parseKey.count > 0 else { return }

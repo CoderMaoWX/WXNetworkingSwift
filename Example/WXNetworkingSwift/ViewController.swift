@@ -7,9 +7,30 @@
 //
 
 import UIKit
+import KakaJSON
 import WXNetworkingSwift
 ///判断文件类型
 import MobileCoreServices
+
+class DKeywordListModel: Convertible {
+    var acm: String? = nil
+    var defaultKeyWord: String? = nil
+    required init() {}
+}
+
+class DKeywordContextModel: Convertible {
+    var currentTime: String? = nil
+    var dataTime: String? = "20211117"
+    required init() {}
+}
+
+class DKeywordModel: Convertible {
+    var nextPage: String = "zhangSan"
+    var isEnd: Int = 20
+    var context: DKeywordContextModel? = nil
+    var list: [DKeywordListModel]? = nil
+    required init() {}
+}
 
 class ViewController: UIViewController {
     
@@ -18,6 +39,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //测试设置全局: 请求状态/解析模型
+        WXRequestConfig.shared.successStatusMap = (key: "returnCode",  value: "SUCCESS")
+        WXRequestConfig.shared.parseModelMap = (parseKey: "data.dKeyword", modelType: DKeywordModel.self)
+        WXRequestConfig.shared.uploadRequestLogTuple = (url: "http://10.8.31.5:8090/pullLogcat", catchTag: "mwx345")
     }
     
     ///感谢你的点赞
@@ -38,7 +64,9 @@ class ViewController: UIViewController {
         api.loadingSuperView = view
         api.autoCacheResponse = true
         api.successStatusMap = (key: "returnCode",  value: "SUCCESS")
+        api.parseModelMap = (parseKey: "data.dKeyword", modelType: DKeywordModel.self)
         requestTask = api.startRequest { [weak self] responseModel in
+            WXDebugLog("测试单个请求回调了")
             self?.textView.text = responseModel.responseDict?.description
         }
     }
