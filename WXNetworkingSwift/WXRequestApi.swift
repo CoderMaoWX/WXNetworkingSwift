@@ -422,8 +422,6 @@ public class WXRequestApi: WXBaseRequest {
         if let msgTipKeyOrFailInfo = WXRequestConfig.shared.messageTipKeyAndFailInfo {
             if let responseMsg = responseDict[ (msgTipKeyOrFailInfo.tipKey) ] {
                 rspModel.responseMsg = responseMsg as? String
-            } else {
-                rspModel.responseMsg = msgTipKeyOrFailInfo.defaultTip
             }
         }
         //如果失败时没有返回Msg,则填一个全局默认提示信息
@@ -451,17 +449,17 @@ public class WXRequestApi: WXBaseRequest {
         var domain: String = configFailMessage
         if let error = responseObj as? AFError {
             code = error.responseCode ?? error._code
-            domain = error.errorDescription ?? configFailMessage
+            domain = error.errorDescription ?? domain
             
         } else if let error = responseObj as? Error {
             code = error._code
-            domain = error._domain ?? configFailMessage
+            domain = error._domain ?? domain
         } else if responseObj == nil {
             code = -444
         }
         
         if let errorCode = code { // Fail
-            rspModel.responseMsg = domain
+            rspModel.responseMsg = configFailMessage
             rspModel.responseCode = errorCode
             rspModel.error = NSError(domain: domain, code: errorCode, userInfo: nil)
             
@@ -848,7 +846,7 @@ public class WXResponseModel: NSObject {
     public var isSuccess: Bool = false
     ///本次响应Code码
     public var responseCode: Int? = nil
-    ///本次响应的提示信息
+    ///本次响应的提示信息 (页面可直接用于Toast提示,如果接口有返回messageTipKeyAndFailInfo.tipKey则会取这个值, 如果没有返回则取defaultTip的默认值)
     public var responseMsg: String? = nil
     ///本次数据是否为缓存
     public var isCacheData: Bool = false
