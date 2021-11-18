@@ -369,104 +369,30 @@ public class WXRequestApi: WXBaseRequest {
 		}
     }
     
-    ///寻找匹配请求成功的关键字典
-    fileprivate func findAppositeDict(matchKey: String, respValue: Any?) -> Any? {
-        if let respDict = respValue as? WXDictionaryStrAny {
-            for (dictKey, dictValue) in respDict {
-                if matchKey == dictKey {
-                    return dictValue
-                }
-            }
-        }
-        return nil
-    }
-
-	///检查请求成功状态
-	fileprivate func checkingSuccessStatus(responseDict: WXDictionaryStrAny, rspModel: WXResponseModel) {
-		if let successKeyValue = successStatusMap ?? WXRequestConfig.shared.successStatusMap {
-			let matchKey: String = successKeyValue.key
-			let mapSuccessValue: String = successKeyValue.value
-
-			//1.如果包含点(.)连接,则采用KeyPath模式匹配查找请求成功标识
-			if matchKey.contains(".") {
-				var lastMatchValue: Any? = responseDict
-				for tmpKey in matchKey.components(separatedBy: ".") {
-					if lastMatchValue == nil {
-						break
-					} else { //寻找匹配请求成功的关键字典
-						lastMatchValue = findAppositeDict(matchKey: tmpKey, respValue: lastMatchValue)
-					}
-				}
-				//寻找匹配请求成功的关键key
-				if lastMatchValue is String, (lastMatchValue as! String) == mapSuccessValue {
-					rspModel.isSuccess = true
-					rspModel.responseCode = Int(lastMatchValue as! String)
-
-				} else if lastMatchValue is Int, (lastMatchValue as! Int) == Int(mapSuccessValue) {
-					rspModel.isSuccess = true
-					rspModel.responseCode = lastMatchValue as? Int
-				}
-			} else if let responseCode = responseDict[matchKey] {
-				//2.采用直接查找匹配请求成功标识
-				if responseCode is String, (responseCode as! String) == mapSuccessValue {
-					rspModel.isSuccess = true
-					rspModel.responseCode = Int(responseCode as! String)
-
-				} else if responseCode is Int, (responseCode as! Int) == Int(mapSuccessValue) {
-					rspModel.isSuccess = true
-					rspModel.responseCode = responseCode as? Int
-				}
-			}
-		}
-        //取返回的提示信息
-        if let msgTipKeyOrFailInfo = WXRequestConfig.shared.messageTipKeyAndFailInfo {
-            if let responseMsg = responseDict[ (msgTipKeyOrFailInfo.tipKey) ] {
-                rspModel.responseMsg = responseMsg as? String
-            }
-        }
-        //如果失败时没有返回Msg,则填一个全局默认提示信息
-        if rspModel.isSuccess == false {
-            if rspModel.responseMsg == nil {
-                rspModel.responseMsg = configFailMessage
-            }
-            let domain = rspModel.responseMsg ?? KWXRequestFailueDefaultMessage
-            let code = rspModel.responseCode ?? -444
-            rspModel.error = NSError(domain: domain, code: code, userInfo: responseDict)
-        }
-	}
-
 	///配置数据响应回调模型
     fileprivate func configResponseModel(responseObj: AnyObject?) -> WXResponseModel {
         let rspModel = WXResponseModel()
         rspModel.responseDuration = getCurrentTimestamp() - requestDuration
         rspModel.apiUniquelyIp = apiUniquelyIp
         rspModel.responseObject = responseObj
-        
         rspModel.urlRequest = requestDataTask?.request
         rspModel.urlResponse = requestDataTask?.response
-
-        var code: Int? = nil
-        var domain: String = configFailMessage
-        if let error = responseObj as? AFError {
-            code = error.responseCode ?? error._code
-            domain = error.errorDescription ?? domain
-            
-        } else if let error = responseObj as? Error {
-            code = error._code
-            domain = error._domain ?? domain
-        } else if responseObj == nil {
-            code = -444
-        }
         
-        if let errorCode = code { // Fail
+        if let error = responseObj as? NSError { // Fail (NSError, AFError, Error都可相互转换)
+            rspModel.error = error
+            rspModel.responseCode = error.code
+            rspModel.responseMsg = error.domain
+
+        } else if responseObj == nil { // Fail
+            rspModel.error = NSError(domain: configFailMessage, code: -444, userInfo: nil)
+            rspModel.responseCode = rspModel.error?.code
             rspModel.responseMsg = configFailMessage
-            rspModel.responseCode = errorCode
-            rspModel.error = NSError(domain: domain, code: errorCode, userInfo: nil)
             
         } else { //Success
             let responseDict = packagingResponseObj(responseObj: responseObj!, responseModel: rspModel)
             rspModel.responseDict = responseDict
             
+            //检查请求成功状态
             checkingSuccessStatus(responseDict: responseDict, rspModel: rspModel)
 
             if rspModel.isSuccess {
@@ -493,8 +419,7 @@ public class WXRequestApi: WXBaseRequest {
                 responseModel.isCacheData = true
             }
         } else if responseObj is Data {
-            let rspData = responseObj.mutableCopy()
-            if let rspData = rspData as? Data {
+            if let rspData = responseObj.mutableCopy() as? Data {
                 responseModel.responseObject = rspData as AnyObject
                 responseDcit["responseObject"] = "Binary Data, length: \(rspData.count)"
             }
@@ -508,6 +433,72 @@ public class WXRequestApi: WXBaseRequest {
             responseDcit["response"] = response
         }
         return responseDcit
+    }
+
+    ///检查请求成功状态
+    fileprivate func checkingSuccessStatus(responseDict: WXDictionaryStrAny, rspModel: WXResponseModel) {
+        if let successKeyValue = successStatusMap ?? WXRequestConfig.shared.successStatusMap {
+            let matchKey: String = successKeyValue.key
+            let mapSuccessValue: String = successKeyValue.value
+
+            //1.如果包含点(.)连接,则采用KeyPath模式匹配查找请求成功标识
+            if matchKey.contains(".") {
+                var lastMatchValue: Any? = responseDict
+                for tmpKey in matchKey.components(separatedBy: ".") {
+                    if lastMatchValue == nil {
+                        break
+                    } else { //寻找匹配请求成功的关键字典
+                        lastMatchValue = findAppositeDict(matchKey: tmpKey, respValue: lastMatchValue)
+                    }
+                }
+                //寻找匹配请求成功的关键key
+                if lastMatchValue is String, (lastMatchValue as! String) == mapSuccessValue {
+                    rspModel.isSuccess = true
+                    rspModel.responseCode = Int(lastMatchValue as! String)
+
+                } else if lastMatchValue is Int, (lastMatchValue as! Int) == Int(mapSuccessValue) {
+                    rspModel.isSuccess = true
+                    rspModel.responseCode = lastMatchValue as? Int
+                }
+            } else if let responseCode = responseDict[matchKey] {
+                //2.采用直接查找匹配请求成功标识
+                if responseCode is String, (responseCode as! String) == mapSuccessValue {
+                    rspModel.isSuccess = true
+                    rspModel.responseCode = Int(responseCode as! String)
+
+                } else if responseCode is Int, (responseCode as! Int) == Int(mapSuccessValue) {
+                    rspModel.isSuccess = true
+                    rspModel.responseCode = responseCode as? Int
+                }
+            }
+        }
+        //取返回的提示信息
+        if let msgTipKeyOrFailInfo = WXRequestConfig.shared.messageTipKeyAndFailInfo {
+            if let responseMsg = responseDict[ (msgTipKeyOrFailInfo.tipKey) ] {
+                rspModel.responseMsg = responseMsg as? String
+            }
+        }
+        //如果失败时没有返回Msg,则填一个全局默认提示信息
+        if rspModel.isSuccess == false {
+            if rspModel.responseMsg == nil {
+                rspModel.responseMsg = configFailMessage
+            }
+            let domain = rspModel.responseMsg ?? KWXRequestFailueDefaultMessage
+            let code = rspModel.responseCode ?? -444
+            rspModel.error = NSError(domain: domain, code: code, userInfo: responseDict)
+        }
+    }
+    
+    ///寻找匹配请求成功的关键字典
+    fileprivate func findAppositeDict(matchKey: String, respValue: Any?) -> Any? {
+        if let respDict = respValue as? WXDictionaryStrAny {
+            for (dictKey, dictValue) in respDict {
+                if matchKey == dictKey {
+                    return dictValue
+                }
+            }
+        }
+        return nil
     }
     
     ///网络请求过程多链路回调
