@@ -59,6 +59,23 @@ public class WXBaseRequest: NSObject {
         }
     }()
     
+    ///全局单例请求 URLSession
+    lazy var WXSession: Session = {
+        let sessionConfig = URLSessionConfiguration.default
+        let wxConfig = WXRequestConfig.shared
+        if #available(iOS 11.0, *), wxConfig.openMultipathService == true {
+            sessionConfig.multipathServiceType = .handover
+        }
+        if let protocolClasses = wxConfig.urlSessionProtocolClasses {
+            sessionConfig.protocolClasses = [ protocolClasses ]
+        }
+        if wxConfig.forbidProxyCaught == true {
+            sessionConfig.connectionProxyDictionary = [ : ]
+        }
+        let session = Session(configuration: sessionConfig)
+        return session
+    }()
+    
     /// 网络请求方法 (不做任何额外处理的原始Alamofire请求，页面上不建议直接用，请使用子类请求方法)
     /// - Parameters:
     ///   - successClosure: 请求成功回调
@@ -66,8 +83,9 @@ public class WXBaseRequest: NSObject {
     /// - Returns: 求Session对象
     @discardableResult
     public func baseRequestBlock(successClosure: WXAnyObjectBlock?,
-                          failureClosure: WXAnyObjectBlock?) -> WXDataRequest {
-        let dataRequest = AF.request(requestURL,
+                                 failureClosure: WXAnyObjectBlock?) -> WXDataRequest {
+        
+        let dataRequest = WXSession.request(requestURL,
                                      method: requestMethod,
                                      parameters: finalParameters,
                                      headers: HTTPHeaders(requestHeaderDict ?? [:]),
@@ -94,26 +112,27 @@ public class WXBaseRequest: NSObject {
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
     public func baseUploadFile(successClosure: WXAnyObjectBlock?,
-                        failureClosure: WXAnyObjectBlock?,
-                        formDataClosure: @escaping ((MultipartFormData) -> Void),
-                        uploadClosure: @escaping WXProgressBlock) -> WXDataRequest {
+                               failureClosure: WXAnyObjectBlock?,
+                               formDataClosure: @escaping ((MultipartFormData) -> Void),
+                               uploadClosure: @escaping WXProgressBlock) -> WXDataRequest {
         
-        let dataRequest = AF.upload(
-                    multipartFormData: formDataClosure,
-                    to: requestURL,
-                    method: requestMethod,
-                    headers: HTTPHeaders(requestHeaderDict ?? [:]),
-                    requestModifier: { $0.timeoutInterval = 5 * 60 })
-            .responseJSON { response in
-                switch response.result {
-                case .success(let json):
-                    successClosure?(json as AnyObject)
+        let dataRequest = WXSession.upload(
+                            multipartFormData: formDataClosure,
+                            to: requestURL,
+                            method: requestMethod,
+                            headers: HTTPHeaders(requestHeaderDict ?? [:]),
+                            requestModifier: {
+                                $0.timeoutInterval = 5 * 60
+                        
+                            }).responseJSON { response in
+                                switch response.result {
+                                case .success(let json):
+                                    successClosure?(json as AnyObject)
 
-                case .failure(let error):
-                    failureClosure?(error as AnyObject)
-                }
-            }
-            .uploadProgress(closure: uploadClosure)
+                                case .failure(let error):
+                                    failureClosure?(error as AnyObject)
+                                }
+                            }.uploadProgress(closure: uploadClosure)
         
         requestDataTask = dataRequest
         _globleRequestList.append(self)
@@ -125,24 +144,25 @@ public class WXBaseRequest: NSObject {
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
     public func baseDownloadFile(successClosure: WXAnyObjectBlock?,
-                          failureClosure: WXAnyObjectBlock?,
-                          progressClosure: @escaping WXProgressBlock) -> WXDownloadRequest {
+                                 failureClosure: WXAnyObjectBlock?,
+                                 progressClosure: @escaping WXProgressBlock) -> WXDownloadRequest {
 
-        let dataRequest = AF.download(requestURL,
-                                      method: requestMethod,
-                                      parameters: parameters,
-                                      headers: HTTPHeaders(requestHeaderDict ?? [:]),
-                                      requestModifier: { $0.timeoutInterval = 5 * 60 })
-                            .responseData { response in
-                                switch response.result {
-                                case .success(let json):
-                                    successClosure?(json as AnyObject)
+        let dataRequest = WXSession.download(requestURL,
+                                             method: requestMethod,
+                                             parameters: parameters,
+                                             headers: HTTPHeaders(requestHeaderDict ?? [:]),
+                                             requestModifier: {
+                                                $0.timeoutInterval = 5 * 60
+            
+                                    }).responseData { response in
+                                        switch response.result {
+                                        case .success(let json):
+                                            successClosure?(json as AnyObject)
 
-                                case .failure(let error):
-                                    failureClosure?(error as AnyObject)
-                                }
-                            }
-                            .downloadProgress(closure: progressClosure)
+                                        case .failure(let error):
+                                            failureClosure?(error as AnyObject)
+                                        }
+                                   }.downloadProgress(closure: progressClosure)
         
         requestDataTask = dataRequest
         _globleRequestList.append(self)

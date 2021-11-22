@@ -29,17 +29,17 @@ public class WXRequestConfig {
      */
     public var globleMulticenterDelegate: WXNetworkMulticenter? = nil
 
-//    ///全局网络请求拦截类
-//    var urlSessionProtocolClasses: Any.Type? = nil
-//
-//    ///是否禁止所有的网络请求设置代理抓包 (警告: 一定要放在首次发请求之前设值(例如+load方法中), 默认不禁止)
-//    var forbidProxyCaught: Bool = false
-//
-//    ///是否打开多路径TCP服务，提供Wi-Fi和蜂窝之间的无缝切换，(默认关闭)
-//    var openMultipathService: Bool = false
-//
-//    ///请求HUD时的类名
-//    var requestLaodingCalss: AnyObject.Type? = nil
+    ///全局网络请求拦截类代理 (提示: 一定要放在首次发请求之前才生效)
+    public var urlSessionProtocolClasses: AnyClass? = nil
+
+    ///是否禁止所有的网络请求设置代理抓包 (警告: 一定要放在首次发请求之前设值(例如+load方法中), 默认不禁止)
+    public var forbidProxyCaught: Bool = false
+
+    ///是否打开多路径TCP服务，提供Wi-Fi和蜂窝之间的无缝切换，(默认关闭)(提示: 一定要放在首次发请求之前才生效)
+    public var openMultipathService: Bool = false
+
+    ///请求HUD时的类名
+    public var requestHUDCalss: UIView? = nil
     
     ///是否显示请求HUD,全局开关, 默认显示
     public var showRequestLaoding: Bool = true

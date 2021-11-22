@@ -226,7 +226,13 @@ public class WXRequestTools {
         let showLoadingBlock: ((UIView)->()) = { loadingSuperView in
             hideLoading(from: loadingSuperView)
             
-            let maskBgView = UIView(frame: loadingSuperView.bounds)
+            let maskBgView: UIView
+            if let hudClass = WXRequestConfig.shared.requestHUDCalss {
+                maskBgView = type(of: hudClass).init()
+                maskBgView.frame = loadingSuperView.bounds
+            } else {
+                maskBgView = UIView(frame: loadingSuperView.bounds)
+            }
             maskBgView.backgroundColor = .clear
             maskBgView.tag = kLoadingHUDTag
             loadingSuperView.addSubview(maskBgView)
