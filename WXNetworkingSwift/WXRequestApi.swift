@@ -90,20 +90,20 @@ public class WXBaseRequest: NSObject {
                                      parameters: finalParameters,
                                      headers: HTTPHeaders(requestHeaderDict ?? [:]),
                                      requestModifier: { [weak self] urlRequest in
-										urlRequest.timeoutInterval = self?.timeOut ?? 60
-										urlRequest.cachePolicy = .reloadIgnoringLocalCacheData
+                                        urlRequest.timeoutInterval = self?.timeOut ?? 60
+                                        urlRequest.cachePolicy = .reloadIgnoringLocalCacheData
             
                                      }).responseJSON { response in
-								switch response.result {
-								case .success(let json):
-									successClosure?(json as AnyObject)
+                                switch response.result {
+                                case .success(let json):
+                                    successClosure?(json as AnyObject)
 
-								case .failure(let error):
-									failureClosure?(error as AnyObject)
-								}
-						  }
+                                case .failure(let error):
+                                    failureClosure?(error as AnyObject)
+                                }
+                          }
         requestDataTask = dataRequest
-		_globleRequestList.append(self)
+        _globleRequestList.append(self)
         return dataRequest
     }
     
@@ -183,7 +183,7 @@ public class WXRequestApi: WXBaseRequest {
     public var cacheResponseBlock: ( (WXResponseModel) -> (WXDictionaryStrAny?) )? = nil
     
     ///自定义请求成功映射Key/Value, (key可以是KeyPath模式进行匹配 如: data.status)
-	///注意: 每个请求状态优先使用此属性判断, 如果此属性值为空, 则再取全局的 WXNetworkConfig.successStatusMap的值进行判断
+    ///注意: 每个请求状态优先使用此属性判断, 如果此属性值为空, 则再取全局的 WXNetworkConfig.successStatusMap的值进行判断
     public var successStatusMap: (key: String, value: String)? = nil
 
     ///请求成功时自动解析数据模型映射:Key/ModelType, (key可以是KeyPath模式进行匹配 如: data.returnData)
@@ -228,9 +228,9 @@ public class WXRequestApi: WXBaseRequest {
         super.init(requestURL, method: method, parameters: parameters)
     }
 
-	deinit {
-		//WXDebugLog("====== WXRequestApi 请求对象已释放====== \(self)")
-	}
+    deinit {
+        //WXDebugLog("====== WXRequestApi 请求对象已释放====== \(self)")
+    }
     
     //MARK: - 网络请求入口
     
@@ -246,7 +246,7 @@ public class WXRequestApi: WXBaseRequest {
         }
         cancelTheSameOldRequest()
         let networkBlock: WXAnyObjectBlock = { [weak self] responseObj in
-			self?.configResponseBlock(responseBlock: responseBlock, responseObj: responseObj)
+            self?.configResponseBlock(responseBlock: responseBlock, responseObj: responseObj)
         }
         readRequestCacheWithBlock(fetchCacheBlock: networkBlock)
         if var rspJsonDict = responseForTestjSon() {
@@ -374,22 +374,22 @@ public class WXRequestApi: WXBaseRequest {
     }
     
     fileprivate func configResponseBlock(responseBlock: WXNetworkResponseBlock?, responseObj: AnyObject?) {
-		let responseModel = configResponseModel(responseObj: responseObj)
-		responseBlock?(responseModel)
-		handleMulticenter(type: .DidCompletion, responseModel: responseModel)
+        let responseModel = configResponseModel(responseObj: responseObj)
+        responseBlock?(responseModel)
+        handleMulticenter(type: .DidCompletion, responseModel: responseModel)
 
         // code = 15 (isExplicitlyCancelledError): is manual cancelled
-		if let retryTuple = retryWhenFailTuple {
+        if let retryTuple = retryWhenFailTuple {
             if retryCount < retryTuple.times, let error = responseObj as? AFError, error.isExplicitlyCancelledError == false {
                 DispatchQueue.main.asyncAfter(deadline: (.now() + retryTuple.delay)) {
                     self.retryCount += 1
                     self.startRequest(responseBlock: responseBlock)
                 }
             }
-		}
+        }
     }
     
-	///配置数据响应回调模型
+    ///配置数据响应回调模型
     fileprivate func configResponseModel(responseObj: AnyObject?) -> WXResponseModel {
         let rspModel = WXResponseModel()
         rspModel.responseDuration = getCurrentTimestamp() - requestDuration
@@ -427,8 +427,8 @@ public class WXRequestApi: WXBaseRequest {
     
     fileprivate func packagingResponseObj(responseObj: AnyObject, responseModel: WXResponseModel) -> WXDictionaryStrAny {
         var responseDcit: [String : Any] = [:]
-        if responseObj is WXDictionaryStrAny {
-            responseDcit = responseObj as! WXDictionaryStrAny
+        if let rspObj = responseObj as? WXDictionaryStrAny {
+            responseDcit = rspObj
             
             responseDcit[ kWXNetworkIsTestResponseKey ].map({
                 responseDcit.removeValue(forKey: kWXNetworkIsTestResponseKey)
@@ -460,8 +460,11 @@ public class WXRequestApi: WXBaseRequest {
         if let successKeyValue = successStatusMap ?? WXRequestConfig.shared.successStatusMap {
             let matchKey: String = successKeyValue.key
             let mapSuccessValue: String = successKeyValue.value
+            
+            //默认采用直接查找匹配请求成功标识
+            var responseCode: Any? = responseDict[matchKey]
 
-            //1.如果包含点(.)连接,则采用KeyPath模式匹配查找请求成功标识
+            // 如果包含点(.)连接,则采用KeyPath模式查找匹配请求成功标识
             if matchKey.contains(".") {
                 var lastMatchValue: Any? = responseDict
                 for tmpKey in matchKey.components(separatedBy: ".") {
@@ -471,31 +474,23 @@ public class WXRequestApi: WXBaseRequest {
                         lastMatchValue = findAppositeDict(matchKey: tmpKey, respValue: lastMatchValue)
                     }
                 }
-                //寻找匹配请求成功的关键key
-                if lastMatchValue is String, (lastMatchValue as! String) == mapSuccessValue {
-                    rspModel.isSuccess = true
-                    rspModel.responseCode = Int(lastMatchValue as! String)
+                //匹配到请求成功自定义key对应的Value
+                responseCode = lastMatchValue
+            }
+            
+            if let stringCode = responseCode as? String {
+                rspModel.isSuccess = (stringCode == mapSuccessValue)
+                rspModel.responseCode = Int(stringCode)
 
-                } else if lastMatchValue is Int, (lastMatchValue as! Int) == Int(mapSuccessValue) {
-                    rspModel.isSuccess = true
-                    rspModel.responseCode = lastMatchValue as? Int
-                }
-            } else if let responseCode = responseDict[matchKey] {
-                //2.采用直接查找匹配请求成功标识
-                if responseCode is String, (responseCode as! String) == mapSuccessValue {
-                    rspModel.isSuccess = true
-                    rspModel.responseCode = Int(responseCode as! String)
-
-                } else if responseCode is Int, (responseCode as! Int) == Int(mapSuccessValue) {
-                    rspModel.isSuccess = true
-                    rspModel.responseCode = responseCode as? Int
-                }
+            } else if let numberCode = responseCode as? NSNumber  {
+                rspModel.isSuccess = (numberCode.stringValue == mapSuccessValue)
+                rspModel.responseCode = Int(numberCode.stringValue)
             }
         }
         //取返回的提示信息
         if let msgTipKeyOrFailInfo = WXRequestConfig.shared.messageTipKeyAndFailInfo {
-            if let responseMsg = responseDict[ (msgTipKeyOrFailInfo.tipKey) ] {
-                rspModel.responseMsg = responseMsg as? String
+            if let responseMsg = responseDict[ (msgTipKeyOrFailInfo.tipKey) ] as? String {
+                rspModel.responseMsg = responseMsg
             }
         }
         //如果失败时没有返回Msg,则填一个全局默认提示信息
@@ -509,7 +504,7 @@ public class WXRequestApi: WXBaseRequest {
         }
     }
     
-    ///寻找匹配请求成功的关键字典
+    ///寻找最合适的解析: 字典/数组
     fileprivate func findAppositeDict(matchKey: String, respValue: Any?) -> Any? {
         if let respDict = respValue as? WXDictionaryStrAny {
             for (dictKey, dictValue) in respDict {
@@ -728,9 +723,9 @@ public class WXBatchRequestApi {
         self.loadingSuperView = superView
     }
 
-	deinit {
-		//WXDebugLog("====== WXBatchRequestApi 请求对象已释放====== \(self)")
-	}
+    deinit {
+        //WXDebugLog("====== WXBatchRequestApi 请求对象已释放====== \(self)")
+    }
 
     /// 批量网络请求: (实例方法:Block回调方式)
     /// - Parameters:
@@ -897,8 +892,8 @@ public class WXResponseModel: NSObject {
             for modelKey in keyPathArr {
                 if lastValueDict == nil {
                     return
-                } else {
-                    lastValueDict = findParseDict(respKey: modelKey, respValue: lastValueDict)
+                } else { //寻找最合适的解析: 字典/数组
+                    lastValueDict = requestApi.findAppositeDict(matchKey: modelKey, respValue: lastValueDict)
                 }
             }
         } else {
@@ -912,15 +907,4 @@ public class WXResponseModel: NSObject {
         }
     }
 
-    ///寻找最合适的解析: 字典/数组
-    fileprivate func findParseDict(respKey: String, respValue: Any?) -> Any? {
-        if let respDict = respValue as? WXDictionaryStrAny {
-            for (dictKey, dictValue) in respDict {
-                if respKey == dictKey {
-                    return dictValue
-                }
-            }
-        }
-        return nil
-    }
 }
