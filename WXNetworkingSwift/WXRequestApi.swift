@@ -12,14 +12,36 @@ import KakaJSON
 // 另起别名为了桥接作用
 public typealias WXDataRequest = DataRequest
 public typealias WXDownloadRequest = DownloadRequest
-
 public typealias WXDictionaryStrAny = Dictionary<String, Any>
 public typealias WXAnyObjectBlock = (AnyObject) -> ()
 public typealias WXProgressBlock = (Progress) -> Void
 public typealias WXNetworkResponseBlock = (WXResponseModel) -> ()
 
+enum WXRequestSerializerType {
+    case EncodingJSON       // application/json
+    case FROM_URLEncoded    // application/x-www-form-urlencoded
+}
+
 ///保存请求对象,避免提前释放
 var _globleRequestList: [ WXBaseRequest ] = []
+
+///全局单例请求 URLSession
+var WXSession: Session = {
+   let sessionConfig = URLSessionConfiguration.default
+   sessionConfig.requestCachePolicy = .reloadIgnoringLocalCacheData
+   let wxConfig = WXRequestConfig.shared
+   if #available(iOS 11.0, *), wxConfig.openMultipathService == true {
+       sessionConfig.multipathServiceType = .handover
+   }
+   if let protocolClasses = wxConfig.urlSessionProtocolClasses {
+       sessionConfig.protocolClasses = [ protocolClasses ]
+   }
+   if wxConfig.forbidProxyCaught == true {
+       sessionConfig.connectionProxyDictionary = [ : ]
+   }
+   let session = Session(configuration: sessionConfig)
+   return session
+}()
 
 //MARK: - 请求基础对象
 
@@ -35,6 +57,8 @@ public class WXBaseRequest: NSObject {
     public var timeOut: TimeInterval = 30
     ///请求自定义头信息
     public var requestHeaderDict: Dictionary<String, String>? = nil
+    ///请求序列化对象 (, )
+    var requestSerializer: WXRequestSerializerType = .FROM_URLEncoded
     ///请求任务对象
     fileprivate var requestDataTask: Request? = nil
     
@@ -58,24 +82,7 @@ public class WXBaseRequest: NSObject {
             return parameters
         }
     }()
-    
-    ///全局单例请求 URLSession
-    lazy var WXSession: Session = {
-        let sessionConfig = URLSessionConfiguration.default
-        let wxConfig = WXRequestConfig.shared
-        if #available(iOS 11.0, *), wxConfig.openMultipathService == true {
-            sessionConfig.multipathServiceType = .handover
-        }
-        if let protocolClasses = wxConfig.urlSessionProtocolClasses {
-            sessionConfig.protocolClasses = [ protocolClasses ]
-        }
-        if wxConfig.forbidProxyCaught == true {
-            sessionConfig.connectionProxyDictionary = [ : ]
-        }
-        let session = Session(configuration: sessionConfig)
-        return session
-    }()
-    
+
     /// 网络请求方法 (不做任何额外处理的原始Alamofire请求，页面上不建议直接用，请使用子类请求方法)
     /// - Parameters:
     ///   - successClosure: 请求成功回调
@@ -84,10 +91,14 @@ public class WXBaseRequest: NSObject {
     @discardableResult
     public func baseRequestBlock(successClosure: WXAnyObjectBlock?,
                                  failureClosure: WXAnyObjectBlock?) -> WXDataRequest {
-        
+        var serializerType: ParameterEncoding = URLEncoding.default
+        if requestSerializer == .EncodingJSON {
+            serializerType = JSONEncoding.default
+        }
         let dataRequest = WXSession.request(requestURL,
                                      method: requestMethod,
                                      parameters: finalParameters,
+                                     encoding: serializerType,
                                      headers: HTTPHeaders(requestHeaderDict ?? [:]),
                                      requestModifier: { [weak self] urlRequest in
                                         urlRequest.timeoutInterval = self?.timeOut ?? 60
@@ -146,10 +157,14 @@ public class WXBaseRequest: NSObject {
     public func baseDownloadFile(successClosure: WXAnyObjectBlock?,
                                  failureClosure: WXAnyObjectBlock?,
                                  progressClosure: @escaping WXProgressBlock) -> WXDownloadRequest {
-
+        var serializerType: ParameterEncoding = URLEncoding.default
+        if requestSerializer == .EncodingJSON {
+            serializerType = JSONEncoding.default
+        }
         let dataRequest = WXSession.download(requestURL,
                                              method: requestMethod,
                                              parameters: parameters,
+                                             encoding: serializerType,
                                              headers: HTTPHeaders(requestHeaderDict ?? [:]),
                                              requestModifier: {
                                                 $0.timeoutInterval = 5 * 60

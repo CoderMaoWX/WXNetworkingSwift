@@ -63,8 +63,9 @@ public class WXRequestTools {
         formatter.timeZone = NSTimeZone.local
         
         let logHeader = appendingPrintfLogHeader(request: request, responseModel: responseModel)
-        let logFooter = dictionaryToJSON(dictionary: responseModel.responseDict)
-        var body = logHeader + (logFooter ?? "")
+        //let logFooter = dictionaryToJSON(dictionary: responseModel.responseDict)
+        //var body = logHeader + (logFooter ?? "")
+        var body = catchTag + logHeader + "点击 👆【查看格式化详情】👆查看响应Json日志"
         body = body.replacingOccurrences(of: "\n", with: "<br>")
         
         var uploadInfo: Dictionary<String, Any> = [:]
@@ -72,7 +73,7 @@ public class WXRequestTools {
         uploadInfo["appName"]          = appName
         uploadInfo["version"]          = version
         uploadInfo["body"]             = body
-        uploadInfo["platform"]         = "\(appName)-iOS-\(catchTag)"
+        uploadInfo["platform"]         = "\(appName)-iOS-"
         uploadInfo["device"]           = UIDevice.current.model
         uploadInfo["feeTime"]          = "\(responseModel.responseDuration ?? 0)"
         uploadInfo["timestamp"]        = formatter.string(from: Date())
@@ -83,6 +84,7 @@ public class WXRequestTools {
         uploadInfo["responseHeader"]   = responseModel.urlResponse?.allHeaderFields ?? [:]
         
         let baseRequest = WXBaseRequest(uploadURL, method: .post, parameters: uploadInfo)
+        baseRequest.requestSerializer = .EncodingJSON
         baseRequest.baseRequestBlock(successClosure: nil, failureClosure: nil)
     }
 
