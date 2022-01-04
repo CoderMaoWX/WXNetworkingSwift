@@ -99,7 +99,7 @@ public class WXRequestTools {
         let isSuccess   = (responseModel.responseDict == nil) ? false : true
         let isCacheData = responseModel.isCacheData
         let requestJson = dictionaryToJSON(dictionary: request.finalParameters) ?? "{}"
-        let hostTitle = WXRequestConfig.shared.urlResponseLogTuple.hostTitle ?? ""
+        let hostTitle = WXRequestConfig.shared.urlResponseLogTuple.hostTitle.map {"【\($0)】"} ?? ""
         let requestHeaders = responseModel.urlRequest?.allHTTPHeaderFields ?? [:]
         let headersJson = dictionaryToJSON(dictionary: requestHeaders)
         let headersString = (requestHeaders.count > 0) ? "\n\n请求头信息= \(headersJson ?? "")" : ""

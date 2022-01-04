@@ -45,6 +45,7 @@ class ViewController: UIViewController {
         WXRequestConfig.shared.uploadRequestLogTuple = (url: "http://10.8.31.5:8090/pullLogcat", catchTag: "mwx345")
         WXRequestConfig.shared.messageTipKeyAndFailInfo = (tipKey: "returnCode", defaultTip: "我的默认错误页面提示文案")
         WXRequestConfig.shared.forbidProxyCaught = true
+        WXRequestConfig.shared.urlResponseLogTuple = (printf: true, hostTitle: "开发环境")
     }
     
     ///感谢你的点赞
