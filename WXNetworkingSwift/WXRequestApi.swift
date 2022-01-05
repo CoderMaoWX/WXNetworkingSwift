@@ -48,9 +48,9 @@ var WXSession: Session = {
 ///请求基础对象, 外部上不建议直接用，请使用子类请求方法
 public class WXBaseRequest: NSObject {
     ///请求Method类型
-    fileprivate var requestMethod: HTTPMethod = .post
+    fileprivate (set) var requestMethod: HTTPMethod = .post
     ///请求地址
-    private (set) var requestURL: String = ""
+    fileprivate (set) var requestURL: String = ""
     ///请求参数
     fileprivate var parameters: WXDictionaryStrAny? = nil
     ///请求超时，默认30s
@@ -208,8 +208,12 @@ public class WXRequestApi: WXBaseRequest {
     ///times: 请求失败之后重新请求次数, delay: 每次重试的间隔
     public var retryWhenFailTuple: (times: Int, delay: Double)? = nil
     
-    ///调试响应json/Dictionary,方便测试时使用, 如果有设置该值则不会请求,直接回调此值
-    public var testResponseJson: Any? = nil
+    /// [⚠️仅DEBUG模式生效⚠️] 作用:方便开发时调试接口使用,设置的值可为以下4种:
+    /// 1. json String: 则不会请求网络, 直接响应回调此json值
+    /// 2. Dictionary: 则不会请求网络, 直接响应回调此Dictionary值
+    /// 3. local file path: 则直接读取当前本地的path文件内容
+    /// 4. http(s) path: 则直接请求当前设置的path
+    public var debugJsonResponse: Any? = nil
 
     ///请求转圈的父视图
     public var loadingSuperView: UIView? = nil
@@ -254,6 +258,13 @@ public class WXRequestApi: WXBaseRequest {
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
     public func startRequest(responseBlock: WXNetworkResponseBlock?) -> WXDataRequest? {
+        var isDebugJson = false
+#if DEBUG
+        if let debugJsonURL = debugJsonResponse as? String, debugJsonURL.hasPrefix("http") {
+            requestURL = debugJsonURL
+            isDebugJson = true
+        }
+#endif
         guard let _ = URL(string: requestURL) else {
             WXDebugLog("\n❌❌❌无效的 URL 请求地址= \(requestURL)")
             configResponseBlock(responseBlock: responseBlock, responseObj: nil)
@@ -261,14 +272,22 @@ public class WXRequestApi: WXBaseRequest {
         }
         cancelTheSameOldRequest()
         let networkBlock: WXAnyObjectBlock = { [weak self] responseObj in
-            self?.configResponseBlock(responseBlock: responseBlock, responseObj: responseObj)
+            if isDebugJson, var debugRespDict = responseObj as? WXDictionaryStrAny {
+                debugRespDict[ kWXNetworkDebugResponseKey ] = true
+                self?.configResponseBlock(responseBlock: responseBlock, responseObj: (debugRespDict as AnyObject))
+            } else {
+                self?.configResponseBlock(responseBlock: responseBlock, responseObj: responseObj)
+            }
         }
         readRequestCacheWithBlock(fetchCacheBlock: networkBlock)
-        if var rspJsonDict = responseForTestjSon() {
-            rspJsonDict[ kWXNetworkIsTestResponseKey ] = true
-            networkBlock(rspJsonDict as AnyObject)
+        
+#if DEBUG
+        if var debugJsonDict = responseForDebugJson() {
+            isDebugJson = true
+            networkBlock(debugJsonDict as AnyObject)
             return nil
         }
+#endif
         handleMulticenter(type: .WillStart, responseModel: WXResponseModel())
         //开始请求
         let dataRequest = baseRequestBlock(successClosure: networkBlock, failureClosure: networkBlock)
@@ -374,16 +393,21 @@ public class WXRequestApi: WXBaseRequest {
 
     //MARK: - 处理请求响应
     
-    fileprivate func responseForTestjSon() -> WXDictionaryStrAny? {
-        if let rspJsonDict = testResponseJson as? WXDictionaryStrAny {
+    ///DEBUG调试配置数据读取
+    fileprivate func responseForDebugJson() -> WXDictionaryStrAny? {
+        if let rspJsonDict = debugJsonResponse as? WXDictionaryStrAny {
             return rspJsonDict
             
-        } else if let rspJsonString = testResponseJson as? String {
-            // jsonString -> Dictionary
-            let data = rspJsonString.data(using: String.Encoding.utf8)
-            if let rspJsonDict = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? WXDictionaryStrAny {
-                return rspJsonDict
+        } else if var debugJsonString = debugJsonResponse as? String, debugJsonString.hasPrefix("http") == false {
+            // is local file string ?
+            if FileManager.default.fileExists(atPath: debugJsonString) {
+                debugJsonString = (try? String(contentsOfFile:debugJsonString, encoding: .utf8)) ?? ""
+                
+            } else if let jsonPath = Bundle.main.path(forResource: debugJsonString, ofType: nil) {
+                debugJsonString = (try? String(contentsOfFile:jsonPath, encoding: .utf8)) ?? ""
             }
+            // jsonString -> Dictionary
+            return WXRequestTools.jsonToDictionary(jsonString: debugJsonString)
         }
         return nil
     }
@@ -445,9 +469,9 @@ public class WXRequestApi: WXBaseRequest {
         if let rspObj = responseObj as? WXDictionaryStrAny {
             responseDcit = rspObj
             
-            responseDcit[ kWXNetworkIsTestResponseKey ].map({
-                responseDcit.removeValue(forKey: kWXNetworkIsTestResponseKey)
-                responseModel.isTestResponse = $0 as! Bool
+            responseDcit[ kWXNetworkDebugResponseKey ].map({
+                responseDcit.removeValue(forKey: kWXNetworkDebugResponseKey)
+                responseModel.isDebugResponse = $0 as! Bool
             })
             if let _ = responseDcit[kWXRequestDataFromCacheKey] {
                 responseDcit.removeValue(forKey: kWXRequestDataFromCacheKey)
@@ -879,8 +903,8 @@ public class WXResponseModel: NSObject {
     public var responseObject: AnyObject? = nil
     ///本次响应的原始字典数据
     public var responseDict: WXDictionaryStrAny? = nil
-    ///本次响应的数据是否是测试数据
-    public var isTestResponse: Bool = false
+    ///本次响应的数据是否为Debug测试数据
+    public var isDebugResponse: Bool = false
     ///失败时的错误信息
     public var error: NSError? = nil
     ///原始响应

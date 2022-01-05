@@ -104,7 +104,7 @@ public class WXRequestTools {
         let headersJson = dictionaryToJSON(dictionary: requestHeaders)
         let headersString = (requestHeaders.count > 0) ? "\n\n请求头信息= \(headersJson ?? "")" : ""
         let statusFlag = isCacheData ? "❤️❤️❤️" : (isSuccess ? "✅✅✅" : "❌❌❌")
-        let dataType = responseModel.isTestResponse ? "测试数据" : "网络数据"
+        let dataType = responseModel.isDebugResponse ? "【Debug】数据" : "网络数据"
         let statusString  = isCacheData ? "本地缓存数据成功" : (isSuccess ? "\(dataType)成功" : "\(dataType)失败");
 		return """
 
@@ -166,8 +166,8 @@ public class WXRequestTools {
     }
     
     // MARK: 字典/JSON字符串相互转化
-    /// 字典转换为JSONString
-    public static func dictionaryToJSON(dictionary: Dictionary<String, Any>?) -> String? {
+    /// 字典转换为JSON String
+    public static func dictionaryToJSON(dictionary: WXDictionaryStrAny?) -> String? {
         guard let dictionary = dictionary else {
             return nil
         }
@@ -178,9 +178,9 @@ public class WXRequestTools {
         return nil
     }
     
-    /// JSONString转换为字典
-    public static func jsonToDictionary(jsonString: String) -> Dictionary<String, Any>? {
-        if let jsonDict = (try? JSONSerialization.jsonObject(with: jsonString.data(using: String.Encoding.utf8, allowLossyConversion: true)!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? WXDictionaryStrAny {
+    /// JSON String转换为字典
+    public static func jsonToDictionary(jsonString: String) -> WXDictionaryStrAny? {
+        if let jsonDict = (try? JSONSerialization.jsonObject(with: jsonString.data(using: .utf8, allowLossyConversion: true)!, options: .mutableContainers)) as? WXDictionaryStrAny {
             return jsonDict
         }
         return nil
