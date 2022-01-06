@@ -26,7 +26,8 @@ public func WXDebugLog(_ message: Any...,
             appdengLog += "\(log)" + ( (idx != 1) ? " " : "" )
             idx -= 1
         }
-        print("[\(fileName): line:\(lineNumber)]", appdengLog)
+        //print("[\(fileName): line:\(lineNumber)]", appdengLog)
+        print(appdengLog)
     #endif
 }
 
