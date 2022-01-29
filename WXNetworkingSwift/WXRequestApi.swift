@@ -58,7 +58,7 @@ public class WXBaseRequest: NSObject {
     ///请求自定义头信息
     public var requestHeaderDict: Dictionary<String, String>? = nil
     ///请求序列化对象 (json, form表单)
-    var requestSerializer: WXRequestSerializerType = .EncodingJSON
+    var requestSerializer: WXRequestSerializerType = .EncodingFormURL
     ///请求任务对象
     fileprivate var requestDataTask: Request? = nil
     
