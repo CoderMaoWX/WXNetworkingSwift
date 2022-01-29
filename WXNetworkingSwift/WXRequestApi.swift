@@ -807,12 +807,16 @@ public class WXBatchRequestApi {
     
     ///标记是否都成功: 一个失败就标记不是都成功
     func refreshIsAllSuccess() {
-        for respModel in responseDataArray {
-            if respModel.isCacheData == false, respModel.responseDict == nil {
-                isAllSuccess = false//一个失败就标记不是都成功
+        var success = false
+        for respModel in responseDataArray where respModel.isCacheData == false {
+            if respModel.responseDict == nil {
+                success = false//一个失败就标记不是都成功
                 break
+            } else {
+                success = true
             }
         }
+        isAllSuccess = success
     }
     
     ///待所有请求都响应才回调到页面
