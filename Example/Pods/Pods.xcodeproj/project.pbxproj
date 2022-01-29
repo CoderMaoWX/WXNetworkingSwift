@@ -10,8 +10,8 @@
 		046B8EFA6EA32F66B33A162A71B582FD /* AuthenticationInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675A3B2C9543C952B78A1D2410A56F49 /* AuthenticationInterceptor.swift */; };
 		04A1AB174D51979BA8333593DDFD410D /* FunctionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1F2924E8E91FA6B4EC6726AAB38D25 /* FunctionLayout.swift */; };
 		05D5BBEE554D82B0AA4103BF39A75064 /* ObjCClassType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA60216FCB60197FC2EEC2024655118 /* ObjCClassType.swift */; };
-		07DB89A6EE2800BDABD74A5F2B9E856E /* WXRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBBB2E6CEC638DE8B3C30A95D5E6E2C /* WXRequestProtocol.swift */; };
 		08E35E17E71AF8460D61E46CDD3D4DF9 /* ProtocolLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4CBAF2606A806CE33384C67FF20973 /* ProtocolLayout.swift */; };
+		0C1471DB7D22433B1C3C0A88C9EE61BC /* WXRequestTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DC22BA9B207EF1D76D464E0DD7BF9 /* WXRequestTools.swift */; };
 		0CA11BB5B896A3EBB62F199505202E55 /* ParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302078173691D21B4CECF8208B050662 /* ParameterEncoder.swift */; };
 		0D277E432C21FCFF6B745FC3D25501D9 /* StructDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96007629FEB158A8D12AC7435E0D424 /* StructDescriptor.swift */; };
 		0D4EDBB861643BB5980023F0CEE41379 /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = ABF0BC7366BDE6B35DA521EB30F64C98 /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -39,24 +39,23 @@
 		43286746D4F4F614DDFCE98083764D94 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E19B5EBE266DA0495502B3C7E11118D /* Model.swift */; };
 		433A428B676FE7451F4DB3C4FCFFBA14 /* ClassLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EA56EC14340BE21DD96F5350B250BD /* ClassLayout.swift */; };
 		43A9EF3B8558E8DEB2760FB668FA3256 /* TupleLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1582AAE5268AA16D3370500521582D67 /* TupleLayout.swift */; };
+		4A99E35F0499D3401C092CCF0145E714 /* WXNetworkingSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E5E2005905D2BD372634F0CB2FB419 /* WXNetworkingSwift-dummy.m */; };
 		4AE5A281793C3EB996B79CB4B64D46EA /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDD1F53BFC7E89CB70558C79A1E6B9B /* Layout.swift */; };
 		4C5000D2FEAAD3BFAACE525D4BCF2FAD /* MetaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7779BDC6B6298C97589293CC83219C6 /* MetaType.swift */; };
 		4E4FA785CAB774F87AD5BA99964D9F5D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7409AD4F997D46B6B806DFAB77B70E3F /* Session.swift */; };
 		4ED61A9DAA1D81C8903426DFD7BD18C4 /* KJ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D4B555FA41C71AA2C96B529EE6B33 /* KJ.swift */; };
-		4FFECF6125F908D9A5D9DC87403D0FCD /* WXRequestTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C246F8E34EBAD77E8CC816DFECA93B6 /* WXRequestTools.swift */; };
 		5326722500B1482B420089A8A049F106 /* FunctionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA15FD7DAA7DC26B712E2E28098ED8A /* FunctionType.swift */; };
-		578B4D7DF3414ACEDAB9BE57E4A29593 /* WXRequestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26606CF8A7E0090D019A9EA38513E1B5 /* WXRequestConfig.swift */; };
 		5835901F7053EFA1A78E42F831EA9EF0 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1603C56ED3D829ABA175633B9DEA14 /* Metadata.swift */; };
 		5F41F837EFB503D63C8D32293947DC61 /* URLRequest+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F04C2060547FEE5161DE750E53A180E /* URLRequest+Alamofire.swift */; };
 		62EBABE76C00CB9BB45E5F1537A86077 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DA26EFFDD81D2249FB0E706F84C018 /* Notifications.swift */; };
 		63DEB96A369877C5B1A23C3F5452F75F /* Values.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD13885E74F37BB9FA26D799DE099C42 /* Values.swift */; };
 		65548286EF3F3976786036D46EDB71BF /* TypeProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F892D0356654088F6D540BFDFFC103AF /* TypeProxy.swift */; };
 		67930AEDC4C1A2E3691388E77B03A69C /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA3366DC7AA9822B1F037E1908AA014 /* Property.swift */; };
-		69FF804A7E42D58B01FF6839D87CD4F8 /* WXRequestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C3AD66B8AE0751127D549DCC458312 /* WXRequestApi.swift */; };
 		6C1A2808ADC39AB2EED130E893CA04A9 /* Kind.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E64D859B04A8DB7FAFC92966660413 /* Kind.swift */; };
 		707984CC6995918F8C40D9897531224F /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A304FB96A6AB5BC2A5108737659250 /* Response.swift */; };
 		72B6FABC08998209D9A62F0E8DD8462D /* CachedResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A5EA4589D9360B1C01D056FB60EB0 /* CachedResponseHandler.swift */; };
 		730A25615563A37862BA43C528EDDF38 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16760339D2C9956ECA0426598093DDD7 /* Alamofire.swift */; };
+		7B7056FC24F9965C6D15C6E6BD2B5C58 /* WXNetworkingSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A50FBE5E24E6413B8E321D3AC58435F /* WXNetworkingSwift-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7EC38D43F982DC3AC61D3F2179AE1B5A /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36318CC86D2493BBCB5824AA760A90AB /* HTTPMethod.swift */; };
 		7F15137609D07162008A30D3C30C1376 /* Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D5BE0529963C5581A8579846F929A1 /* Combine.swift */; };
 		818CA2558B6F1AAC3B6EEB1F7030AAD9 /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A4FC5E947EC6CF6A77ECC976D64934 /* Type.swift */; };
@@ -66,7 +65,6 @@
 		8EF64D43B65A7ED14E53A2B4D5489668 /* Data+KJ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596C9CF43421FF97ED86835E2ABC6F3A /* Data+KJ.swift */; };
 		8F01F0A27110A95E11F7502629513B3D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BDC39259BBF417B44453CB36CCA556 /* Logger.swift */; };
 		90A46010C88C3160EAAE3965AE4D4ECE /* ConvertibleEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578DC9F74185DD8470CE0F286F5C292 /* ConvertibleEnum.swift */; };
-		9121E478A067AD9FC8AFDED82F5F3C7A /* WXNetworkingSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8A3C3A4CF124A9B7CA6B4BA5A5A89C /* WXNetworkingSwift-dummy.m */; };
 		954053F93F77CC8A993EDA511670BE7A /* RequestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4224E85E657024D7CF051BD444937C6F /* RequestInterceptor.swift */; };
 		9744C1919BB0541E86977D76F63FED92 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAF0D0845353D264C75582ABD939AEF /* ResponseSerialization.swift */; };
 		97D4C259A97A7E3B1E8C9B5A30C629E2 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EE7281D77502435433D8B16B2A26C1 /* EventMonitor.swift */; };
@@ -89,13 +87,14 @@
 		BE5F843DDB1F8B8E88DDF93AEF727C48 /* Coding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F94D7112BAD8EC2B039A2111368F68 /* Coding.swift */; };
 		BF86BE0FA297F13B9951228542F9DA0B /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A065DD818184172C3FF571729A58DA5 /* AFError.swift */; };
 		BFCA0488A09DDD0AFA4E152EBDBDEAC5 /* FieldDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C631D6BC89EDF1A92DB3B1174A3C4F /* FieldDescriptor.swift */; };
+		C3D45992F1066795EA696A6565D6B667 /* WXRequestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F831403AE0FD41C2F442E7E68B4D4FC /* WXRequestApi.swift */; };
+		C44812D37429BDD4C8C4EC761774B349 /* WXRequestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFB0CF5EBCB87BED32CB65CD4F48FF1 /* WXRequestConfig.swift */; };
 		C6F333C7F837EC99B51FABDAE90821E8 /* OperationQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0E0F5867A8014E79839E8F8965B2D9 /* OperationQueue+Alamofire.swift */; };
 		CB9F13EEDB1C35ADBE361C9816D658E7 /* MultipartUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC3D54572A9B3DFD1DF5D7A87D5441 /* MultipartUpload.swift */; };
 		D90157BB8BFD4C8F06D488AD2A571F99 /* JSONSerialization+KJ.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B91198DF72D543B567F6553071AD1C /* JSONSerialization+KJ.swift */; };
 		DC47D19BFC56FA49C69E343EDB6DF484 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FD328EA63A10AF79F02611030892F2 /* ParameterEncoding.swift */; };
 		DD83D249484D555AF2035C487F6D651C /* BaseLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD879672615D8A7D21756C9AAFBBDA3A /* BaseLayout.swift */; };
 		DF3D6F55D25A05BCA2B59C7D38568509 /* RequestTaskMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0B541C050A798B72B5D43057F4ED81 /* RequestTaskMap.swift */; };
-		E4A18EB055A7A18811A8180BC6A079EE /* WXNetworkingSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 964D0F6E13C772A2F18A9E1F4EC409AD /* WXNetworkingSwift-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EB3CE9BAA79520F57D400DB3C148A11E /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700CF7D4CB9807FA3288AC88DA98A8BF /* Convertible.swift */; };
 		F0068ADB3BD15A7CA94B844DB4BDB4F6 /* BaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C324AEA16AF55A4533A0DE74091FB8 /* BaseType.swift */; };
 		F394E319070A620137B5CAB1EC76ECDC /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593970403147F4D5E68CDF851F0AE295 /* RedirectHandler.swift */; };
@@ -105,40 +104,40 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1142C77F67A66BB498AE08F2A3D4ABF3 /* PBXContainerItemProxy */ = {
+		174A74B9CD24A3771107E2DBCD8C4010 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 25FEE10C6E3A039D9C04BB397323B94A;
-			remoteInfo = KakaJSON;
+			remoteGlobalIDString = EAAA1AD3A8A1B59AB91319EE40752C6D;
+			remoteInfo = Alamofire;
 		};
-		41DA57B89BBA87276C205AB25EB8429D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 25FEE10C6E3A039D9C04BB397323B94A;
-			remoteInfo = KakaJSON;
-		};
-		623F5A4B86EC8744E2971B1FC7BA263B /* PBXContainerItemProxy */ = {
+		7754DB21D9B83EAE323C9FCD5476631A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = B1DE62FA36C98209E36588DC5174A1EE;
 			remoteInfo = WXNetworkingSwift;
 		};
-		A773170AF36114D1635DDB2397640370 /* PBXContainerItemProxy */ = {
+		9C678D9272CD5B1A674E4D3C34506D1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 25FEE10C6E3A039D9C04BB397323B94A;
+			remoteInfo = KakaJSON;
+		};
+		CA462F765EA381F8BCED6C4846517FCE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EAAA1AD3A8A1B59AB91319EE40752C6D;
 			remoteInfo = Alamofire;
 		};
-		E9A4C28B68C5A3A345D7391F9B8A5C35 /* PBXContainerItemProxy */ = {
+		F00E879AB203D18C1E42B286E3588632 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = EAAA1AD3A8A1B59AB91319EE40752C6D;
-			remoteInfo = Alamofire;
+			remoteGlobalIDString = 25FEE10C6E3A039D9C04BB397323B94A;
+			remoteInfo = KakaJSON;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -151,23 +150,24 @@
 		0A1603C56ED3D829ABA175633B9DEA14 /* Metadata.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Metadata.swift; path = Sources/KakaJSON/Metadata/Metadata.swift; sourceTree = "<group>"; };
 		0B1F2924E8E91FA6B4EC6726AAB38D25 /* FunctionLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FunctionLayout.swift; path = Sources/KakaJSON/Metadata/Layout/FunctionLayout.swift; sourceTree = "<group>"; };
 		0D60F768A33D0AEEB9FC365730EA9155 /* Alamofire.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.debug.xcconfig; sourceTree = "<group>"; };
+		0F831403AE0FD41C2F442E7E68B4D4FC /* WXRequestApi.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestApi.swift; path = WXNetworkingSwift/WXRequestApi.swift; sourceTree = "<group>"; };
 		128E2AC2C5D305230C7CF2C12D563BA4 /* String+KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+KJ.swift"; path = "Sources/KakaJSON/Extension/String+KJ.swift"; sourceTree = "<group>"; };
 		1582AAE5268AA16D3370500521582D67 /* TupleLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TupleLayout.swift; path = Sources/KakaJSON/Metadata/Layout/TupleLayout.swift; sourceTree = "<group>"; };
-		166698C73BD120A8D8F347226BCF0EB6 /* WXNetworkingSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WXNetworkingSwift-prefix.pch"; sourceTree = "<group>"; };
 		16760339D2C9956ECA0426598093DDD7 /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
 		183FA38E8B0BCBB6537674FF82353946 /* Pods-WXNetworkingSwift_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WXNetworkingSwift_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		196A5EA4589D9360B1C01D056FB60EB0 /* CachedResponseHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CachedResponseHandler.swift; path = Source/CachedResponseHandler.swift; sourceTree = "<group>"; };
 		19EE7281D77502435433D8B16B2A26C1 /* EventMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EventMonitor.swift; path = Source/EventMonitor.swift; sourceTree = "<group>"; };
-		1C246F8E34EBAD77E8CC816DFECA93B6 /* WXRequestTools.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestTools.swift; path = WXNetworkingSwift/WXRequestTools.swift; sourceTree = "<group>"; };
+		1B7A1C3229484944AF560937C95D6D38 /* WXNetworkingSwift.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WXNetworkingSwift.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		2062535CDB5E689F547B65DFF141F3B2 /* HTTPHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPHeaders.swift; path = Source/HTTPHeaders.swift; sourceTree = "<group>"; };
 		220CE3A11F09215B67D2FBFB900B4201 /* TupleType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TupleType.swift; path = Sources/KakaJSON/Metadata/Type/TupleType.swift; sourceTree = "<group>"; };
 		22A84827CAF4A1B545EDD105C6506237 /* Pods-WXNetworkingSwift_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WXNetworkingSwift_Example.modulemap"; sourceTree = "<group>"; };
+		23E5E2005905D2BD372634F0CB2FB419 /* WXNetworkingSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WXNetworkingSwift-dummy.m"; sourceTree = "<group>"; };
 		247C5687D4B83A5EB59FBE7DB7D2DA47 /* Dictionary+KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Dictionary+KJ.swift"; path = "Sources/KakaJSON/Extension/Dictionary+KJ.swift"; sourceTree = "<group>"; };
-		26606CF8A7E0090D019A9EA38513E1B5 /* WXRequestConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestConfig.swift; path = WXNetworkingSwift/WXRequestConfig.swift; sourceTree = "<group>"; };
+		2A1C3BB87B3A1B2937028FFFB1D35046 /* WXNetworkingSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WXNetworkingSwift-prefix.pch"; sourceTree = "<group>"; };
 		2A7A6DAFE0DFE5B396238A281205C23C /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
+		2BFF0846C6F6DA5D5C8D8475FC11A9D4 /* WXNetworkingSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WXNetworkingSwift.release.xcconfig; sourceTree = "<group>"; };
 		2E6215003BDCACCF526D899FFA4F12C1 /* StringEncoding+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "StringEncoding+Alamofire.swift"; path = "Source/StringEncoding+Alamofire.swift"; sourceTree = "<group>"; };
 		2E7055FF3FE84A75212CA56DEF4E9747 /* KakaJSON-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KakaJSON-dummy.m"; sourceTree = "<group>"; };
-		2EBBB2E6CEC638DE8B3C30A95D5E6E2C /* WXRequestProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestProtocol.swift; path = WXNetworkingSwift/WXRequestProtocol.swift; sourceTree = "<group>"; };
 		2F6EA5C332278E9CC13C22614871FFAD /* StructType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StructType.swift; path = Sources/KakaJSON/Metadata/Type/StructType.swift; sourceTree = "<group>"; };
 		2F78DA9B883A12C8745B64065E1B8474 /* Pods-WXNetworkingSwift_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WXNetworkingSwift_Example.release.xcconfig"; sourceTree = "<group>"; };
 		302078173691D21B4CECF8208B050662 /* ParameterEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoder.swift; path = Source/ParameterEncoder.swift; sourceTree = "<group>"; };
@@ -176,11 +176,11 @@
 		36318CC86D2493BBCB5824AA760A90AB /* HTTPMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPMethod.swift; path = Source/HTTPMethod.swift; sourceTree = "<group>"; };
 		37B836D57BC86FFCC846EE9D790771CA /* ConvertibleConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConvertibleConfig.swift; path = Sources/KakaJSON/Convert/ConvertibleConfig.swift; sourceTree = "<group>"; };
 		3A065DD818184172C3FF571729A58DA5 /* AFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFError.swift; path = Source/AFError.swift; sourceTree = "<group>"; };
-		3C67FE34C1B700D7C0D8D12A9ABBC095 /* WXNetworkingSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WXNetworkingSwift.debug.xcconfig; sourceTree = "<group>"; };
 		3E256328013E5AF37DD8D64DE4FAC180 /* EnumLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumLayout.swift; path = Sources/KakaJSON/Metadata/Layout/EnumLayout.swift; sourceTree = "<group>"; };
 		4224E85E657024D7CF051BD444937C6F /* RequestInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestInterceptor.swift; path = Source/RequestInterceptor.swift; sourceTree = "<group>"; };
 		47A64E9EC130097E45F7066D410F77AB /* Pods-WXNetworkingSwift_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WXNetworkingSwift_Example-umbrella.h"; sourceTree = "<group>"; };
 		4A05687BA81FE71D74A1C76C94D0F7F2 /* ClassDescriptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ClassDescriptor.swift; path = Sources/KakaJSON/Metadata/Descriptor/ClassDescriptor.swift; sourceTree = "<group>"; };
+		4A50FBE5E24E6413B8E321D3AC58435F /* WXNetworkingSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WXNetworkingSwift-umbrella.h"; sourceTree = "<group>"; };
 		4BC703A7DA8D3A9951F5653311768C94 /* AlamofireExtended.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AlamofireExtended.swift; path = Source/AlamofireExtended.swift; sourceTree = "<group>"; };
 		4CA60216FCB60197FC2EEC2024655118 /* ObjCClassType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ObjCClassType.swift; path = Sources/KakaJSON/Metadata/Type/ObjCClassType.swift; sourceTree = "<group>"; };
 		4F04C2060547FEE5161DE750E53A180E /* URLRequest+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URLRequest+Alamofire.swift"; path = "Source/URLRequest+Alamofire.swift"; sourceTree = "<group>"; };
@@ -189,12 +189,11 @@
 		58C631D6BC89EDF1A92DB3B1174A3C4F /* FieldDescriptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FieldDescriptor.swift; path = Sources/KakaJSON/Metadata/Descriptor/FieldDescriptor.swift; sourceTree = "<group>"; };
 		593970403147F4D5E68CDF851F0AE295 /* RedirectHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RedirectHandler.swift; path = Source/RedirectHandler.swift; sourceTree = "<group>"; };
 		596C9CF43421FF97ED86835E2ABC6F3A /* Data+KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+KJ.swift"; path = "Sources/KakaJSON/Extension/Data+KJ.swift"; sourceTree = "<group>"; };
-		5B8A3C3A4CF124A9B7CA6B4BA5A5A89C /* WXNetworkingSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WXNetworkingSwift-dummy.m"; sourceTree = "<group>"; };
+		5A72F566AAF1E568CCD64622D82B8798 /* WXNetworkingSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WXNetworkingSwift.debug.xcconfig; sourceTree = "<group>"; };
 		5C3D98504DFCC357C24C67A65884F13E /* ModelType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModelType.swift; path = Sources/KakaJSON/Metadata/Type/ModelType.swift; sourceTree = "<group>"; };
 		5C3E7DF5B9ABFB99EC06641AC7F5C749 /* KakaJSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KakaJSON.release.xcconfig; sourceTree = "<group>"; };
 		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = Alamofire; path = libAlamofire.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6137838DD4689D451D31E780B6ACD637 /* Pointer+KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Pointer+KJ.swift"; path = "Sources/KakaJSON/Extension/Pointer+KJ.swift"; sourceTree = "<group>"; };
-		64C3AD66B8AE0751127D549DCC458312 /* WXRequestApi.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestApi.swift; path = WXNetworkingSwift/WXRequestApi.swift; sourceTree = "<group>"; };
 		675A3B2C9543C952B78A1D2410A56F49 /* AuthenticationInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthenticationInterceptor.swift; path = Source/AuthenticationInterceptor.swift; sourceTree = "<group>"; };
 		67C448178A0E51530B89131DAC5BABA0 /* Result+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Result+Alamofire.swift"; path = "Source/Result+Alamofire.swift"; sourceTree = "<group>"; };
 		6D7E87BC38EE0BA7C54DA3589A9B31BB /* Descriptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Descriptor.swift; path = Sources/KakaJSON/Metadata/Descriptor/Descriptor.swift; sourceTree = "<group>"; };
@@ -204,28 +203,25 @@
 		73D9AF24E244636E367FBB3C257D26B5 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
 		7409AD4F997D46B6B806DFAB77B70E3F /* Session.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Source/Session.swift; sourceTree = "<group>"; };
 		7578DC9F74185DD8470CE0F286F5C292 /* ConvertibleEnum.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConvertibleEnum.swift; path = Sources/KakaJSON/Convert/ConvertibleEnum.swift; sourceTree = "<group>"; };
-		774D4E37FB5EDC62757AEB5F4DD63DDB /* WXNetworkingSwift.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WXNetworkingSwift.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		7912DBEADF97FEDABAB8F77A71B1F5E9 /* Pods-WXNetworkingSwift_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WXNetworkingSwift_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		7D3ECBBFDE3A5E800F07584A97048F05 /* KakaJSON */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = KakaJSON; path = libKakaJSON.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		80D6D4D4FBBD327166FDF809E9FB0751 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
 		82D5BE0529963C5581A8579846F929A1 /* Combine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Combine.swift; path = Source/Combine.swift; sourceTree = "<group>"; };
 		840D4B555FA41C71AA2C96B529EE6B33 /* KJ.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KJ.swift; path = Sources/KakaJSON/Convert/KJ.swift; sourceTree = "<group>"; };
-		8A804D458023F6C0D5A222ED5ADF5466 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		8CDD1F53BFC7E89CB70558C79A1E6B9B /* Layout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Layout.swift; path = Sources/KakaJSON/Metadata/Layout/Layout.swift; sourceTree = "<group>"; };
 		95ED6A8F7EF2749B698DBCCDB953F2DF /* KakaJSON-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KakaJSON-umbrella.h"; sourceTree = "<group>"; };
-		964D0F6E13C772A2F18A9E1F4EC409AD /* WXNetworkingSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WXNetworkingSwift-umbrella.h"; sourceTree = "<group>"; };
 		9730A2C28C898D6F1A73E4CE7FA6F4EE /* ProtocolType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProtocolType.swift; path = Sources/KakaJSON/Metadata/Type/ProtocolType.swift; sourceTree = "<group>"; };
 		977E5634488CDD98512783C19E6303FE /* ForeignClassType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ForeignClassType.swift; path = Sources/KakaJSON/Metadata/Type/ForeignClassType.swift; sourceTree = "<group>"; };
-		9984D2BA25BDD2C89A14F0C9E2898FC3 /* WXNetworkingSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WXNetworkingSwift.release.xcconfig; sourceTree = "<group>"; };
+		98229C53205306154258904A9CA82C73 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E19B5EBE266DA0495502B3C7E11118D /* Model.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Model.swift; path = Sources/KakaJSON/Global/Model.swift; sourceTree = "<group>"; };
 		9E8C70FB060412C0001D7DA21D253E98 /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
 		A0C4A9C3C0C7DF298751606D8211C42D /* RetryPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RetryPolicy.swift; path = Source/RetryPolicy.swift; sourceTree = "<group>"; };
-		A188D460B1D8C8C7ED0BA8A625596409 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		A10D6720AF4E93ABF4A353E7796A1FF0 /* WXNetworkingSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WXNetworkingSwift.modulemap; sourceTree = "<group>"; };
 		A293A480A97A5B8200A085E57C8187DA /* URLSessionConfiguration+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URLSessionConfiguration+Alamofire.swift"; path = "Source/URLSessionConfiguration+Alamofire.swift"; sourceTree = "<group>"; };
+		A48DC22BA9B207EF1D76D464E0DD7BF9 /* WXRequestTools.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestTools.swift; path = WXNetworkingSwift/WXRequestTools.swift; sourceTree = "<group>"; };
 		A96007629FEB158A8D12AC7435E0D424 /* StructDescriptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StructDescriptor.swift; path = Sources/KakaJSON/Metadata/Descriptor/StructDescriptor.swift; sourceTree = "<group>"; };
 		ABF0BC7366BDE6B35DA521EB30F64C98 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
-		AC8F143E87EFB8AB044B794D1B85CAE0 /* WXNetworkingSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WXNetworkingSwift.modulemap; sourceTree = "<group>"; };
 		ACA15FD7DAA7DC26B712E2E28098ED8A /* FunctionType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FunctionType.swift; path = Sources/KakaJSON/Metadata/Type/FunctionType.swift; sourceTree = "<group>"; };
 		AE023CC55682AC87B047D22713BE5552 /* WXNetworkingSwift */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = WXNetworkingSwift; path = libWXNetworkingSwift.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1C324AEA16AF55A4533A0DE74091FB8 /* BaseType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BaseType.swift; path = Sources/KakaJSON/Metadata/Type/BaseType.swift; sourceTree = "<group>"; };
@@ -237,6 +233,7 @@
 		BFC269642BDA0B4CFA75C4A41EE90F29 /* Pods-WXNetworkingSwift_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WXNetworkingSwift_Example-dummy.m"; sourceTree = "<group>"; };
 		C16CE10B024F0059359CF1DC8E6A19F5 /* EnumType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumType.swift; path = Sources/KakaJSON/Metadata/Type/EnumType.swift; sourceTree = "<group>"; };
 		C5A4FC5E947EC6CF6A77ECC976D64934 /* Type.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Type.swift; path = Sources/KakaJSON/Metadata/Type/Type.swift; sourceTree = "<group>"; };
+		CA31101DAC71B57C19E5E8F697570090 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		CBA3366DC7AA9822B1F037E1908AA014 /* Property.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Property.swift; path = Sources/KakaJSON/Metadata/Property.swift; sourceTree = "<group>"; };
 		CC16A28D68FE5D1D916DA9AA95E0833A /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
 		CC4CBAF2606A806CE33384C67FF20973 /* ProtocolLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProtocolLayout.swift; path = Sources/KakaJSON/Metadata/Layout/ProtocolLayout.swift; sourceTree = "<group>"; };
@@ -249,6 +246,7 @@
 		E780DEBC4EF30316E159AAC0B38941B2 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Alamofire.modulemap; sourceTree = "<group>"; };
 		E9F6D5D81DE02BB2BE5F7C211D05A115 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		EB0B541C050A798B72B5D43057F4ED81 /* RequestTaskMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestTaskMap.swift; path = Source/RequestTaskMap.swift; sourceTree = "<group>"; };
+		EDFB0CF5EBCB87BED32CB65CD4F48FF1 /* WXRequestConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WXRequestConfig.swift; path = WXNetworkingSwift/WXRequestConfig.swift; sourceTree = "<group>"; };
 		EE592F66658A5AA888E4372CD783FC09 /* Pods-WXNetworkingSwift_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WXNetworkingSwift_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		EEAF0D0845353D264C75582ABD939AEF /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
 		EF0E0F5867A8014E79839E8F8965B2D9 /* OperationQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OperationQueue+Alamofire.swift"; path = "Source/OperationQueue+Alamofire.swift"; sourceTree = "<group>"; };
@@ -273,6 +271,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1F2C1116B29C9B7B4BFBFB27CA710616 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7D6575AA6CF4FDF872B111FAE60480E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -281,13 +286,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BE53CD16048BF3A0882E66AB673C7597 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C26B482EE3AA133441BE8DD622A5F3FF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -339,14 +337,6 @@
 			);
 			name = Alamofire;
 			path = Alamofire;
-			sourceTree = "<group>";
-		};
-		3903E56E9D29F66911834E5A0C5F156A /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				67C2C6134FEA2BB629B299557FD5071C /* WXNetworkingSwift */,
-			);
-			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		3DE62F869267762214E0BE2922C78BAD /* KakaJSON */ = {
@@ -435,50 +425,36 @@
 			path = "Target Support Files/Pods-WXNetworkingSwift_Example";
 			sourceTree = "<group>";
 		};
-		64F7E2157B5C01C0A70FDF65F041138F /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				AC8F143E87EFB8AB044B794D1B85CAE0 /* WXNetworkingSwift.modulemap */,
-				5B8A3C3A4CF124A9B7CA6B4BA5A5A89C /* WXNetworkingSwift-dummy.m */,
-				166698C73BD120A8D8F347226BCF0EB6 /* WXNetworkingSwift-prefix.pch */,
-				964D0F6E13C772A2F18A9E1F4EC409AD /* WXNetworkingSwift-umbrella.h */,
-				3C67FE34C1B700D7C0D8D12A9ABBC095 /* WXNetworkingSwift.debug.xcconfig */,
-				9984D2BA25BDD2C89A14F0C9E2898FC3 /* WXNetworkingSwift.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/WXNetworkingSwift";
-			sourceTree = "<group>";
-		};
-		67C2C6134FEA2BB629B299557FD5071C /* WXNetworkingSwift */ = {
-			isa = PBXGroup;
-			children = (
-				64C3AD66B8AE0751127D549DCC458312 /* WXRequestApi.swift */,
-				26606CF8A7E0090D019A9EA38513E1B5 /* WXRequestConfig.swift */,
-				2EBBB2E6CEC638DE8B3C30A95D5E6E2C /* WXRequestProtocol.swift */,
-				1C246F8E34EBAD77E8CC816DFECA93B6 /* WXRequestTools.swift */,
-				754EF62349E81E91F9CCBDA76517AFB0 /* Pod */,
-				64F7E2157B5C01C0A70FDF65F041138F /* Support Files */,
-			);
-			name = WXNetworkingSwift;
-			path = ../..;
-			sourceTree = "<group>";
-		};
-		754EF62349E81E91F9CCBDA76517AFB0 /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				8A804D458023F6C0D5A222ED5ADF5466 /* LICENSE */,
-				A188D460B1D8C8C7ED0BA8A625596409 /* README.md */,
-				774D4E37FB5EDC62757AEB5F4DD63DDB /* WXNetworkingSwift.podspec */,
-			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
 		824DC94D82289B93FAB84C2A0E9E7A10 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
 				570E9342EF5B6F8D768B89BC88CFA152 /* Pods-WXNetworkingSwift_Example */,
 			);
 			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		91EED6315067B86D11F47D40024FB0E7 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A10D6720AF4E93ABF4A353E7796A1FF0 /* WXNetworkingSwift.modulemap */,
+				23E5E2005905D2BD372634F0CB2FB419 /* WXNetworkingSwift-dummy.m */,
+				2A1C3BB87B3A1B2937028FFFB1D35046 /* WXNetworkingSwift-prefix.pch */,
+				4A50FBE5E24E6413B8E321D3AC58435F /* WXNetworkingSwift-umbrella.h */,
+				5A72F566AAF1E568CCD64622D82B8798 /* WXNetworkingSwift.debug.xcconfig */,
+				2BFF0846C6F6DA5D5C8D8475FC11A9D4 /* WXNetworkingSwift.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/WXNetworkingSwift";
+			sourceTree = "<group>";
+		};
+		A3C2695ABB6AE6F116945B89BF71FCC7 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				98229C53205306154258904A9CA82C73 /* LICENSE */,
+				CA31101DAC71B57C19E5E8F697570090 /* README.md */,
+				1B7A1C3229484944AF560937C95D6D38 /* WXNetworkingSwift.podspec */,
+			);
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		BEF1E696BE87DE6ECD59C06202C0252D /* Support Files */ = {
@@ -499,7 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				3903E56E9D29F66911834E5A0C5F156A /* Development Pods */,
+				E1FF0BDD84F3FACB4461D3B281421E3B /* Development Pods */,
 				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
 				DBBEC70074546C37269C86CC46F104BB /* Pods */,
 				D976069CEE2DB12CF8086C33C7D60423 /* Products */,
@@ -534,6 +510,27 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E1FF0BDD84F3FACB4461D3B281421E3B /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FA14C1CA9FCE4C95C111CDDE2BC532A3 /* WXNetworkingSwift */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		FA14C1CA9FCE4C95C111CDDE2BC532A3 /* WXNetworkingSwift */ = {
+			isa = PBXGroup;
+			children = (
+				0F831403AE0FD41C2F442E7E68B4D4FC /* WXRequestApi.swift */,
+				EDFB0CF5EBCB87BED32CB65CD4F48FF1 /* WXRequestConfig.swift */,
+				A48DC22BA9B207EF1D76D464E0DD7BF9 /* WXRequestTools.swift */,
+				A3C2695ABB6AE6F116945B89BF71FCC7 /* Pod */,
+				91EED6315067B86D11F47D40024FB0E7 /* Support Files */,
+			);
+			name = WXNetworkingSwift;
+			path = ../..;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -553,11 +550,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		652DA22350AD0711C0C8C5059287C6D7 /* Headers */ = {
+		5948DE158EEDF40E1A5DA96E23039881 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4A18EB055A7A18811A8180BC6A079EE /* WXNetworkingSwift-umbrella.h in Headers */,
+				7B7056FC24F9965C6D15C6E6BD2B5C58 /* WXNetworkingSwift-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,9 +598,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				0B7D98BEAD626D4BAA935071D41BBE39 /* PBXTargetDependency */,
-				D5C2F9EEDB206EFF8C768C72C6992988 /* PBXTargetDependency */,
-				15FEA7C4B4E0CD74C34A495CD44531B1 /* PBXTargetDependency */,
+				0E6D029AED5CE6064F5F35BE024F72B2 /* PBXTargetDependency */,
+				58762FFE574BBA674E6AC55213CD337D /* PBXTargetDependency */,
+				8489CF4FB8520B44FF3BBD6B703BA30F /* PBXTargetDependency */,
 			);
 			name = "Pods-WXNetworkingSwift_Example";
 			productName = "Pods-WXNetworkingSwift_Example";
@@ -612,18 +609,18 @@
 		};
 		B1DE62FA36C98209E36588DC5174A1EE /* WXNetworkingSwift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A517066F4605E8BD506E67DBED42A2F /* Build configuration list for PBXNativeTarget "WXNetworkingSwift" */;
+			buildConfigurationList = 41D7BDF801B631FED6A2016AC1C85752 /* Build configuration list for PBXNativeTarget "WXNetworkingSwift" */;
 			buildPhases = (
-				652DA22350AD0711C0C8C5059287C6D7 /* Headers */,
-				A995EB1D549AA479ACFB9BBF2EE7175A /* Sources */,
-				C26B482EE3AA133441BE8DD622A5F3FF /* Frameworks */,
-				E19D09DF4313D885A56F0F1919457991 /* Copy generated compatibility header */,
+				5948DE158EEDF40E1A5DA96E23039881 /* Headers */,
+				C45D0BCDF48AAE0337AF1A7B0E61FE84 /* Sources */,
+				1F2C1116B29C9B7B4BFBFB27CA710616 /* Frameworks */,
+				0D910D8235D99ED2FCCB8FA9B5B6172B /* Copy generated compatibility header */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F5095017D1914A4D1FE8A92BB6CFB460 /* PBXTargetDependency */,
-				76783FC218602D64E232EBD8786D870D /* PBXTargetDependency */,
+				90A9BEBE23786F105C1883D168CC83E0 /* PBXTargetDependency */,
+				22960F7D0B2D846AE5F835CF789BDA70 /* PBXTargetDependency */,
 			);
 			name = WXNetworkingSwift;
 			productName = WXNetworkingSwift;
@@ -679,6 +676,30 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0D910D8235D99ED2FCCB8FA9B5B6172B /* Copy generated compatibility header */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h",
+				"${PODS_ROOT}/Headers/Public/WXNetworkingSwift/WXNetworkingSwift.modulemap",
+				"${PODS_ROOT}/Headers/Public/WXNetworkingSwift/WXNetworkingSwift-umbrella.h",
+			);
+			name = "Copy generated compatibility header";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap",
+				"${BUILT_PRODUCTS_DIR}/WXNetworkingSwift-umbrella.h",
+				"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "COMPATIBILITY_HEADER_PATH=\"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h\"\nMODULE_MAP_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap\"\n\nditto \"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h\" \"${COMPATIBILITY_HEADER_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WXNetworkingSwift/WXNetworkingSwift.modulemap\" \"${MODULE_MAP_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WXNetworkingSwift/WXNetworkingSwift-umbrella.h\" \"${BUILT_PRODUCTS_DIR}\"\nprintf \"\\n\\nmodule ${PRODUCT_MODULE_NAME}.Swift {\\n  header \\\"${COMPATIBILITY_HEADER_PATH}\\\"\\n  requires objc\\n}\\n\" >> \"${MODULE_MAP_PATH}\"\n";
+		};
 		2888B747BB1F5337CC3F729261CB6249 /* Copy generated compatibility header */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -726,30 +747,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "COMPATIBILITY_HEADER_PATH=\"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h\"\nMODULE_MAP_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap\"\n\nditto \"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h\" \"${COMPATIBILITY_HEADER_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/KakaJSON/KakaJSON.modulemap\" \"${MODULE_MAP_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/KakaJSON/KakaJSON-umbrella.h\" \"${BUILT_PRODUCTS_DIR}\"\nprintf \"\\n\\nmodule ${PRODUCT_MODULE_NAME}.Swift {\\n  header \\\"${COMPATIBILITY_HEADER_PATH}\\\"\\n  requires objc\\n}\\n\" >> \"${MODULE_MAP_PATH}\"\n";
-		};
-		E19D09DF4313D885A56F0F1919457991 /* Copy generated compatibility header */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h",
-				"${PODS_ROOT}/Headers/Public/WXNetworkingSwift/WXNetworkingSwift.modulemap",
-				"${PODS_ROOT}/Headers/Public/WXNetworkingSwift/WXNetworkingSwift-umbrella.h",
-			);
-			name = "Copy generated compatibility header";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap",
-				"${BUILT_PRODUCTS_DIR}/WXNetworkingSwift-umbrella.h",
-				"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "COMPATIBILITY_HEADER_PATH=\"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h\"\nMODULE_MAP_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap\"\n\nditto \"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h\" \"${COMPATIBILITY_HEADER_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WXNetworkingSwift/WXNetworkingSwift.modulemap\" \"${MODULE_MAP_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WXNetworkingSwift/WXNetworkingSwift-umbrella.h\" \"${BUILT_PRODUCTS_DIR}\"\nprintf \"\\n\\nmodule ${PRODUCT_MODULE_NAME}.Swift {\\n  header \\\"${COMPATIBILITY_HEADER_PATH}\\\"\\n  requires objc\\n}\\n\" >> \"${MODULE_MAP_PATH}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -818,15 +815,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A995EB1D549AA479ACFB9BBF2EE7175A /* Sources */ = {
+		C45D0BCDF48AAE0337AF1A7B0E61FE84 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9121E478A067AD9FC8AFDED82F5F3C7A /* WXNetworkingSwift-dummy.m in Sources */,
-				69FF804A7E42D58B01FF6839D87CD4F8 /* WXRequestApi.swift in Sources */,
-				578B4D7DF3414ACEDAB9BE57E4A29593 /* WXRequestConfig.swift in Sources */,
-				07DB89A6EE2800BDABD74A5F2B9E856E /* WXRequestProtocol.swift in Sources */,
-				4FFECF6125F908D9A5D9DC87403D0FCD /* WXRequestTools.swift in Sources */,
+				4A99E35F0499D3401C092CCF0145E714 /* WXNetworkingSwift-dummy.m in Sources */,
+				C3D45992F1066795EA696A6565D6B667 /* WXRequestApi.swift in Sources */,
+				C44812D37429BDD4C8C4EC761774B349 /* WXRequestConfig.swift in Sources */,
+				0C1471DB7D22433B1C3C0A88C9EE61BC /* WXRequestTools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -876,35 +872,35 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0B7D98BEAD626D4BAA935071D41BBE39 /* PBXTargetDependency */ = {
+		0E6D029AED5CE6064F5F35BE024F72B2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Alamofire;
 			target = EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */;
-			targetProxy = A773170AF36114D1635DDB2397640370 /* PBXContainerItemProxy */;
+			targetProxy = 174A74B9CD24A3771107E2DBCD8C4010 /* PBXContainerItemProxy */;
 		};
-		15FEA7C4B4E0CD74C34A495CD44531B1 /* PBXTargetDependency */ = {
+		22960F7D0B2D846AE5F835CF789BDA70 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KakaJSON;
+			target = 25FEE10C6E3A039D9C04BB397323B94A /* KakaJSON */;
+			targetProxy = 9C678D9272CD5B1A674E4D3C34506D1B /* PBXContainerItemProxy */;
+		};
+		58762FFE574BBA674E6AC55213CD337D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KakaJSON;
+			target = 25FEE10C6E3A039D9C04BB397323B94A /* KakaJSON */;
+			targetProxy = F00E879AB203D18C1E42B286E3588632 /* PBXContainerItemProxy */;
+		};
+		8489CF4FB8520B44FF3BBD6B703BA30F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = WXNetworkingSwift;
 			target = B1DE62FA36C98209E36588DC5174A1EE /* WXNetworkingSwift */;
-			targetProxy = 623F5A4B86EC8744E2971B1FC7BA263B /* PBXContainerItemProxy */;
+			targetProxy = 7754DB21D9B83EAE323C9FCD5476631A /* PBXContainerItemProxy */;
 		};
-		76783FC218602D64E232EBD8786D870D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KakaJSON;
-			target = 25FEE10C6E3A039D9C04BB397323B94A /* KakaJSON */;
-			targetProxy = 41DA57B89BBA87276C205AB25EB8429D /* PBXContainerItemProxy */;
-		};
-		D5C2F9EEDB206EFF8C768C72C6992988 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KakaJSON;
-			target = 25FEE10C6E3A039D9C04BB397323B94A /* KakaJSON */;
-			targetProxy = 1142C77F67A66BB498AE08F2A3D4ABF3 /* PBXContainerItemProxy */;
-		};
-		F5095017D1914A4D1FE8A92BB6CFB460 /* PBXTargetDependency */ = {
+		90A9BEBE23786F105C1883D168CC83E0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Alamofire;
 			target = EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */;
-			targetProxy = E9A4C28B68C5A3A345D7391F9B8A5C35 /* PBXContainerItemProxy */;
+			targetProxy = CA462F765EA381F8BCED6C4846517FCE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -981,9 +977,9 @@
 			};
 			name = Debug;
 		};
-		51DAC4C275C0E99220B33AD12FC704AE /* Release */ = {
+		45EAE93D1DC9862B5674F93149C8C471 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9984D2BA25BDD2C89A14F0C9E2898FC3 /* WXNetworkingSwift.release.xcconfig */;
+			baseConfigurationReference = 2BFF0846C6F6DA5D5C8D8475FC11A9D4 /* WXNetworkingSwift.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1142,31 +1138,6 @@
 			};
 			name = Debug;
 		};
-		AC962264D8FAD6F98A66A7B9D507CC1F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C67FE34C1B700D7C0D8D12A9ABBC095 /* WXNetworkingSwift.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/WXNetworkingSwift/WXNetworkingSwift-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MODULEMAP_FILE = Headers/Public/WXNetworkingSwift/WXNetworkingSwift.modulemap;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = WXNetworkingSwift;
-				PRODUCT_NAME = WXNetworkingSwift;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		D299434AB35E7FD6F7921C8EF24742FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1233,9 +1204,43 @@
 			};
 			name = Debug;
 		};
+		D84E51C4688D8145CCC787EAB3FC2234 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A72F566AAF1E568CCD64622D82B8798 /* WXNetworkingSwift.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/WXNetworkingSwift/WXNetworkingSwift-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MODULEMAP_FILE = Headers/Public/WXNetworkingSwift/WXNetworkingSwift.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WXNetworkingSwift;
+				PRODUCT_NAME = WXNetworkingSwift;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		41D7BDF801B631FED6A2016AC1C85752 /* Build configuration list for PBXNativeTarget "WXNetworkingSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D84E51C4688D8145CCC787EAB3FC2234 /* Debug */,
+				45EAE93D1DC9862B5674F93149C8C471 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1250,15 +1255,6 @@
 			buildConfigurations = (
 				2CC392FDC2CA870C2E78DD01D15E91F9 /* Debug */,
 				64A98322DC87A1B1016FF6C5F1CC2620 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6A517066F4605E8BD506E67DBED42A2F /* Build configuration list for PBXNativeTarget "WXNetworkingSwift" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AC962264D8FAD6F98A66A7B9D507CC1F /* Debug */,
-				51DAC4C275C0E99220B33AD12FC704AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

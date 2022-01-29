@@ -19,7 +19,7 @@ public typealias WXNetworkResponseBlock = (WXResponseModel) -> ()
 
 enum WXRequestSerializerType {
     case EncodingJSON       // application/json
-    case EncodedFormURL     // application/x-www-form-urlencoded
+    case EncodingFormURL    // application/x-www-form-urlencoded
 }
 
 ///保存请求对象,避免提前释放

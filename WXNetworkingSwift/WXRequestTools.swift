@@ -64,11 +64,13 @@ public class WXRequestTools {
         formatter.timeZone = NSTimeZone.local
         
         let logHeader = appendingPrintfLogHeader(request: request, responseModel: responseModel)
-        //let logFooter = dictionaryToJSON(dictionary: responseModel.responseDict)
-        //var body = logHeader + (logFooter ?? "")
-        var body = catchTag + logHeader + "点击 👆【查看格式化详情】👆查看响应Json日志"
+        let logFooter = dictionaryToJSON(dictionary: responseModel.responseDict)
+        var body = catchTag + logHeader + (logFooter ?? "")
+        //var body = catchTag + logHeader + "点击 👆【查看格式化详情】👆查看响应Json日志"
         body = body.replacingOccurrences(of: "\n", with: "<br>")
         
+        //(目前此方法供内部使用, 因此以下参数固定写死,
+        // 如果外部需要使用,可实现: <WXNetworkMulticenter>协议, 自己处理上传日志的操作)
         var uploadInfo: Dictionary<String, Any> = [:]
         uploadInfo["level"]            = "iOS"
         uploadInfo["appName"]          = appName
@@ -256,7 +258,7 @@ public class WXRequestTools {
                 rect.origin.x = (maskWidth - HUDWidth) / 2.0
                 rect.origin.y = (maskHeight - HUDHeight) / 2.0
                 HUDView.frame = rect
-                screenMaskView.backgroundColor = .init(white: 0, alpha: 0.1)
+                //screenMaskView.backgroundColor = .init(white: 0, alpha: 0.1)
                 screenMaskView.addSubview(HUDView)
                 
             } else {

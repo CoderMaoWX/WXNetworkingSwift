@@ -61,8 +61,8 @@ class ViewController: UIViewController {
     
     //MARK: ----- 测试单个请求 -----
     func testRequest() {
-        let url = "https://httpbin.org/delay/5"
-//        let url = "http://123.207.32.32:8000/home/multidata"
+//        let url = "https://httpbin.org/delay/5"
+        let url = "http://123.207.32.32:8000/home/multidata"
         let api = WXRequestApi(url, method: .get)
         api.timeOut = 40
         api.loadingSuperView = view
