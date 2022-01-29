@@ -81,7 +81,7 @@ public class WXRequestTools {
         uploadInfo["url"]              = request.requestURL
         uploadInfo["request"]          = requestJson
         uploadInfo["requestHeader"]    = responseModel.urlRequest?.allHTTPHeaderFields ?? [:]
-        uploadInfo["response"]         = responseModel.responseDict ?? [:]
+        uploadInfo["response"]         = (responseModel.responseDict == nil) ? responseModel.error.debugDescription : responseModel.responseDict
         uploadInfo["responseHeader"]   = responseModel.urlResponse?.allHeaderFields ?? [:]
         
         let baseRequest = WXBaseRequest(uploadURL, method: .post, parameters: uploadInfo)

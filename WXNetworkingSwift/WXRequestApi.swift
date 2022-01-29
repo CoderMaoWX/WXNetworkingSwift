@@ -19,7 +19,7 @@ public typealias WXNetworkResponseBlock = (WXResponseModel) -> ()
 
 enum WXRequestSerializerType {
     case EncodingJSON       // application/json
-    case FROM_URLEncoded    // application/x-www-form-urlencoded
+    case EncodedFormURL     // application/x-www-form-urlencoded
 }
 
 ///保存请求对象,避免提前释放
@@ -57,8 +57,8 @@ public class WXBaseRequest: NSObject {
     public var timeOut: TimeInterval = 30
     ///请求自定义头信息
     public var requestHeaderDict: Dictionary<String, String>? = nil
-    ///请求序列化对象 (, )
-    var requestSerializer: WXRequestSerializerType = .FROM_URLEncoded
+    ///请求序列化对象 (json, form表单)
+    var requestSerializer: WXRequestSerializerType = .EncodingJSON
     ///请求任务对象
     fileprivate var requestDataTask: Request? = nil
     
@@ -440,7 +440,7 @@ public class WXRequestApi: WXBaseRequest {
         if let error = responseObj as? NSError { // Fail (NSError, AFError, Error都可相互转换)
             rspModel.error = error
             rspModel.responseCode = error.code
-            rspModel.responseMsg = error.domain
+            rspModel.responseMsg = configFailMessage
 
         } else if responseObj == nil { // Fail
             rspModel.error = NSError(domain: configFailMessage, code: -444, userInfo: nil)

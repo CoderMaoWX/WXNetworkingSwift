@@ -11,7 +11,7 @@ import UIKit
 class WXLoadingHUD: UIView {
 
     override init(frame: CGRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
+        super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         initSubView()
     }
     
@@ -25,8 +25,9 @@ class WXLoadingHUD: UIView {
     }
     
     lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "Christmas-72@3x.gif"))
-        imageView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
+        let imageView = UIImageView(image: UIImage(named: "loading"))
+        imageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     

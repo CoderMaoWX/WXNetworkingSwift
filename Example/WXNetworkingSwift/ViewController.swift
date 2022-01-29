@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         
         //测试设置全局: 请求状态/解析模型
         WXRequestConfig.shared.successStatusMap = (key: "returnCode",  value: "SUCCESS")
-        WXRequestConfig.shared.uploadRequestLogTuple = (url: "http://10.8.31.5:8090/pullLogcat", catchTag: "mwx345")
+        WXRequestConfig.shared.uploadRequestLogTuple = (url: "http://10.8.41.162:8090/pullLogcat", catchTag: "mwx345")
         WXRequestConfig.shared.messageTipKeyAndFailInfo = (tipKey: "returnCode", defaultTip: "我的默认错误页面提示文案")
         WXRequestConfig.shared.forbidProxyCaught = true
         WXRequestConfig.shared.urlResponseLogTuple = (printf: true, hostTitle: "开发环境")
@@ -61,7 +61,8 @@ class ViewController: UIViewController {
     
     //MARK: ----- 测试单个请求 -----
     func testRequest() {
-        let url = "https://httpbin.org/delay/5"//"http://123.207.32.32:8000/home/multidata"
+        let url = "https://httpbin.org/delay/5"
+//        let url = "http://123.207.32.32:8000/home/multidata"
         let api = WXRequestApi(url, method: .get)
         api.timeOut = 40
         api.loadingSuperView = view
