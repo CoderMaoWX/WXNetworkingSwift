@@ -752,8 +752,6 @@ public class WXBatchRequestApi {
     
     
     //以下内部私有属性, 外部请忽略
-    fileprivate var requestCount: Int = 0
-    fileprivate var hasMarkBatchFail: Bool = false
     fileprivate var batchRequest: WXBatchRequestApi? = nil //避免提前释放当前对象
     fileprivate var responseBatchBlock: ((WXBatchRequestApi) -> ())? = nil
     fileprivate var responseInfoDict: Dictionary<String, WXResponseModel> = [:]
@@ -776,23 +774,72 @@ public class WXBatchRequestApi {
                       waitAllDone: Bool = true) {
         
         responseDataArray.removeAll()
-        requestCount = requestArray.count
-        hasMarkBatchFail = false
         batchRequest = self
         responseBatchBlock = responseBlock
         for api in requestArray {
             judgeShowLoading(show: true)
             
             api.startRequest { [weak self] responseModel in
-                if responseModel.responseDict == nil {
-                    self?.hasMarkBatchFail = true
-                }
+                //配置响应数据
+                self?.configAllResponseData(responseModel: responseModel)
+                
                 if waitAllDone {
                     self?.finalHandleBatchResponse(responseModel: responseModel)
                 } else { //回调多次
                     self?.oftenHandleBatchResponse(responseModel: responseModel)
                 }
             }
+        }
+    }
+    
+    ///配置响应数据
+    func configAllResponseData(responseModel: WXResponseModel) {
+        //本地有缓存, 当前请求失败了就不保存当前失败RspModel,则使用缓存
+        let apiUniquelyIp = responseModel.apiUniquelyIp
+        if responseInfoDict[apiUniquelyIp] == nil || responseModel.responseDict != nil {
+            responseInfoDict[apiUniquelyIp] = responseModel
+        }
+        // 请求最终回调数据: 按请求对象添加顺序排序
+        responseDataArray = requestArray.compactMap {
+            responseInfoDict[ $0.apiUniquelyIp ]
+        }
+    }
+    
+    ///标记是否都成功: 一个失败就标记不是都成功
+    func refreshIsAllSuccess() {
+        for respModel in responseDataArray {
+            if respModel.isCacheData == false, respModel.responseDict == nil {
+                isAllSuccess = false//一个失败就标记不是都成功
+                break
+            }
+        }
+    }
+    
+    ///待所有请求都响应才回调到页面
+    fileprivate func finalHandleBatchResponse(responseModel: WXResponseModel) {
+        if responseModel.isCacheData == false, responseDataArray.count >= requestArray.count {
+            refreshIsAllSuccess()
+            judgeShowLoading(show: false)
+            
+            if let responseBatchBlock = responseBatchBlock {
+                responseBatchBlock(self)
+            }
+            batchRequest = nil
+        }
+    }
+    
+    ///每次请求响应都回调到页面
+    fileprivate func oftenHandleBatchResponse(responseModel: WXResponseModel) {
+        if responseModel.isCacheData == false, responseDataArray.count >= requestArray.count {
+            refreshIsAllSuccess()
+        }
+        judgeShowLoading(show: false)
+        
+        if let responseBatchBlock = responseBatchBlock {
+            responseBatchBlock(self)
+        }
+        if responseModel.isCacheData == false, responseDataArray.count >= requestArray.count {
+            batchRequest = nil
         }
     }
     
@@ -805,66 +852,6 @@ public class WXBatchRequestApi {
             } else {
                 WXRequestTools.hideLoading(from: loadingSuperView)
             }
-        }
-    }
-    
-    ///待所有请求都响应才回调到页面
-    fileprivate func finalHandleBatchResponse(responseModel: WXResponseModel) {
-        let apiUniquelyIp = responseModel.apiUniquelyIp
-        
-        //本地有缓存, 当前请求失败了就不保存当前失败RspModel,则使用缓存
-        if responseInfoDict[apiUniquelyIp] == nil || responseModel.responseDict != nil {
-            responseInfoDict[apiUniquelyIp] = responseModel
-        }
-        if responseModel.isCacheData == false {
-            requestCount -= 1
-        }
-        guard requestCount <= 0 else { return }
-        
-        isAllSuccess = !hasMarkBatchFail
-        
-        // 请求最终回调
-        responseDataArray = requestArray.compactMap {
-            responseInfoDict[ $0.apiUniquelyIp ]
-        }
-        judgeShowLoading(show: false)
-        if let responseBatchBlock = responseBatchBlock {
-            responseBatchBlock(self)
-        }
-        batchRequest = nil
-    }
-    
-    ///每次请求响应都回调到页面
-    fileprivate func oftenHandleBatchResponse(responseModel: WXResponseModel) {
-        //本地有缓存, 当前请求失败了就不保存当前失败RspModel,则使用缓存
-        let apiUniquelyIp = responseModel.apiUniquelyIp
-        if responseInfoDict[apiUniquelyIp] == nil || responseModel.responseDict != nil {
-            responseInfoDict[apiUniquelyIp] = responseModel
-        }
-        if responseModel.isCacheData == false {
-            isAllSuccess = !hasMarkBatchFail
-        }
-        ///按请求对象添加顺序排序
-        let tmpRspArray = responseInfoDict.values
-        var finalRspArray: [WXResponseModel] = []
-        for request in requestArray {
-            for response in tmpRspArray {
-                if request.apiUniquelyIp == response.apiUniquelyIp {
-                    finalRspArray.append(response)
-                    break
-                }
-            }
-        }
-        judgeShowLoading(show: false)
-        if finalRspArray.count > 0 {
-            responseDataArray.removeAll()
-            responseDataArray += finalRspArray
-            if let responseBatchBlock = responseBatchBlock {
-                responseBatchBlock(self)
-            }
-        }
-        if requestCount >= responseDataArray.count {
-            batchRequest = nil
         }
     }
     

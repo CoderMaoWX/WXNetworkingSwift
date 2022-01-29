@@ -56,7 +56,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestButtonAction(_ sender: UIBarButtonItem) {
-        testRequest()
+        testBatchRequest()
     }
     
     //MARK: ----- 测试单个请求 -----
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
             print("批量请求回调", batchApi.responseDataArray)
             self?.textView.text = batchApi.responseForRequest(request: api1)?.responseDict?.description
             
-        }, waitAllDone: true)
+        }, waitAllDone: false)
     }
     
     
