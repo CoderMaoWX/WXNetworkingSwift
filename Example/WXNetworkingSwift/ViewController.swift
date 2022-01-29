@@ -46,6 +46,7 @@ class ViewController: UIViewController {
         WXRequestConfig.shared.messageTipKeyAndFailInfo = (tipKey: "returnCode", defaultTip: "我的默认错误页面提示文案")
         WXRequestConfig.shared.forbidProxyCaught = true
         WXRequestConfig.shared.urlResponseLogTuple = (printf: true, hostTitle: "开发环境")
+        WXRequestConfig.shared.requestHUDCalss = WXLoadingHUD.self
     }
     
     ///感谢你的点赞
@@ -60,7 +61,7 @@ class ViewController: UIViewController {
     
     //MARK: ----- 测试单个请求 -----
     func testRequest() {
-        let url = "http://123.207.32.32:8000/home/multidata"
+        let url = "https://httpbin.org/delay/5"//"http://123.207.32.32:8000/home/multidata"
         let api = WXRequestApi(url, method: .get)
         api.timeOut = 40
         api.loadingSuperView = view

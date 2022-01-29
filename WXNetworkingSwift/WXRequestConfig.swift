@@ -39,7 +39,7 @@ public class WXRequestConfig {
     public var openMultipathService: Bool = false
 
     ///请求HUD时的类名
-    public var requestHUDCalss: UIView? = nil
+    public var requestHUDCalss: UIView.Type? = nil
     
     ///是否显示请求HUD,全局开关, 默认显示
     public var showRequestLaoding: Bool = true

@@ -742,14 +742,16 @@ public class WXBatchRequestApi {
     ///全部请求是否都成功了
     public var isAllSuccess: Bool = false
     
-    ///全部响应数据, 按请求requestArray的添加顺序排序
+    ///全部响应数据, 按请求requestArray的Api添加顺序排序返回
     public var responseDataArray: [WXResponseModel] = []
     
-    ///全部请求对象, 响应时按添加顺序返回
+    ///全部请求对象, 响应时Api按添加顺序返回
     fileprivate var requestArray: [WXRequestApi]
     ///请求转圈的父视图
     fileprivate (set) var loadingSuperView: UIView? = nil
     
+    
+    //以下内部私有属性, 外部请忽略
     fileprivate var requestCount: Int = 0
     fileprivate var hasMarkBatchFail: Bool = false
     fileprivate var batchRequest: WXBatchRequestApi? = nil //避免提前释放当前对象
@@ -810,7 +812,7 @@ public class WXBatchRequestApi {
     fileprivate func finalHandleBatchResponse(responseModel: WXResponseModel) {
         let apiUniquelyIp = responseModel.apiUniquelyIp
         
-        //本地有缓存, 当前请求失败了就不保存当前失败RspModel,则使用用缓存
+        //本地有缓存, 当前请求失败了就不保存当前失败RspModel,则使用缓存
         if responseInfoDict[apiUniquelyIp] == nil || responseModel.responseDict != nil {
             responseInfoDict[apiUniquelyIp] = responseModel
         }
@@ -834,7 +836,7 @@ public class WXBatchRequestApi {
     
     ///每次请求响应都回调到页面
     fileprivate func oftenHandleBatchResponse(responseModel: WXResponseModel) {
-        //本地有缓存, 当前请求失败了就不保存当前失败RspModel,则使用用缓存
+        //本地有缓存, 当前请求失败了就不保存当前失败RspModel,则使用缓存
         let apiUniquelyIp = responseModel.apiUniquelyIp
         if responseInfoDict[apiUniquelyIp] == nil || responseModel.responseDict != nil {
             responseInfoDict[apiUniquelyIp] = responseModel
@@ -891,7 +893,8 @@ public class WXResponseModel: NSObject {
     public var isSuccess: Bool = false
     ///本次响应Code码
     public var responseCode: Int? = nil
-    ///本次响应的提示信息 (页面可直接用于Toast提示,如果接口有返回messageTipKeyAndFailInfo.tipKey则会取这个值, 如果没有返回则取defaultTip的默认值)
+    ///本次响应的提示信息 (页面可直接用于Toast提示,
+    ///如果接口有返回messageTipKeyAndFailInfo.tipKey则会取这个值, 如果没有返回则取defaultTip的默认值)
     public var responseMsg: String? = nil
     ///本次数据是否为缓存
     public var isCacheData: Bool = false

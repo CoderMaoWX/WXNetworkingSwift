@@ -207,17 +207,17 @@ public class WXRequestTools {
     
     /// 隐藏指定视图上的loading框
     /// - Parameter view: 指定视图参数
-    public static func hideLoading(from view: UIView) {
-        let hideLoadingBlock: ( (UIView) -> () ) = { loadingSuperView in
+    public static func hideLoading(from superView: UIView) {
+        let hideLoadingBlock = { (loadingSuperView: UIView ) in
             for tmpView in loadingSuperView.subviews where tmpView.tag == kLoadingHUDTag {
                 tmpView.removeFromSuperview()
             }
         }
         if Thread.isMainThread {
-            hideLoadingBlock(view)
+            hideLoadingBlock(superView)
         } else {
             DispatchQueue.main.async {
-                hideLoadingBlock(view)
+                hideLoadingBlock(superView)
             }
         }
     }
@@ -226,74 +226,70 @@ public class WXRequestTools {
     /// - Parameter paramater: loading框的父视图
     public static func showLoading(to loadingSuperView: UIView) {
 
-        let showLoadingBlock: ((UIView)->()) = { loadingSuperView in
+        let showLoadingBlock = { (loadingSuperView: UIView) in
             hideLoading(from: loadingSuperView)
             
-            let maskBgView: UIView
+            let screenMaskView = UIView(frame: loadingSuperView.bounds)
+            screenMaskView.backgroundColor = .clear
+            screenMaskView.tag = kLoadingHUDTag
+            loadingSuperView.addSubview(screenMaskView)
+            
+            let maskBgViewDic = ["maskBgView" : screenMaskView]
+            loadingSuperView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[maskBgView]-0-|", metrics: nil, views: maskBgViewDic))
+            
+            loadingSuperView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[maskBgView]-0-|", metrics: nil, views: maskBgViewDic))
+            
+            let maskWidth = screenMaskView.bounds.size.width
+            let maskHeight = screenMaskView.bounds.size.height
+            var HUDWidth: CGFloat = 72.0
+            var HUDHeight: CGFloat = 72.0
+            
+            let HUDView: UIView
+            //show custom loading
             if let hudClass = WXRequestConfig.shared.requestHUDCalss {
-                maskBgView = type(of: hudClass).init()
-                maskBgView.frame = loadingSuperView.bounds
+                HUDView = hudClass.init()
+                var rect = HUDView.frame
+                HUDWidth = rect.size.width
+                if HUDWidth == 0 { HUDWidth = 72.0 }
+                HUDHeight = rect.size.height
+                if HUDHeight == 0 { HUDHeight = 72.0 }
+                rect.origin.x = (maskWidth - HUDWidth) / 2.0
+                rect.origin.y = (maskHeight - HUDHeight) / 2.0
+                HUDView.frame = rect
+                screenMaskView.backgroundColor = .init(white: 0, alpha: 0.1)
+                screenMaskView.addSubview(HUDView)
+                
             } else {
-                maskBgView = UIView(frame: loadingSuperView.bounds)
+                let x = (maskWidth - HUDWidth) / 2.0
+                let y = (maskHeight - HUDHeight) / 2.0
+                HUDView = UIView(frame: CGRect(x: x, y: y, width: HUDWidth, height: HUDHeight))
+                HUDView.translatesAutoresizingMaskIntoConstraints = false
+                HUDView.layer.masksToBounds = true
+                HUDView.layer.cornerRadius = 12
+                HUDView.backgroundColor = .init(white: 0, alpha: 0.7)
+                screenMaskView.addSubview(HUDView)
+                
+                var activityView: UIActivityIndicatorView
+                if #available(iOS 13.0, *) {
+                    activityView = UIActivityIndicatorView(style: .large)
+                } else {
+                    activityView = UIActivityIndicatorView(style: .whiteLarge)
+                }
+                activityView.color = .white
+                activityView.hidesWhenStopped = true
+                activityView.startAnimating()
+                activityView.center = CGPoint(x: HUDWidth/2, y: HUDHeight/2)
+                HUDView.addSubview(activityView)
             }
-            maskBgView.backgroundColor = .clear
-            maskBgView.tag = kLoadingHUDTag
-            loadingSuperView.addSubview(maskBgView)
-            
-            let maskBgViewDic = ["maskBgView" : maskBgView]
-            loadingSuperView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[maskBgView]-0-|",
-                                                                           metrics: nil,
-                                                                           views: maskBgViewDic))
-            
-            loadingSuperView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[maskBgView]-0-|",
-                                                                           metrics: nil,
-                                                                           views: maskBgViewDic))
-            let HUDSize: CGFloat = 72.0
-            let x = (maskBgView.bounds.size.width - HUDSize) / 2.0
-            let y = (maskBgView.bounds.size.height - HUDSize) / 2.0
-            
-            let indicatorBg = UIView(frame: CGRect(x: x, y: y, width: HUDSize, height: HUDSize))
-            indicatorBg.translatesAutoresizingMaskIntoConstraints = false
-            indicatorBg.layer.masksToBounds = true
-            indicatorBg.layer.cornerRadius = 12
-            indicatorBg.backgroundColor = .init(white: 0, alpha: 0.7)
-            maskBgView.addSubview(indicatorBg)
             
             var result: [NSLayoutConstraint] = []
-            let viewDic = ["indicatorBg" : indicatorBg]
-            result.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "H:[indicatorBg(72)]",
-                                                                     metrics: nil,
-                                                                     views: viewDic))
-            result.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "V:[indicatorBg(72)]",
-                                                                     metrics: nil,
-                                                                     views: viewDic))
-            maskBgView.addConstraints(result)
-            maskBgView.addConstraint(NSLayoutConstraint(item: indicatorBg,
-                                                        attribute: .centerY,
-                                                        relatedBy: .equal,
-                                                        toItem: maskBgView,
-                                                        attribute: .centerY,
-                                                        multiplier: 1,
-                                                        constant: 0))
+            let viewDic = ["indicatorBg" : HUDView]
+            result.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "H:[indicatorBg(\(HUDWidth))]", metrics: nil, views: viewDic))
+            result.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "V:[indicatorBg(\(HUDHeight))]", metrics: nil, views: viewDic))
+            screenMaskView.addConstraints(result)
+            screenMaskView.addConstraint(NSLayoutConstraint(item: HUDView, attribute: .centerY, relatedBy: .equal, toItem: screenMaskView, attribute: .centerY, multiplier: 1, constant: 0))
             
-            maskBgView.addConstraint(NSLayoutConstraint(item: indicatorBg,
-                                                        attribute: .centerX,
-                                                        relatedBy: .equal,
-                                                        toItem: maskBgView,
-                                                        attribute: .centerX,
-                                                        multiplier: 1,
-                                                        constant: 0))
-            var loadingView: UIActivityIndicatorView
-            if #available(iOS 13.0, *) {
-                loadingView = UIActivityIndicatorView(style: .large)
-            } else {
-                loadingView = UIActivityIndicatorView(style: .whiteLarge)
-            }
-            loadingView.color = .white
-            loadingView.hidesWhenStopped = true
-            loadingView.startAnimating()
-            loadingView.center = CGPoint(x: HUDSize/2, y: HUDSize/2)
-            indicatorBg.addSubview(loadingView)
+            screenMaskView.addConstraint(NSLayoutConstraint(item: HUDView, attribute: .centerX, relatedBy: .equal, toItem: screenMaskView, attribute: .centerX, multiplier: 1, constant: 0))
         }
 
         if Thread.isMainThread {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5870EA7027A4D94000E3BBCE /* WXLoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5870EA6F27A4D94000E3BBCE /* WXLoadingHUD.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 		158FB5D53FBD34DF64F3E63C /* Pods-WXNetworkingSwift_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WXNetworkingSwift_Example.debug.xcconfig"; path = "Target Support Files/Pods-WXNetworkingSwift_Example/Pods-WXNetworkingSwift_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		15F047338D34EBC6E64D3B41 /* Pods-WXNetworkingSwift_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WXNetworkingSwift_Tests.release.xcconfig"; path = "Target Support Files/Pods-WXNetworkingSwift_Tests/Pods-WXNetworkingSwift_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		2CFAE19EC9EB5B32A1685494 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		5870EA6F27A4D94000E3BBCE /* WXLoadingHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WXLoadingHUD.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* WXNetworkingSwift_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WXNetworkingSwift_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				5870EA6F27A4D94000E3BBCE /* WXLoadingHUD.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -217,6 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				5870EA7027A4D94000E3BBCE /* WXLoadingHUD.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

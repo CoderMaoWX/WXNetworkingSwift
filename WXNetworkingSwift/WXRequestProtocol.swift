@@ -28,7 +28,7 @@ enum WXRequestMulticenterType: Int {
 }
 
 ///网络请求过程多链路回调
-public protocol WXNetworkMulticenter {
+@objc public protocol WXNetworkMulticenter {
     
     /// 网络请求将要开始回调
     /// - Parameter request: 请求对象
@@ -48,14 +48,4 @@ public protocol WXNetworkMulticenter {
     ///   - responseModel: 响应对象
     func requestDidCompletion(request: WXRequestApi, responseModel: WXResponseModel)
     
-}
-
-
-public protocol WXNetworkDelegate {
-    
-    /// 网络请求数据响应回调
-    /// - Parameters:
-    ///   - request: 请求对象
-    ///   - responseModel: 响应对象
-    func wxResponseWithRequest(request: WXRequestApi, responseModel: WXResponseModel)
 }
