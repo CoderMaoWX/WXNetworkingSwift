@@ -86,7 +86,7 @@ public class WXRequestConfig {
     ///是否显示请求HUD,全局开关, 默认显示
     public var showRequestLaoding: Bool = true
     
-    ///是否为正式上线环境: 如果为真,则下面的所有日志上传/打印将全都被忽略
+    ///是否为正式上线环境: 如果为真,则下面的所有日志上传将全都被忽略
     public var isDistributionOnlineRelease: Bool = false
     
     ///Xcode控制台显示日志信息 (printf: 是否打印在Xcode控制台, hostTitle: 打印的环境名称 如 测试环境/正式环境...)
