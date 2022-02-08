@@ -23,10 +23,10 @@ enum WXRequestSerializerType {
 }
 
 ///保存请求对象,避免提前释放
-var _globleRequestList: [ WXBaseRequest ] = []
+fileprivate var _globleRequestList: [ WXBaseRequest ] = []
 
 ///全局单例请求 URLSession
-var WXSession: Session = {
+fileprivate var WXSession: Session = {
    let sessionConfig = URLSessionConfiguration.default
    sessionConfig.requestCachePolicy = .reloadIgnoringLocalCacheData
    let wxConfig = WXRequestConfig.shared
