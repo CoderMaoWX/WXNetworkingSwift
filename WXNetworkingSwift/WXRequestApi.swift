@@ -17,7 +17,7 @@ public typealias WXAnyObjectBlock = (AnyObject) -> ()
 public typealias WXProgressBlock = (Progress) -> Void
 public typealias WXNetworkResponseBlock = (WXResponseModel) -> ()
 
-enum WXRequestSerializerType {
+public enum WXRequestSerializerType {
     case EncodingJSON       // application/json
     case EncodingFormURL    // application/x-www-form-urlencoded
 }
@@ -46,7 +46,7 @@ fileprivate var WXSession: Session = {
 //MARK: - 请求基础对象
 
 ///请求基础对象, 外部上不建议直接用，请使用子类请求方法
-public class WXBaseRequest: NSObject {
+open class WXBaseRequest: NSObject {
     ///请求Method类型
     fileprivate (set) var requestMethod: HTTPMethod = .post
     ///请求地址
@@ -58,7 +58,7 @@ public class WXBaseRequest: NSObject {
     ///请求自定义头信息
     public var requestHeaderDict: Dictionary<String, String>? = nil
     ///请求序列化对象 (json, form表单)
-    var requestSerializer: WXRequestSerializerType = .EncodingFormURL
+    public var requestSerializer: WXRequestSerializerType = .EncodingJSON
     ///请求任务对象
     fileprivate var requestDataTask: Request? = nil
     
@@ -189,13 +189,16 @@ public class WXBaseRequest: NSObject {
 //MARK: - 单个请求对象
 
 /// 单个请求对象, 功能根据需求可多种自定义
-public class WXRequestApi: WXBaseRequest {
+open class WXRequestApi: WXBaseRequest {
     
     ///请求成功时是否自动缓存响应数据, 默认不缓存
     public var autoCacheResponse: Bool = false
     
     ///自定义请求成功时的缓存数据, (返回的字典为此次需要保存的缓存数据, 返回nil时底层则不缓存)
     public var cacheResponseBlock: ( (WXResponseModel) -> (WXDictionaryStrAny?) )? = nil
+    
+    ///自定义解析成功时的响应数据, (例如: 在请求成功后 需要解密响应的json结果后才能真正获取成功标识, 解析模型等等..)
+    public var decryptHandlerResponse: ((AnyObject) -> AnyObject)? = nil
     
     ///自定义请求成功映射Key/Value, (key可以是KeyPath模式进行匹配 如: data.status)
     ///注意: 每个请求状态优先使用此属性判断, 如果此属性值为空, 则再取全局的 WXNetworkConfig.successStatusMap的值进行判断
@@ -282,7 +285,7 @@ public class WXRequestApi: WXBaseRequest {
         readRequestCacheWithBlock(fetchCacheBlock: networkBlock)
         
 #if DEBUG
-        if var debugJsonDict = responseForDebugJson() {
+        if let debugJsonDict = responseForDebugJson() {
             isDebugJson = true
             networkBlock(debugJsonDict as AnyObject)
             return nil
@@ -448,7 +451,12 @@ public class WXRequestApi: WXBaseRequest {
             rspModel.responseMsg = configFailMessage
             
         } else { //Success
-            let responseDict = packagingResponseObj(responseObj: responseObj!, responseModel: rspModel)
+            var handleResponse = responseObj!
+            //需要解密响应的json结果吗?
+            if let handleBlock = decryptHandlerResponse {
+                handleResponse = handleBlock(handleResponse)
+            }
+            let responseDict = packagingResponseObj(responseObj: handleResponse, responseModel: rspModel)
             rspModel.responseDict = responseDict
             
             //检查请求成功状态
@@ -737,7 +745,7 @@ public class WXRequestApi: WXBaseRequest {
 //MARK: - 批量请求对象
 
 ///批量请求对象, 可以
-public class WXBatchRequestApi {
+open class WXBatchRequestApi {
     
     ///全部请求是否都成功了
     public var isAllSuccess: Bool = false
