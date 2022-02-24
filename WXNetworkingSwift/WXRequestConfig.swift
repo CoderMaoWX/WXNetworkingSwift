@@ -110,7 +110,7 @@ public class WXRequestConfig {
     ///清除所有缓存
     public func clearWXNetworkAllRequestCache(completion: @escaping (Bool) -> ()) {
         DispatchQueue.global().async {
-            var cachePath = WXRequestTools.fetchCachePath()
+            let cachePath = WXRequestTools.fetchCachePath()
             let fileManager = FileManager.default
             if fileManager.fileExists(atPath: cachePath) {
                 try? fileManager.removeItem(atPath: cachePath)
@@ -124,7 +124,7 @@ public class WXRequestConfig {
     ///清除指定缓存
     public func clearWXNetworkCacheOfRequest(serverApi: WXRequestApi, completion: @escaping (Bool)->()) {
         DispatchQueue.global().async {
-            var cachePath = WXRequestTools.fetchCachePath()
+            let cachePath = WXRequestTools.fetchCachePath()
             let fileManager = FileManager.default
             if fileManager.fileExists(atPath: cachePath) {
                 let deletePath = (cachePath as NSString).appendingPathComponent(serverApi.cacheKey)

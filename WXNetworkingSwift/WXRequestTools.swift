@@ -17,7 +17,7 @@ public func WXDebugLog(_ message: Any...,
               function: String = #function,
               lineNumber: Int = #line) {
     #if DEBUG
-        let fileName = (file as NSString).lastPathComponent
+        //let fileName = (file as NSString).lastPathComponent
         //print("[\(fileName):funciton:\(function):line:\(lineNumber)]- \(message)")
     
         var appdengLog: String = ""

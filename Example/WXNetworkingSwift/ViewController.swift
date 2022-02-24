@@ -66,6 +66,7 @@ class ViewController: UIViewController {
         let api = WXRequestApi(url, method: .get)
         api.timeOut = 40
         api.loadingSuperView = view
+        api.requestSerializer = .EncodingFormURL
         //api.autoCacheResponse = true
         api.successStatusMap = (key: "returnCode",  value: "SUCCESS")
         api.parseModelMap = (parseKey: "data.dKeyword", modelType: DKeywordModel.self)
@@ -84,6 +85,7 @@ class ViewController: UIViewController {
         let url2 = "https://httpbin.org/delay/5"
         let para2: [String : Any] = ["name" : "张三"]
         let api2 = WXRequestApi(url2, method: .get, parameters: para2)
+        api2.requestSerializer = .EncodingFormURL
         
         
         let api = WXBatchRequestApi(apiArray: [api1, api2], loadingTo: view)
