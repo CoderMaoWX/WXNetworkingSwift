@@ -56,7 +56,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestButtonAction(_ sender: UIBarButtonItem) {
-        testBatchRequest()
+        testParseModel()
     }
     
     //MARK: ----- 测试单个请求 -----
@@ -103,6 +103,7 @@ class ViewController: UIViewController {
         let param: [String : Any] = ["sexType" : 1]
 
         let api = WXRequestApi(url, method: .get, parameters: param)
+        api.requestSerializer = .EncodingFormURL
 //        api.debugJsonResponse = "http://10.8.41.162:8090/app/activity/page/detail/92546"  //http(s) URL
 //        api.debugJsonResponse = "/Users/xin610582/Desktop/test.json"                      //Desktop json file
 //        api.debugJsonResponse = "test.json"                                               //Bundle json file
