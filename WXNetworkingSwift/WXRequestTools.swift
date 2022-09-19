@@ -111,13 +111,14 @@ public class WXRequestTools {
         let statusFlag = isCacheData ? "❤️❤️❤️" : (isSuccess ? "✅✅✅" : "❌❌❌")
         let dataType = responseModel.isDebugResponse ? "【Debug】数据" : "网络数据"
         let statusString  = isCacheData ? "本地缓存数据成功" : (isSuccess ? "\(dataType)成功" : "\(dataType)失败");
+        let feeTime = "（⤵️耗时:\(Int(responseModel.responseDuration ?? 0))ms）"
 		return """
 
 			\(statusFlag)请求接口地址\(hostTitle)= \(request.requestURL)
 
 			请求参数json= \(requestJson)\(headersString)
 
-			\(statusString)返回=
+			\(statusString)返回=\(feeTime)
 
 			"""
     }
