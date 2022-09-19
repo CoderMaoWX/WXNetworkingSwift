@@ -64,7 +64,9 @@ public class WXRequestTools {
         formatter.timeZone = NSTimeZone.local
         
         let logHeader = appendingPrintfLogHeader(request: request, responseModel: responseModel)
-        let logFooter = dictionaryToJSON(dictionary: responseModel.responseDict)
+        var logFooter = dictionaryToJSON(dictionary: responseModel.responseDict)
+        //去除URL中的反斜杠
+        logFooter = logFooter?.replacingOccurrences(of: "\\/", with: "/")
         var body = catchTag + logHeader + (logFooter ?? "")
         //var body = catchTag + logHeader + "点击 👆【查看格式化详情】👆查看响应Json日志"
         body = body.replacingOccurrences(of: "\n", with: "<br>")
@@ -131,6 +133,8 @@ public class WXRequestTools {
             if let jsonData = jsonData {
                 responseJson = String(data: jsonData, encoding: .utf8) ?? responseJson
             }
+            //去除URL中的反斜杠
+            responseJson = responseJson.replacingOccurrences(of: "\\/", with: "/")
             return responseJson
         } else {
             return responseModel.error?.description ?? ""
