@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/WXNetworkingSwift.svg?style=flat)](https://cocoapods.org/pods/WXNetworkingSwift)
 [![Platform](https://img.shields.io/cocoapods/p/WXNetworkingSwift.svg?style=flat)](https://cocoapods.org/pods/WXNetworkingSwift)
 
-##简介
+## 简介
 
 有没有遇到过这样一种情况，每次在项目中使用请求库去请求数据时，各种小功能需要自己在每个请求里面单独去开发，比如请求缓存、请求HUD、设置请求头、设置失败重试机制、判断是否请求成功、请求个性化打印日志、控制批量请求、页面请求重复写数据转模型......, 甚至使用了很久的第三方网络某一天不维护了，导致项目那里面每个页面到处直接使用的Api更换起来简直就是灾难，面对这种情况特意 底层基于``Alamofire``库 封装一套支持高度扩展多功能的网络请求库，即使以后更换底层请求库也很方便，后续也会不断维护更新各种小功能，目前支持的主要功能如下：
 
