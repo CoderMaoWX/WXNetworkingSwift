@@ -43,7 +43,7 @@ class ViewController: UIViewController {
         
         //测试设置全局: 请求状态/解析模型
         WXRequestConfig.shared.successStatusMap = (key: "returnCode",  value: "SUCCESS")
-        WXRequestConfig.shared.uploadRequestLogTuple = (url: "http://10.8.41.162:8090/pullLogcat", catchTag: "mwx345")
+        WXRequestConfig.shared.uploadRequestLogTuple = (url: "http://10.8.31.61:8090/pullLogcat", catchTag: "mwx666")
         WXRequestConfig.shared.messageTipKeyAndFailInfo = (tipKey: "returnCode", defaultTip: "我的默认错误页面提示文案")
         WXRequestConfig.shared.forbidProxyCaught = true
         WXRequestConfig.shared.urlResponseLogTuple = (printf: true, hostTitle: "开发环境")
@@ -57,7 +57,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestButtonAction(_ sender: UIBarButtonItem) {
-        testRequest()
+        testBatchRequest()
     }
     
     //MARK: ----- 测试单个请求 -----

@@ -132,10 +132,12 @@ open class WXBaseRequest: NSObject {
                             to: requestURL,
                             method: requestMethod,
                             headers: HTTPHeaders(requestHeaderDict ?? [:]),
-                            requestModifier: {
-                                $0.timeoutInterval = 5 * 60
-                        
-                            }).responseJSON { response in
+                            requestModifier: { [weak self] urlRequest in
+                                let time = self?.timeOut ?? 5 * 60
+                                urlRequest.timeoutInterval = (time == 30) ? 5 * 60 : time
+                                urlRequest.cachePolicy = .reloadIgnoringLocalCacheData
+
+                             }).responseJSON { response in
                                 switch response.result {
                                 case .success(let json):
                                     successClosure?(json as AnyObject)
@@ -166,18 +168,20 @@ open class WXBaseRequest: NSObject {
                                              parameters: parameters,
                                              encoding: serializerType,
                                              headers: HTTPHeaders(requestHeaderDict ?? [:]),
-                                             requestModifier: {
-                                                $0.timeoutInterval = 5 * 60
-            
-                                    }).responseData { response in
-                                        switch response.result {
-                                        case .success(let json):
-                                            successClosure?(json as AnyObject)
+                                             requestModifier: { [weak self] urlRequest in
+                                                let time = self?.timeOut ?? 5 * 60
+                                                urlRequest.timeoutInterval = (time == 30) ? 5 * 60 : time
+                                                urlRequest.cachePolicy = .reloadIgnoringLocalCacheData
 
-                                        case .failure(let error):
-                                            failureClosure?(error as AnyObject)
-                                        }
-                                   }.downloadProgress(closure: progressClosure)
+                                            }).responseData { response in
+                                                switch response.result {
+                                                case .success(let json):
+                                                    successClosure?(json as AnyObject)
+
+                                                case .failure(let error):
+                                                    failureClosure?(error as AnyObject)
+                                                }
+                                         }.downloadProgress(closure: progressClosure)
         
         requestDataTask = dataRequest
         _globleRequestList.append(self)
@@ -488,7 +492,7 @@ open class WXRequestApi: WXBaseRequest {
         } else if responseObj is Data {
             if let rspData = responseObj.mutableCopy() as? Data {
                 responseModel.responseObject = rspData as AnyObject
-                responseDcit["responseObject"] = "Binary Data, length: \(rspData.count)"
+                responseDcit["response"] = "Binary Data, length: \(rspData.count)"
             }
         } else if let jsonString = responseObj as? String { // jsonString -> Dictionary
             if let jsonDict = WXRequestTools.jsonToDictionary(jsonString: jsonString) {
@@ -672,10 +676,10 @@ open class WXRequestApi: WXBaseRequest {
     fileprivate func cancelTheSameOldRequest() {
         for request in _globleRequestList {
             let oldJson = WXRequestTools.dictionaryToJSON(dictionary: request.finalParameters)
-            let oldReq = request.requestURL + (oldJson ?? "")
+            let oldReq = request.requestURL + request.requestMethod.rawValue + (oldJson ?? "")
             
             let newJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters)
-            let newReq = requestURL + (newJson ?? "")
+            let newReq = requestURL + requestMethod.rawValue + (newJson ?? "")
             
             if oldReq == newReq {
                 request.requestDataTask?.cancel()
@@ -687,7 +691,7 @@ open class WXRequestApi: WXBaseRequest {
     lazy var cacheKey: String = {
         if cacheResponseBlock != nil || autoCacheResponse {
             let parameterJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters)
-            let originValue = requestURL + (parameterJson ?? "")
+            let originValue = requestURL + requestMethod.rawValue + (parameterJson ?? "")
             return WXRequestTools.convertToMD5(originStr: originValue)
         }
         return ""
