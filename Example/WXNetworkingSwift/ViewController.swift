@@ -93,8 +93,6 @@ class ViewController: UIViewController {
                                         let itemTitle = comics["itemTitle"] as! String
                                         debugPrint("itemTitle: \(itemTitle)")
                                     }
-                                } catch _ {
-        //                          print(error)
                                 }
 
                             case .failure(let error):
@@ -210,7 +208,7 @@ class ViewController: UIViewController {
         api.successStatusMap = (key: "code", value: "200")
         
         let image = UIImage(named: "womenPic")!
-        let imageData = UIImagePNGRepresentation(image)
+        let imageData = image.pngData()
         
         api.uploadFileDataArr = [imageData!]
         api.uploadConfigDataBlock = { multipartFormData in
