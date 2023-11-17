@@ -13,23 +13,24 @@ import WXNetworkingSwift
 import MobileCoreServices
 import Alamofire
 
-class DKeywordListModel: Convertible {
-    var acm: String? = nil
-    var defaultKeyWord: String? = nil
+class WXBannerModel: Convertible {
+    let sort: Int? = nil
+    let title: String? = nil
+    let acm: String? = nil
+    let image: String? = nil
+    let link: String? = nil
     required init() {}
 }
-
-class DKeywordContextModel: Convertible {
-    var currentTime: String? = nil
-    var dataTime: String? = "20211117"
+class WXContextModel: Convertible {
+    let currentTime: String? = nil
+    let dataTime: String? = "20211117"
     required init() {}
 }
-
-class DKeywordModel: Convertible {
-    var nextPage: String = "zhangSan"
-    var isEnd: Int = 20
-    var context: DKeywordContextModel? = nil
-    var list: [DKeywordListModel]? = nil
+class WXRecommendModel: Convertible {
+    let nextPage: String = "zhangSan"
+    let isEnd: Int = 20
+    let context: WXContextModel? = nil
+    let list: [WXBannerModel]? = nil
     required init() {}
 }
 
@@ -57,12 +58,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestButtonAction(_ sender: UIBarButtonItem) {
-        testBatchRequest()
+        testRequest()
     }
     
     //MARK: ----- 测试单个请求 -----
     func testRequest() {
-//        let url = "https://httpbin.org/delay/5"
         let url = "http://123.207.32.32:8000/home/multidata"
         let api = WXRequestApi(url, method: .get)
         api.timeOut = 40
@@ -70,83 +70,15 @@ class ViewController: UIViewController {
         api.requestSerializer = .EncodingFormURL
         //api.autoCacheResponse = true
         api.successStatusMap = (key: "returnCode",  value: "SUCCESS")
-        api.parseModelMap = (parseKey: "data.dKeyword", modelType: DKeywordModel.self)
+        api.parseModelMap = (parseKey: "data.recommend", modelType: WXRecommendModel.self)
         requestTask = api.startRequest { [weak self] responseModel in
             self?.textView.text = responseModel.responseDict?.description
+            if let model = responseModel.parseKeyPathModel as? WXRecommendModel {
+                WXDebugLog("这个就是解析好的数据模型: \(model)")
+            }
         }
     }
 
-    func testRequestAFResponse() {
-        let boutiqueListNewURL = URL(string: "")
-
-        AF.request(boutiqueListNewURL as! URLRequestConvertible).response { (response:AFDataResponse) in
-                        switch response.result {
-                            case .success(let JSON):
-                                do {
-                                    let JSONObject = try? JSONSerialization.jsonObject(with: JSON ?? Data(), options: .allowFragments)
-                                    if let JSON = JSONObject as? [String:Any] {
-                                        debugPrint(JSON.debugDescription)
-                                        let data = JSON["data"] as! [String:Any]
-                                        let returnData = data["returnData"] as! [String:Any]
-                                        let comicLists = returnData["comicLists"] as! NSArray
-                                        let comics = comicLists[0] as! [String:Any]
-                                        let itemTitle = comics["itemTitle"] as! String
-                                        debugPrint("itemTitle: \(itemTitle)")
-                                    }
-                                }
-
-                            case .failure(let error):
-                                debugPrint(error)
-
-                            }
-                    }
-    }
-
-    func testRequestAFresponseJSON() {
-//        let boutiqueListNewURL = URL(string: "")
-//        AF.request(boutiqueListNewURL, method: .get).responseJSON {response in
-//                        switch response.result {
-//                            case .success(let value as [String: Any]):
-//                                debugPrint("success: \(String(describing: value["code"]))")
-//                                let data = value["data"] as! [String:Any]
-//                                let returnData = data["returnData"] as! [String:Any]
-//                                let comicLists = returnData["comicLists"] as! NSArray
-//        //                        let comics = comicLists[0] as! [String:Any]
-//        //                        let itemTitle = comics["itemTitle"] as! String
-//                                //print("itemTitle: \(itemTitle)")
-//
-//                                self.comicList = comicLists.map { list in
-//                                    let item  = ComicList()
-//                                    if let list = list as? [String:Any] {
-//                                        let comicsList = list["comics"] as? NSArray
-//                                        if  comicsList?.count ?? 0 > 0 {
-//                                            let comics = comicsList?[0] as! [String:Any]
-//                                            item.itemTitle = comics["short_description"] as? String
-//                                        }
-//                                    }
-//                                    return item
-//                                }
-//                                self.tableView.reloadData()
-//
-//                            case .failure(let error):
-//                                debugPrint("Failure: \(error)")
-//                            default: fatalError("Fatal error.")
-//                        }
-//                    }
-    }
-
-    func testRequestAFresponseDecodable() {
-//        let boutiqueListNewURL = URL(string: "")
-//        AF.request(boutiqueListNewURL).responseDecodable(of: U17Root.self) { response in
-//                       debugPrint("Response: \(response)")
-//                       debugPrint("comicListsL Response: \(response.value?.data?.returnData?.comicLists?[0].itemTitle ?? "1000")")
-//
-//                       self.comicList = response.value?.data?.returnData?.comicLists
-//                       self.tableView.reloadData()
-//                   }
-    }
-    
-    
     //MARK: ----- 测试批量请求 -----
     func testBatchRequest() {
         let url1 = "https://httpbin.org/get"

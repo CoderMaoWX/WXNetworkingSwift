@@ -21,14 +21,17 @@ class WXLoadingHUD: UIView {
     
     fileprivate func initSubView() {
         backgroundColor = .clear
-        addSubview(imageView)
+        addSubview(indicatorView)
+        indicatorView.startAnimating()
     }
     
-    lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "loading"))
-        imageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    lazy var indicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView(style: .whiteLarge)
+        indicatorView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        indicatorView.color = .red
+        return indicatorView
     }()
+
+    
     
 }
