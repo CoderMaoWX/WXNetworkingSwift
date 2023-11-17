@@ -1,5 +1,7 @@
 # WXNetworkingSwift
 
+ [OC版本的见这里](https://github.com/CoderMaoWX/WXNetworking)
+
 [![CI Status](https://img.shields.io/travis/maowangxin/WXNetworkingSwift.svg?style=flat)](https://travis-ci.org/maowangxin/WXNetworkingSwift)
 [![Version](https://img.shields.io/cocoapods/v/WXNetworkingSwift.svg?style=flat)](https://cocoapods.org/pods/WXNetworkingSwift)
 [![License](https://img.shields.io/cocoapods/l/WXNetworkingSwift.svg?style=flat)](https://cocoapods.org/pods/WXNetworkingSwift)
@@ -12,27 +14,27 @@
 ### 功能列表: 
 - [x] 1、自定义请求头;
 
-- [x] 2、自动处理是否缓存;
+- [x] 2、自动处理是否缓存；设置缓存机制，自动失效时间等
 
-- [x] 3、请求失败多多次重试;
+- [x] 3、请求失败自定义多次重试；支持失败后每隔几秒尝试再试请求，如每次启动App后一定要请求的必要数据接口。
 
-- [x] 4、上传接口日志;
+- [x] 4、支持上传接口抓包日志；如上传到公司内部日志服务器系统上，供测试人员排查问题或快速抓包排查问题。
 
-- [x] 5、极简上传下载文件监听;
+- [x] 5、极简上传下载文件监听; 简单配置监听上传下载文件进度。
 
 - [x] 6、约定全局请求成功keyPath模型映射;
 
-- [x] 7、约定全局请求的提示tipKey;
+- [x] 7、约定全局请求的提示Hud ToastKey；支持单个配置或全局配置请求失败时的HUD Toast自动弹框提示。
 
-- [x] 8、请求遇到相应Code时触发通知;
+- [x] 8、请求遇到相应Code时触发通知；如：Token失效全部重新登录等;
 
-- [x] 9、网络请求过程多链路回调管理;
+- [x] 9、网络请求过程多链路回调管理；如：请求将要开始回调，请求回调将要停止，请求已经回调完成;
 
-- [x] 10、格式化打印网络日志;
+- [x] 10、格式化打印网络日志；输出日志一目了然，请求接口地址、参数、请求头、耗时、响应;
 
-- [x] 11、批量请求;
+- [x] 11、批量请求；支持自定义每个请求的所有配置，并且可配置等待全部完成才回调还是一起完成才回调;
 
-- [x] 12、调试响应json等使用功能;
+- [x] 12、支持debug模式不请求网络模拟快速调试接口响应json；本地json string，Dictionary，local json file, http test url
 
   . . . . . .（持续完善-ing）
 
