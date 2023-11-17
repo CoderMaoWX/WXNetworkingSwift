@@ -12,17 +12,17 @@
 有没有遇到过这样一种情况，每次在项目中使用请求库去请求数据时，各种小功能需要自己在每个请求里面单独去开发，比如请求缓存、请求HUD、设置请求头、设置失败重试机制、判断是否请求成功、请求个性化打印日志、控制批量请求、页面请求重复写数据转模型......, 甚至使用了很久的第三方网络某一天不维护了，导致项目那里面每个页面到处直接使用的Api更换起来简直就是灾难，面对这种情况特意 底层基于``Alamofire``库 封装一套支持高度扩展多功能的网络请求库，即使以后更换底层请求库也很方便，后续也会不断维护更新各种小功能，目前支持的主要功能如下：
 
 ### 功能列表: 
-- [x] 1、自定义请求头;
+- [x] 1、自定义请求头；简单配置请求头或加密头
 
 - [x] 2、自动处理是否缓存；设置缓存机制，自动失效时间等
 
-- [x] 3、请求失败自定义多次重试；支持失败后每隔几秒尝试再试请求，如每次启动App后一定要请求的必要数据接口。
+- [x] 3、请求失败自定义多次重试；支持失败后每隔几秒尝试再试请求，如启动App后一定要请求的必要数据接口。
 
 - [x] 4、支持上传接口抓包日志；如上传到公司内部日志服务器系统上，供测试人员排查问题或快速抓包排查问题。
 
 - [x] 5、极简上传下载文件监听; 简单配置监听上传下载文件进度。
 
-- [x] 6、约定全局请求成功keyPath模型映射;
+- [x] 6、支持全局/单个配置请求成功后keyPath模型映射；页面上无需每个接口编写解析字典转模型的重新代码，支持数组和自定义模型；
 
 - [x] 7、约定全局请求的提示Hud ToastKey；支持单个配置或全局配置请求失败时的HUD Toast自动弹框提示。
 
@@ -30,29 +30,29 @@
 
 - [x] 9、网络请求过程多链路回调管理；如：请求将要开始回调，请求回调将要停止，请求已经回调完成;
 
-- [x] 10、格式化打印网络日志；输出日志一目了然，请求接口地址、参数、请求头、耗时、响应;
+- [x] 10、格式化打印网络日志；输出日志一目了然，如：请求接口地址、参数、请求头、耗时、响应;
 
 - [x] 11、批量请求；支持自定义每个请求的所有配置，并且可配置等待全部完成才回调还是一起完成才回调;
 
-- [x] 12、支持debug模式不请求网络模拟快速调试接口响应json；本地json string，Dictionary，local json file, http test url
+- [x] 12、支持debug模式不请求网络快速调试模拟接口响应数据；如：本地json string，Dictionary，local json file, http test url
 
   . . . . . .（持续完善-ing）
 
-## Requirements
+## 使用环境
 > iOS, swift 5.0
 
-## Installation
+## 安装方式
 
 WXNetworkingSwift is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
-```ruby
+```
 pod 'WXNetworkingSwift'
 ```
 
-## Usage
+## 用法
 
-**基础请求对象**
+**可灵活配置的基础请求对象**
 
 ```
 ///请求基础对象, 外部上不建议直接用，请使用子类请求方法
@@ -77,7 +77,7 @@ open class WXBaseRequest: NSObject {
 ```
 
 
-**单个请求对象：**
+**可灵活配置的单个请求对象：**
 
 ```
 
@@ -137,7 +137,7 @@ open class WXRequestApi: WXBaseRequest {
 
 
 
-**请求响应对象**
+**请求响应对象的丰富信息**
 
 ```
 //MARK: - 请求响应对象
@@ -175,7 +175,7 @@ public class WXResponseModel: NSObject {
 }
 ```
 
-批量请求对象：
+可灵活配置的批量请求对象：
 
 ```
 ///批量请求对象, 可以
@@ -196,7 +196,7 @@ open class WXBatchRequestApi {
 }
 ```
 
-**1.单个请求示例**
+## **1.单个请求示例**
     
 ```
 func testRequest() {
@@ -230,7 +230,7 @@ func testRequest() {
     }
 ```
 
-**2.批量请求**
+## **2.批量请求示例**
     
 ```
 func testBatchRequest() {
@@ -250,7 +250,7 @@ func testBatchRequest() {
         }, waitAllDone: true)
     }
 ```
-**3.Json请求解析模型**
+## **3.Json请求解析模型示例**
     
 ```
 func testParseModel() {
@@ -285,7 +285,7 @@ func testParseModel() {
     }
 ```
 
-**4.上传文件**
+## **4.上传文件示例**
     
 ```
 func testUploadFile() {
@@ -321,7 +321,7 @@ func testUploadFile() {
     }
 ```
 
-**5.下载文文件**
+## **5.下载文文件示例**
     
 ```
 func testDownloadFile() {
