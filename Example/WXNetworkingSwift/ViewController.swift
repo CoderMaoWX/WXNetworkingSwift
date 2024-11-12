@@ -70,11 +70,11 @@ class ViewController: UIViewController {
         api.requestSerializer = .EncodingFormURL
         //api.autoCacheResponse = true
         api.successStatusMap = (key: "returnCode",  value: "SUCCESS")
-        api.parseModelMap = (parseKey: "data.recommend", modelType: WXRecommendModel.self)
+        api.parseModelMap = (keyPath: "data.recommend", modelType: WXRecommendModel.self)
         requestTask = api.startRequest { [weak self] responseModel in
             self?.textView.text = responseModel.responseDict?.description
-            if let model = responseModel.parseKeyPathModel as? WXRecommendModel {
-                WXDebugLog("这个就是解析好的数据模型: \(model)")
+            if let model = responseModel.parseModel as? WXRecommendModel {
+                WXRequestTools.WXDebugLog("这个就是解析好的数据模型: \(model)")
             }
         }
     }
@@ -141,9 +141,9 @@ class ViewController: UIViewController {
         
         let image = UIImage(named: "womenPic")!
         let imageData = image.pngData()
+//        api.uploadFileDataTuple = (withName: "files", dataArr: [imageData!])
         
-        api.uploadFileDataArr = [imageData!]
-        api.uploadConfigDataBlock = { multipartFormData in
+        api.uploadFileManualConfigBlock = { multipartFormData in
             multipartFormData.append(imageData!, withName: "files", fileName: "womenPic.png", mimeType: "image/png")
         }
         api.fileProgressBlock = { progress in

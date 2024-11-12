@@ -11,15 +11,17 @@ import CommonCrypto
 
 let kLoadingHUDTag = 7987
 
-//MARK: - 全局打印日志方法
-public func WXDebugLog(_ message: Any...,
-              file: String = #file,
-              function: String = #function,
-              lineNumber: Int = #line) {
-    #if DEBUG
+public class WXRequestTools {
+    
+    //MARK: - 全局打印日志方法
+    public static func WXDebugLog(_ message: Any...,
+                           file: String = #file,
+                           function: String = #function,
+                           lineNumber: Int = #line) {
+#if DEBUG
         //let fileName = (file as NSString).lastPathComponent
         //print("[\(fileName):funciton:\(function):line:\(lineNumber)]- \(message)")
-    
+        
         var appdengLog: String = ""
         var idx = message.count
         for log in message {
@@ -28,11 +30,10 @@ public func WXDebugLog(_ message: Any...,
         }
         //print("[\(fileName): line:\(lineNumber)]", appdengLog)
         print(appdengLog)
-    #endif
-}
+#endif
+    }
 
-public class WXRequestTools {
-    
+
     /// 上传网络日志到服装日志系统入口 (目前此方法供内部使用)
     /// - Parameters:
     ///   - request: 响应模型

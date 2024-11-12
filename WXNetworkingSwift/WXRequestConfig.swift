@@ -13,13 +13,13 @@ let kWXNetworkDebugResponseKey      = "kWXNetworkDebugResponseKey"
 let KWXRequestFailueDefaultMessage  = "Loading failed, please try again later."
 let kWXRequestDataFromCacheKey      = "WXNetwork_DataFromCacheKey"
 
-enum WXRequestMulticenterType: Int {
+@objc public enum WXRequestMulticenterType: Int {
     case WillStart
     case WillStop
     case DidCompletion
 }
 
-@objc protocol WXPackParameters {
+@objc public protocol WXPackParameters {
     
     /// 外部可包装最终网络底层最终请求参数
     /// - Parameter parameters: 默认外部传进来的<parameters>
@@ -53,6 +53,9 @@ enum WXRequestMulticenterType: Int {
 ///请求库全局配置信息
 public class WXRequestConfig {
     
+    ///全局保存请求对象, 外部可管理全局请求对象 (注意: 请求对象在请求完成后会从数组被清空掉)
+    public var globleRequestList: [ WXBaseRequest ] = []
+    
     ///约定全局请求成功映射: key/value (注意: 优先使用WXRequestApi中的successStatusMap来判断)
     ///(key可以是KeyPath模式进行匹配 如: (key: "data.status", value: "200")
     public var successStatusMap: (key: String, value: String)? = nil
@@ -83,7 +86,7 @@ public class WXRequestConfig {
     ///请求HUD时的类名
     public var requestHUDCalss: UIView.Type? = nil
     
-    ///是否显示请求HUD,全局开关, 默认显示
+    ///是否显示请求HUD,全局开关,  (默认显示: true)
     public var showRequestLaoding: Bool = true
     
     ///是否为正式上线环境: 如果为真,则下面的所有日志上传将全都被忽略
@@ -98,7 +101,7 @@ public class WXRequestConfig {
 
     /**
      * 是否打印统计上传日志，默认不打印
-     * (如果是统计日志发出的请求则请在请求参数中带有key: KWXUploadAppsFlyerStatisticsKey)
+     * (如果是统计日志发出的请求则请在请求参数中带有key: KTSUploadAppsFlyerStatisticsKey)
      * */
     public var printfStatisticsLog: Bool = false
 
