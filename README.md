@@ -34,7 +34,7 @@
 
 - [x] 11、批量请求；支持自定义每个请求的所有配置，并且可配置等待全部完成才回调还是一起完成才回调;
 
-- [x] 12、支持debug模式不请求网络快速调试模拟接口响应数据；如：本地json string，Dictionary，local json file, http test url
+- [x] 12、支持debug模式不请求网络快速调试模拟接口响应数据；如：本地json string，Dictionary，local json file(仅限模拟器调试), http test url
 
   . . . . . .（持续完善-ing）
 
@@ -107,7 +107,7 @@ open class WXRequestApi: WXBaseRequest {
     /// [⚠️仅DEBUG模式生效⚠️] 作用:方便开发时调试接口使用,设置的值可为以下4种:
     /// 1. json String: 则不会请求网络, 直接响应回调此json值
     /// 2. Dictionary: 则不会请求网络, 直接响应回调此Dictionary值
-    /// 3. local file path: 则直接读取当前本地的path文件内容
+    /// 3. local file path: 则直接读取当前本地的path文件内容(仅限模拟器调试)
     /// 4. http(是) path: 则直接请求当前设置的path
     public var debugJsonResponse: Any? = nil
 
@@ -164,7 +164,7 @@ public class WXResponseModel: NSObject {
     public var responseObject: AnyObject? = nil
     ///本次响应的原始字典数据
     public var responseDict: WXDictionaryStrAny? = nil
-    ///本次响应的数据是否为Debug测试数据
+    ///本次响应的数据是否为Debug测试数据 (读取电脑文件路径时仅限模拟器调试)
     public var isDebugResponse: Bool = false
     ///失败时的错误信息
     public var error: NSError? = nil
@@ -259,7 +259,7 @@ func testParseModel() {
 
         let api = WXRequestApi(url, method: .get, parameters: param)
 //        api.debugJsonResponse = "http://10.8.41.162:8090/app/activity/page/detail/92546"  //http（ s ） test URL
-//        api.debugJsonResponse = "/Users/xinGe/Desktop/test.json"                          //Desktop json file
+//        api.debugJsonResponse = "/Users/xinGe/Desktop/test.json"                          //Desktop json file (仅限模拟器调试)
 //        api.debugJsonResponse = "test.json"                                               //Bundle json file
 //        api.debugJsonResponse = ["code" : "1", "data" : ["message" : "测试字典"]]          //Dictionary Object
 //        api.debugJsonResponse =
