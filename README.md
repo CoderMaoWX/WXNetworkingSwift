@@ -34,7 +34,7 @@
 
 - [x] 11、批量请求；支持自定义每个请求的所有配置，并且可配置等待全部完成才回调还是一起完成才回调;
 
-- [x] 12、支持debug模式不请求网络快速调试模拟接口响应数据；如：本地json string，Dictionary，local json file(仅限模拟器调试), http test url
+- [x] 12、支持debug模式不请求网络快速调试模拟接口响应数据；如：本地json string，Dictionary，local json file(桌面路径仅限模拟器调试，http(s)地址), http test url
 
   . . . . . .（持续完善-ing）
 
@@ -107,8 +107,8 @@ open class WXRequestApi: WXBaseRequest {
     /// [⚠️仅DEBUG模式生效⚠️] 作用:方便开发时调试接口使用,设置的值可为以下4种:
     /// 1. json String: 则不会请求网络, 直接响应回调此json值
     /// 2. Dictionary: 则不会请求网络, 直接响应回调此Dictionary值
-    /// 3. local file path: 则直接读取当前本地的path文件内容(仅限模拟器调试)
-    /// 4. http(是) path: 则直接请求当前设置的path
+    /// 3. local file path: 则直接读取当前本地(桌面路径/http(s)地址)的path文件内容(仅限模拟器调试)
+    /// 4. http(s) path: 则直接请求当前设置的path
     public var debugJsonResponse: Any? = nil
 
     ///请求转圈的父视图
