@@ -15,25 +15,24 @@ public class WXRequestTools {
     
     //MARK: - 全局打印日志方法
     public static func WXDebugLog(_ message: Any...,
-                           file: String = #file,
-                           function: String = #function,
-                           lineNumber: Int = #line) {
-#if DEBUG
-        //let fileName = (file as NSString).lastPathComponent
-        //print("[\(fileName):funciton:\(function):line:\(lineNumber)]- \(message)")
+                  file: String = #file,
+                  function: String = #function,
+                  lineNumber: Int = #line) {
+        #if DEBUG
+            //let fileName = (file as NSString).lastPathComponent
+            //print("[\(fileName):funciton:\(function):line:\(lineNumber)]- \(message)")
         
-        var appdengLog: String = ""
-        var idx = message.count
-        for log in message {
-            appdengLog += "\(log)" + ( (idx != 1) ? " " : "" )
-            idx -= 1
-        }
-        //print("[\(fileName): line:\(lineNumber)]", appdengLog)
-        print(appdengLog)
-#endif
+            var appdengLog: String = ""
+            var idx = message.count
+            for log in message {
+                appdengLog += "\(log)" + ( (idx != 1) ? " " : "" )
+                idx -= 1
+            }
+            //print("[\(fileName): line:\(lineNumber)]", appdengLog)
+            print(appdengLog)
+        #endif
     }
-
-
+    
     /// 上传网络日志到服装日志系统入口 (目前此方法供内部使用)
     /// - Parameters:
     ///   - request: 响应模型
@@ -102,35 +101,39 @@ public class WXRequestTools {
     /// - Returns: 日志头部字符串
     public static func appendingPrintfLogHeader(request: WXRequestApi,
                                   responseModel: WXResponseModel) -> String {
-        let isSuccess   = (responseModel.responseDict == nil) ? false : true
+        let isSuccess   = responseModel.isSuccess // (responseModel.responseDict == nil) ? false : true
         let isCacheData = responseModel.isCacheData
         let requestJson = dictionaryToJSON(dictionary: request.finalParameters) ?? "{}"
         let hostTitle = WXRequestConfig.shared.urlResponseLogTuple.hostTitle.map {"【\($0)】"} ?? ""
-        let requestHeaders = responseModel.urlRequest?.allHTTPHeaderFields ?? [:]
+        let requestHeaders = responseModel.urlRequest?.allHTTPHeaderFields ?? request.requestHeaderDict ?? [:]
         let headersJson = dictionaryToJSON(dictionary: requestHeaders)
-        let headersString = (requestHeaders.count > 0) ? "\n\n请求头信息= \(headersJson ?? "")" : ""
+        let headersString = (requestHeaders.count > 0) ? "\n\n请求头信息＝\(headersJson ?? "")" : ""
         let statusFlag = isCacheData ? "❤️❤️❤️" : (isSuccess ? "✅✅✅" : "❌❌❌")
         let dataType = responseModel.isDebugResponse ? "【Debug】数据" : "网络数据"
         let statusString  = isCacheData ? "本地缓存数据成功" : (isSuccess ? "\(dataType)成功" : "\(dataType)失败");
         let feeTime = "（⤵️耗时:\(Int(responseModel.responseDuration ?? 0))ms）"
-		return """
+        let method = responseModel.urlRequest?.method?.rawValue ?? responseModel.urlRequest?.httpMethod ?? ""
+        return """
 
-			\(statusFlag)请求接口地址\(hostTitle)= \(request.requestURL)
+            \(statusFlag)请求接口地址\(hostTitle)＝\(request.requestURL)
 
-			请求参数json= \(requestJson)\(headersString)
+            \(method) 请求参数json＝\(requestJson)\(headersString)
 
-			\(statusString)返回=\(feeTime)
+            \(statusString)返回＝\(feeTime)
 
-			"""
+            """
     }
 
 
     /// 打印日志尾部
     /// - Parameter responseModel: 响应模型
     /// - Returns: 日志头部字符串
-    public static func appendingPrintfLogFooter(responseModel: WXResponseModel) -> String {
+    public static func appendingPrintfLogFooter(responseModel: WXResponseModel, prettify: Bool = true) -> String {
         if let responseDict = responseModel.responseDict {
-            let jsonData = try? JSONSerialization.data(withJSONObject: responseDict, options: .prettyPrinted)
+            let options = (prettify == true) ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization
+                .WritingOptions()
+            
+            let jsonData = try? JSONSerialization.data(withJSONObject: responseDict, options: options)
             var responseJson = responseDict.description
             if let jsonData = jsonData {
                 responseJson = String(data: jsonData, encoding: .utf8) ?? responseJson
@@ -139,7 +142,15 @@ public class WXRequestTools {
             responseJson = responseJson.replacingOccurrences(of: "\\/", with: "/")
             return responseJson
         } else {
-            return responseModel.error?.description ?? ""
+            let errorDescription = responseModel.error?.description ?? ""
+            if let localizedDesc = responseModel.error?.localizedDescription {
+                return """
+                       \(errorDescription)
+                       \(localizedDesc)
+                       """
+            } else {
+                return errorDescription
+            }
         }
     }
 
@@ -177,14 +188,19 @@ public class WXRequestTools {
     // MARK: 字典/JSON字符串相互转化
     /// 字典转换为JSON String
     public static func dictionaryToJSON(dictionary: WXDictionaryStrAny?) -> String? {
-        guard let dictionary = dictionary else {
+        guard let dictionary = dictionary else { return nil }
+        do {
+            if #available(iOS 11.0, *) {
+                let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [.sortedKeys])
+                return String(data: jsonData, encoding: .utf8)
+            } else {
+                let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions())
+                return String(data: jsonData, encoding: .utf8)
+            }
+        } catch {
+            WXDebugLog("Failed to convert dictionary to JSON: \(error.localizedDescription)")
             return nil
         }
-        if let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions()) {
-            let jsonStr = String(data: jsonData, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
-            return String(jsonStr ?? "")
-        }
-        return nil
     }
     
     /// JSON String转换为字典

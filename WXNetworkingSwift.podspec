@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'WXNetworkingSwift'
-  s.version          ='1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'iOS基于Alamofire封装的可定制多功能网络请求框架'
 
   s.description      = <<-DESC
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.swift_versions = ['5.0']
   s.frameworks  = "Foundation"
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '11.0'
   s.source_files = 'WXNetworkingSwift/*.swift'
 
   s.dependency 'Alamofire'

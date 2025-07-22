@@ -101,14 +101,14 @@ public class WXRequestConfig {
 
     /**
      * 是否打印统计上传日志，默认不打印
-     * (如果是统计日志发出的请求则请在请求参数中带有key: KTSUploadAppsFlyerStatisticsKey)
+     * (如果是统计日志发出的请求则请在请求参数中带有key: KWXUploadAppsFlyerStatisticsKey)
      * */
     public var printfStatisticsLog: Bool = false
 
     ///单利对象
     public static let shared = WXRequestConfig()
     private init() {
-	}
+    }
     
     ///清除所有缓存
     public func clearWXNetworkAllRequestCache(completion: @escaping (Bool) -> ()) {
