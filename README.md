@@ -106,7 +106,7 @@ open class WXRequestApi: WXBaseRequest {
 
     ///请求成功时自动解析数据模型映射:Key/ModelType, (key可以是KeyPath模式进行匹配 如: data.returnData)
     ///成功解析的模型在 WXResponseModel.parseKeyPathModel 中返回
-    public var parseModelMap: (parseKey: String, modelType: Convertible.Type)? = nil
+    public var parseModelMap: (keyPath: String, modelType: Convertible.Type)? = nil
     
     ///times: 请求失败之后重新请求次数, delay: 每次重试的间隔
     public var retryWhenFailTuple: (times: Int, delay: Double)? = nil
@@ -305,7 +305,7 @@ func testParseModel() {
     }
 ```
 
-## **4.上传文件示例**
+## **4.极简上传文件示例**
     
 ```
 func testUploadFile() {
@@ -322,9 +322,10 @@ func testUploadFile() {
         
         let image = UIImage(named: "womenPic")!
         let imageData = UIImagePNGRepresentation(image)
-        
-        api.uploadFileDataArr = [imageData!]
-        api.uploadConfigDataBlock = { multipartFormData in
+        //自动配置: 上传文件Data元祖 (与下面的 uploadFileManualConfigBlock 二选一即可)
+        //api.uploadFileDataTuple = (withName: "image", dataArr: [imageData])
+        //手动配置: 自定义上传时数据回调  (与上面的 uploadFileDataTuple 二选一即可)
+        api.uploadFileManualConfigBlock = { multipartFormData in
             multipartFormData.append(imageData!, withName: "files", fileName: "womenPic.png", mimeType: "image/png")
         }
         api.fileProgressBlock = { progress in
