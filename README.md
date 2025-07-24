@@ -57,18 +57,25 @@ pod 'WXNetworkingSwift'
 ```
 ///请求基础对象, 外部上不建议直接用，请使用子类请求方法
 open class WXBaseRequest: NSObject {
+
     ///请求Method类型
     fileprivate (set) var requestMethod: HTTPMethod = .post
+
     ///请求地址
     fileprivate (set) var requestURL: String = ""
+
     ///请求参数
     fileprivate var parameters: WXDictionaryStrAny? = nil
+
     ///请求超时，默认30是
     public var timeOut: TimeInterval = 30
+
     ///请求自定义头信息
     public var requestHeaderDict: Dictionary<String, String>? = nil
+
     ///请求序列化对象 (json, form表单)
     public var requestSerializer: WXRequestSerializerType = .EncodingJSON
+
     ///请求任务对象
     fileprivate var requestDataTask: Request? = nil
     
@@ -144,32 +151,44 @@ open class WXRequestApi: WXBaseRequest {
 
 ///包装的响应数据
 public class WXResponseModel: NSObject {
+
     /**
      * 是否请求成功,优先使用 WXRequestApi.successStatusMap 来判断是否成功
      * 否则使用 WXNetworkConfig.successStatusMap 标识来判断是否请求成功
      ***/
     public var isSuccess: Bool = false
+
     ///本次响应Code码
     public var responseCode: Int? = nil
+
     ///本次响应的提示信息 (页面可直接用于Toast提示,
     ///如果接口有返回messageTipKeyAndFailInfo.tipKey则会取这个值, 如果没有返回则取defaultTip的默认值)
     public var responseMsg: String? = nil
+
     ///本次数据是否为缓存
     public var isCacheData: Bool = false
+
     ///请求耗时(毫秒)
     public var responseDuration: TimeInterval? = nil
+
     ///解析数据的模型: 可KeyPath匹配, 返回 Model对象 或者数组模型 [Model]
     public var parseKeyPathModel: AnyObject? = nil
+
     ///本次响应的原始数据: NSDictionary/ UIImage/ NSData /...
     public var responseObject: AnyObject? = nil
+
     ///本次响应的原始字典数据
     public var responseDict: WXDictionaryStrAny? = nil
+
     ///本次响应的数据是否为Debug测试数据 (读取电脑文件路径时仅限模拟器调试)
     public var isDebugResponse: Bool = false
+
     ///失败时的错误信息
     public var error: NSError? = nil
+
     ///原始响应
     public var urlResponse: HTTPURLResponse? = nil
+
     ///原始请求
     public var urlRequest: URLRequest? = nil
 }
@@ -189,6 +208,7 @@ open class WXBatchRequestApi {
     
     ///全部请求对象, 响应时Api按添加顺序返回
     fileprivate var requestArray: [WXRequestApi]
+
     ///请求转圈的父视图
     fileprivate (set) var loadingSuperView: UIView? = nil
     
