@@ -1,7 +1,7 @@
 
 inhibit_all_warnings! #屏蔽所有warning
 
-platform :ios, '10.0'
+platform :ios, '12.0'
 #use_frameworks!
 
 

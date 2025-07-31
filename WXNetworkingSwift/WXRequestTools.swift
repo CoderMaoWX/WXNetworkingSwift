@@ -15,22 +15,22 @@ public class WXRequestTools {
     
     //MARK: - 全局打印日志方法
     public static func WXDebugLog(_ message: Any...,
-                  file: String = #file,
-                  function: String = #function,
-                  lineNumber: Int = #line) {
-        #if DEBUG
-            //let fileName = (file as NSString).lastPathComponent
-            //print("[\(fileName):funciton:\(function):line:\(lineNumber)]- \(message)")
+                                  file: String = #file,
+                                  function: String = #function,
+                                  lineNumber: Int = #line) {
+#if DEBUG
+        //let fileName = (file as NSString).lastPathComponent
+        //print("[\(fileName):funciton:\(function):line:\(lineNumber)]- \(message)")
         
-            var appdengLog: String = ""
-            var idx = message.count
-            for log in message {
-                appdengLog += "\(log)" + ( (idx != 1) ? " " : "" )
-                idx -= 1
-            }
-            //print("[\(fileName): line:\(lineNumber)]", appdengLog)
-            print(appdengLog)
-        #endif
+        var appdengLog: String = ""
+        var idx = message.count
+        for log in message {
+            appdengLog += "\(log)" + ( (idx != 1) ? " " : "" )
+            idx -= 1
+        }
+        //print("[\(fileName): line:\(lineNumber)]", appdengLog)
+        print(appdengLog)
+#endif
     }
     
     /// 上传网络日志到服装日志系统入口 (目前此方法供内部使用)
@@ -38,7 +38,7 @@ public class WXRequestTools {
     ///   - request: 响应模型
     ///   - responseModel: 请求对象
     public static func uploadNetworkResponseJson(request: WXRequestApi,
-                                   responseModel: WXResponseModel) {
+                                                 responseModel: WXResponseModel) {
         if responseModel.isCacheData { return }
         let configu = WXRequestConfig.shared
         if configu.isDistributionOnlineRelease { return }
@@ -73,7 +73,7 @@ public class WXRequestTools {
         
         //(目前此方法供内部使用, 因此以下参数固定写死,
         // 如果外部需要使用,可实现: <WXNetworkMulticenter>协议, 自己处理上传日志的操作)
-        var uploadInfo: Dictionary<String, Any> = [:]
+        var uploadInfo: [String: Any] = [:]
         uploadInfo["level"]            = "iOS"
         uploadInfo["appName"]          = appName
         uploadInfo["version"]          = version
@@ -92,15 +92,15 @@ public class WXRequestTools {
         baseRequest.requestSerializer = .EncodingJSON
         baseRequest.baseRequestBlock(successClosure: nil, failureClosure: nil)
     }
-
-
+    
+    
     /// 打印日志头部
     /// - Parameters:
     ///   - request: 响应模型
     ///   - responseModel: 请求对象
     /// - Returns: 日志头部字符串
     public static func appendingPrintfLogHeader(request: WXRequestApi,
-                                  responseModel: WXResponseModel) -> String {
+                                                responseModel: WXResponseModel) -> String {
         let isSuccess   = responseModel.isSuccess // (responseModel.responseDict == nil) ? false : true
         let isCacheData = responseModel.isCacheData
         let requestJson = dictionaryToJSON(dictionary: request.finalParameters) ?? "{}"
@@ -114,17 +114,17 @@ public class WXRequestTools {
         let feeTime = "（⤵️耗时:\(Int(responseModel.responseDuration ?? 0))ms）"
         let method = responseModel.urlRequest?.method?.rawValue ?? responseModel.urlRequest?.httpMethod ?? ""
         return """
-
+            
             \(statusFlag)请求接口地址\(hostTitle)＝\(request.requestURL)
-
+            
             \(method) 请求参数json＝\(requestJson)\(headersString)
-
+            
             \(statusString)返回＝\(feeTime)
-
+            
             """
     }
-
-
+    
+    
     /// 打印日志尾部
     /// - Parameter responseModel: 响应模型
     /// - Returns: 日志头部字符串
@@ -153,7 +153,7 @@ public class WXRequestTools {
             }
         }
     }
-
+    
     ///获取文件的 mimeType 类型
     public static func dataMimeType(for data: Data) -> (mimeType: String, fileType: String) {
         var b: UInt8 = 0
@@ -249,7 +249,7 @@ public class WXRequestTools {
     /// 指定视图上显示loading框
     /// - Parameter paramater: loading框的父视图
     public static func showLoading(to loadingSuperView: UIView) {
-
+        
         let showLoadingBlock = { (loadingSuperView: UIView) in
             hideLoading(from: loadingSuperView)
             
@@ -315,7 +315,7 @@ public class WXRequestTools {
             
             screenMaskView.addConstraint(NSLayoutConstraint(item: HUDView, attribute: .centerX, relatedBy: .equal, toItem: screenMaskView, attribute: .centerX, multiplier: 1, constant: 0))
         }
-
+        
         if Thread.isMainThread {
             showLoadingBlock(loadingSuperView)
         } else {

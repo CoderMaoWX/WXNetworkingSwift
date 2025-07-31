@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (5.10.2)
   - KakaJSON (1.1.2)
-  - WXNetworkingSwift (1.0.0):
+  - WXNetworkingSwift (1.0.2):
     - Alamofire
     - KakaJSON
 
@@ -20,8 +20,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
   KakaJSON: cc5ff50a8c1cfbb09413db8496cb709a209e6137
-  WXNetworkingSwift: ec5c109357d808f8c204996560f4eb26ed2de77c
+  WXNetworkingSwift: fac0bc47e5c6502935cd3230c3c94ec55f65cc55
 
-PODFILE CHECKSUM: 44a52d7c247614024c113eae92a046fa74743dc6
+PODFILE CHECKSUM: 457635d2a013a79bac8ea3e64ecbeffaa332a100
 
 COCOAPODS: 1.16.2

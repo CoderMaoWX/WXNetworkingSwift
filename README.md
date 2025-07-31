@@ -52,6 +52,77 @@ pod 'WXNetworkingSwift'
 
 ## 用法
 
+**可灵活配置的全局单例信息**
+
+```
+///请求库全局 单例 配置信息
+public class WXRequestConfig {
+    
+    ///全局保存请求对象, 外部可管理全局请求对象 (注意: 请求对象在请求完成后会从数组被清空掉)
+    public var globleRequestList: [ WXBaseRequest ] = []
+    
+    ///请求基础URL；如果有设置基础url, 则单个Api可直接使用path请求, 也可http全路径请求
+    public var baseURL: String? = nil
+    
+    ///全局设置一次请求序列化对象 (json, form表单);  ( 如果单个Api对象未设置序列化对象值,  则每个Api请求对象默认使用该值 )
+    public var globleRequestSerializer: WXRequestSerializerType = .EncodingJSON
+    
+    ///全局设置一次请求头信息;  ( 如果单个Api对象未设置序列化对象值,  则每个Api请求对象默认使用该值 )
+    public var globleRequestHeaderDict: [String : String]? = nil
+    
+    ///与服务器后台约定一直全局请求成功映射: key/value;  ( 如果单个Api对象未设置成功映射值,  则每个Api请求对象默认使用该值 )
+    ///(key可以是KeyPath模式进行匹配 如: (key: "data.status", value: "200")
+    public var successStatusMap: (key: String, value: String)? = nil
+    
+    ///约定全局请求的提示tipKey, 返回值会保存在: WXResponseModel.responseMsg中
+    ///如果接口没有返回此key 或者HTTP连接失败时 则取defaultTip当做通用提示文案, 页面直接取responseMsg当作通用提示即可
+    public var messageTipKeyAndFailInfo: (tipKey: String, defaultTip: String)? = nil
+    
+    /**
+     * 是否需要全局管理 网络请求过程多链路回调<将要开始, 将要完成, 已经完成>
+     * 注意: 此全局代理与单个请求对象中的<multicenterDelegate>代理互斥, 两者都实现时优先回调单个请求对象中的代理
+     */
+    public var globleMulticenterDelegate: WXNetworkMulticenter? = nil
+    
+    ///请求遇到相应Code时触发通知 (可设置多个key/Vlaue, 如: [ "notificationName" : 200 ])
+    ///例如适用于监听全局处理等操作, 例: Token失效重新登录...
+    public var codeNotifyDict: [String : Int]? = nil
+    
+    ///全局网络请求拦截类代理 (提示: 一定要放在首次发请求之前才生效)
+    public var urlSessionProtocolClasses: AnyClass? = nil
+    
+    ///是否禁止所有的网络请求设置代理抓包 (警告: 一定要放在首次发请求之前设值(例如+load方法中), 默认不禁止)
+    public var forbidProxyCaught: Bool = false
+    
+    ///是否打开多路径TCP服务，提供Wi-Fi和蜂窝之间的无缝切换，(默认关闭)(提示: 一定要放在首次发请求之前才生效)
+    public var openMultipathService: Bool = false
+    
+    ///请求HUD时的类名
+    public var requestHUDCalss: UIView.Type? = nil
+    
+    ///是否显示请求HUD,全局开关,  (默认显示: true)
+    public var showRequestLaoding: Bool = true
+    
+    ///是否为正式上线环境: 如果为真,则下面的所有日志上传将全都被忽略
+    public var isDistributionOnlineRelease: Bool = false
+    
+    ///Xcode控制台显示日志信息 (printf: 是否打印在Xcode控制台, hostTitle: 打印的环境名称 如 测试环境/正式环境...)
+    public var urlResponseLogTuple: (printf: Bool, hostTitle: String?) = (true, nil)
+    
+    ///url:全局请求日志上传到指定的URL(如日志系统), catchTag:查看日志的标识
+    ///注意: url和catchTag都不为空时才上传
+    public var uploadRequestLogTuple: (url: String?, catchTag: String?)? = nil
+    
+    /**
+     * 是否打印统计上传日志，默认不打印
+     * (如果是统计日志发出的请求则请在请求参数中带有key: KWXUploadAppsFlyerStatisticsKey)
+     * */
+    public var printfStatisticsLog: Bool = false
+    
+}
+```
+
+
 **可灵活配置的基础请求对象**
 
 ```
@@ -69,12 +140,12 @@ open class WXBaseRequest: NSObject {
 
     ///请求超时，默认30是
     public var timeOut: TimeInterval = 30
-
-    ///请求自定义头信息
-    public var requestHeaderDict: Dictionary<String, String>? = nil
-
-    ///请求序列化对象 (json, form表单)
-    public var requestSerializer: WXRequestSerializerType = .EncodingJSON
+    
+    ///请求自定义头信息；如果未设置此属性值时, 则取单例的 WXNetworkConfig.globleRequestSerializer的值
+    public var requestHeaderDict: [String : String]? = WXRequestConfig.shared.globleRequestHeaderDict
+    
+    ///请求序列化对象 (json, form表单)；如果未设置此属性值时, 则取单例的 WXNetworkConfig.globleRequestSerializer的值
+    public var requestSerializer: WXRequestSerializerType = WXRequestConfig.shared.globleRequestSerializer
 
     ///请求任务对象
     fileprivate var requestDataTask: Request? = nil
