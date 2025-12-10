@@ -291,14 +291,14 @@ open class WXBatchRequestApi {
     
 ```
 func testRequest() {
-        let url = "http://123.207.32.32:8000/home/multidata"
+        let url = "https://itunes.apple.com/lookup?id=414478124"
         let api = WXRequestApi(url, method: .get)
         api.timeOut = 40 //设置超时时间
         api.loadingSuperView = view //请求loading HUD
         api.autoCacheResponse = true //是否需要缓存
         api.requestHeaderDict = [:] //设置请求自定义头信息
-        api.successStatusMap = (key: "returnCode",  value: "SUCCESS") //设置请求成功标识key(支持keyPath)
-        api.parseModelMap = (parseKey: "data.dKeyword", modelType: DKeywordModel.self)  //设置请求成功模型解析(支持keyPath)
+        api.successStatusMap = (key: "resultCount",  value: "1")
+        api.parseModelMap = (keyPath: "results", modelType: WXAppStoreInfoModel.self)//设置请求成功模型解析(支持keyPath)
         api.retryWhenFailTuple = (times: 3, delay: 2.0) //设置请求失败重试机制
         api.multicenterDelegate = self //网络请求过程多链路回调<将要开始, 将要停止, 已经完成>
         
@@ -310,7 +310,6 @@ func testRequest() {
         api.cacheResponseBlock = { WXResponseModel -> WXDictionaryStrAny? in
             //自定义缓存
         }
-        
         requestTask = api.startRequest { [weak self] responseModel in
             if responseModel.isSuccess {
                 self?.textView.text = responseModel.parseKeyPathModel?.description

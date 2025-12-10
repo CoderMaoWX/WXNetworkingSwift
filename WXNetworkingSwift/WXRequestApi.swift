@@ -55,7 +55,7 @@ open class WXBaseRequest: NSObject {
     ///请求自定义头信息；如果未设置此属性值时, 则取单例的 WXNetworkConfig.globleRequestSerializer的值
     public var requestHeaderDict: [String : String]? = WXRequestConfig.shared.globleRequestHeaderDict
     ///请求序列化对象 (json, form表单)；如果未设置此属性值时, 则取单例的 WXNetworkConfig.globleRequestSerializer的值
-    public var requestSerializer: WXRequestSerializerType = WXRequestConfig.shared.globleRequestSerializer
+    public var requestSerializer: WXRequestSerializerType?
     ///请求任务对象
     fileprivate var requestDataTask: Request? = nil
     
@@ -102,11 +102,12 @@ open class WXBaseRequest: NSObject {
     @discardableResult
     public func baseRequestBlock(successClosure: WXAnyObjectBlock?,
                                  failureClosure: WXAnyObjectBlock?) -> WXDataRequest {
-        var serializerType: ParameterEncoding = URLEncoding.default
+        var serializerType: ParameterEncoding
         if requestMethod == .get {
             serializerType = URLEncoding.default  // GET 强制使用 URL 编码（拼接到 URL 上）
         } else {
-            serializerType = (requestSerializer == .EncodingJSON) ? JSONEncoding.default : URLEncoding.default
+            let setSerializer = self.requestSerializer ?? WXRequestConfig.shared.globleRequestSerializer
+            serializerType = (setSerializer == .EncodingJSON) ? JSONEncoding.default : URLEncoding.default
         }
         let dataRequest = WXSession.request(requestURL,
                                             method: requestMethod,
@@ -179,11 +180,12 @@ open class WXBaseRequest: NSObject {
     public func baseDownloadFile(successClosure: WXAnyObjectBlock?,
                                  failureClosure: WXAnyObjectBlock?,
                                  progressClosure: @escaping WXProgressBlock) -> WXDownloadRequest {
-        var serializerType: ParameterEncoding = URLEncoding.default
+        var serializerType: ParameterEncoding
         if requestMethod == .get {
             serializerType = URLEncoding.default  // GET 强制使用 URL 编码（拼接到 URL 上）
         } else {
-            serializerType = (requestSerializer == .EncodingJSON) ? JSONEncoding.default : URLEncoding.default
+            let setSerializer = self.requestSerializer ?? WXRequestConfig.shared.globleRequestSerializer
+            serializerType = (setSerializer == .EncodingJSON) ? JSONEncoding.default : URLEncoding.default
         }
         let dataRequest = WXSession.download(requestURL,
                                              method: requestMethod,
@@ -218,6 +220,9 @@ open class WXRequestApi: WXBaseRequest {
     
     ///请求成功时是否自动缓存响应数据, 默认不缓存
     public var autoCacheResponse: Bool = false
+    
+    ///是否自动取消相同并发请求  (此功能可用于防止页面卡住时频繁点击请求, 默认全局自动开启, 可单独控制关闭)
+    public var autoCancelSameConcurrentRequest: Bool = true
     
     ///自定义请求成功时的缓存数据, (返回的字典为此次需要保存的缓存数据, 返回nil时底层则不缓存)
     public var cacheResponseBlock: ( (WXResponseModel) -> (WXDictionaryStrAny?) )? = nil
@@ -426,6 +431,7 @@ open class WXRequestApi: WXBaseRequest {
     
     fileprivate func configResponseBlock(responseBlock: WXNetworkResponseBlock?, responseObj: AnyObject?) {
         let responseModel = configResponseModel(responseObj: responseObj)
+        handleMulticenter(type: .WillStop, responseModel: responseModel)
         responseBlock?(responseModel)
         handleMulticenter(type: .DidCompletion, responseModel: responseModel)
         
@@ -475,7 +481,6 @@ open class WXRequestApi: WXBaseRequest {
                 rspModel.parseResponseKeyPathModel(requestApi: self, responseDict: responseDict)
             }
         }
-        handleMulticenter(type: .WillStop, responseModel: rspModel)
         return rspModel
     }
     
@@ -619,8 +624,8 @@ open class WXRequestApi: WXBaseRequest {
                 WXRequestTools.WXDebugLog("\n❌❌❌无效的 URL \(apiType.rawValue)地址= \(requestURL)")
             }
             
-            guard responseModel.isCacheData == false else { return }
             printfResponseLog(responseModel: responseModel)
+            guard responseModel.isCacheData == false else { return }
             
             delegate?.requestWillStop(request: self, responseModel: responseModel)
             if let requestAccessories = requestAccessories {
@@ -630,7 +635,7 @@ open class WXRequestApi: WXBaseRequest {
             }
             
         case .DidCompletion:
-            checkPostNotification(responseModel: responseModel)
+            guard responseModel.isCacheData == false else { return }
             
             delegate?.requestDidCompletion(request: self, responseModel: responseModel)
             if let requestAccessories = requestAccessories {
@@ -638,19 +643,16 @@ open class WXRequestApi: WXBaseRequest {
                     accessory.requestDidCompletion(request: self, responseModel: responseModel)
                 }
             }
+            checkPostNotification(responseModel: responseModel)
             
-            if responseModel.isCacheData {
-                printfResponseLog(responseModel: responseModel)
-            } else {
-                // save cache as much as possible at the end
-                saveResponseObjToCache(responseModel: responseModel)
-                
-                // remove current request task
-                WXRequestConfig.shared.globleRequestList.removeAll(where: { $0 == self })
-                
-                // upload network log
-                WXRequestTools.uploadNetworkResponseJson(request: self, responseModel: responseModel)
-            }
+            // save cache as much as possible at the end
+            saveResponseObjToCache(responseModel: responseModel)
+            
+            // remove current request task
+            WXRequestConfig.shared.globleRequestList.removeAll(where: { $0 == self })
+            
+            // upload network log
+            WXRequestTools.uploadNetworkResponseJson(request: self, responseModel: responseModel)
         }
     }
     
@@ -705,15 +707,17 @@ open class WXRequestApi: WXBaseRequest {
     ///检查是否有相同请求在请求, 有则取消旧的请求
     fileprivate func cancelTheSameOldRequest() {
         for request in WXRequestConfig.shared.globleRequestList {
-            let oldJson = WXRequestTools.dictionaryToJSON(dictionary: request.finalParameters)
-            let oldReq = request.requestURL + request.requestMethod.rawValue + (oldJson ?? "")
-            
-            let newJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters)
-            let newReq = requestURL + requestMethod.rawValue + (newJson ?? "")
-            
-            if oldReq == newReq {
-                request.requestDataTask?.cancel()
-                //注意:这里不能立即break退出遍历,因为取消后可能不会立马回调
+            if request.autoCancelSameConcurrentRequest {
+                let oldJson = WXRequestTools.dictionaryToJSON(dictionary: request.finalParameters)
+                let oldReq = request.requestURL + request.requestMethod.rawValue + (oldJson ?? "")
+                
+                let newJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters)
+                let newReq = requestURL + requestMethod.rawValue + (newJson ?? "")
+                
+                if oldReq == newReq {
+                    request.requestDataTask?.cancel()
+                    //注意:这里不能立即break退出遍历,因为取消后可能不会立马回调
+                }
             }
         }
     }

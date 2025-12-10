@@ -26,12 +26,59 @@ class WXContextModel: Convertible {
     let dataTime: String? = "20211117"
     required init() {}
 }
-class WXRecommendModel: Convertible {
-    let nextPage: String = "zhangSan"
-    let isEnd: Int = 20
-    let context: WXContextModel? = nil
-    let list: [WXBannerModel]? = nil
-    required init() {}
+
+class WXAppStoreInfoModel: Convertible {
+    var advisories : [String] = []
+    var appletvScreenshotUrls : [String] = []
+    var artistId : Int = 0
+    var artistName : String = ""
+    var artistViewUrl : String = ""
+    var artworkUrl100 : String = ""
+    var artworkUrl512 : String = ""
+    var artworkUrl60 : String = ""
+    var averageUserRating : Double!
+    var averageUserRatingForCurrentVersion : Double = 0
+    var bundleId : String = ""
+    var contentAdvisoryRating : String = ""
+    var currency : String = ""
+    var currentVersionReleaseDate : String = ""
+    var features : [String] = []
+    var fileSizeBytes : String = ""
+    var formattedPrice : String = ""
+    var genreIds : [String] = []
+    var genres : [String] = []
+    var ipadScreenshotUrls : [String] = []
+    var isGameCenterEnabled : Bool = false
+    var isVppDeviceBasedLicensingEnabled : Bool = false
+    var kind : String = ""
+    var languageCodesISO2A : [String] = []
+    var minimumOsVersion : String = ""
+    var price : Float = 0.0
+    var primaryGenreId : Int = 0
+    var primaryGenreName : String = ""
+    var releaseDate : String = ""
+    /// App 介绍信息
+    var descriptionField : String = ""
+    /// 版本更新信息
+    var releaseNotes : String = ""
+    var screenshotUrls : [String] = []
+    var sellerName : String = ""
+    var sellerUrl : String = ""
+    var supportedDevices : [String] = []
+    var trackCensoredName : String = ""
+    var trackContentRating : String = ""
+    var trackId : Int = 0
+    var trackName : String = ""
+    var trackViewUrl : String = ""
+    var userRatingCount : Int = 0
+    var userRatingCountForCurrentVersion : Int = 0
+    
+    /// App Store 的最新版本号
+    var version : String = ""
+    var wrapperType : String = ""
+    
+    required init(){
+    }
 }
 
 class ViewController: UIViewController {
@@ -63,17 +110,17 @@ class ViewController: UIViewController {
     
     //MARK: ----- 测试单个请求 -----
     func testRequest() {
-        let url = "http://123.207.32.32:8000/home/multidata"
+        let url = "https://itunes.apple.com/lookup?id=414478124"
         let api = WXRequestApi(url, method: .get)
         api.timeOut = 40
         api.loadingSuperView = view
         api.requestSerializer = .EncodingFormURL
-        //api.autoCacheResponse = true
-        api.successStatusMap = (key: "returnCode",  value: "SUCCESS")
-        api.parseModelMap = (keyPath: "data.recommend", modelType: WXRecommendModel.self)
+        api.autoCacheResponse = true
+        api.successStatusMap = (key: "resultCount",  value: "1")
+        api.parseModelMap = (keyPath: "results", modelType: WXAppStoreInfoModel.self)
         requestTask = api.startRequest { [weak self] responseModel in
             self?.textView.text = responseModel.responseDict?.description
-            if let model = responseModel.parseModel as? WXRecommendModel {
+            if let model = responseModel.parseModel as? [WXAppStoreInfoModel] {
                 WXRequestTools.WXDebugLog("这个就是解析好的数据模型: \(model)")
             }
         }

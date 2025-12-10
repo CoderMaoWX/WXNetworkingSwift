@@ -54,7 +54,7 @@ let kWXRequestDataFromCacheKey      = "WXNetwork_DataFromCacheKey"
 public class WXRequestConfig {
     
     ///全局保存请求对象, 外部可管理全局请求对象 (注意: 请求对象在请求完成后会从数组被清空掉)
-    public var globleRequestList: [ WXBaseRequest ] = []
+    public var globleRequestList: [ WXRequestApi ] = []
     
     ///请求基础URL；如果有设置基础url, 则单个Api可直接使用path请求, 也可http全路径请求
     public var baseURL: String? = nil
