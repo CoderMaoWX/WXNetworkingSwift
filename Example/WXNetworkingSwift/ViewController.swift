@@ -95,7 +95,7 @@ class ViewController: UIViewController {
         WXRequestConfig.shared.messageTipKeyAndFailInfo = (tipKey: "returnCode", defaultTip: "我的默认错误页面提示文案")
         WXRequestConfig.shared.forbidProxyCaught = true
         WXRequestConfig.shared.urlResponseLogTuple = (printf: true, hostTitle: "开发环境")
-        WXRequestConfig.shared.requestHUDCalss = WXLoadingHUD.self
+        WXRequestConfig.shared.requestHUDClass = WXLoadingHUD.self
     }
     
     ///感谢你的点赞
@@ -131,6 +131,7 @@ class ViewController: UIViewController {
         let url1 = "https://httpbin.org/get"
         let api1 = WXRequestApi(url1, method: .get)
         api1.autoCacheResponse = true
+        //api1.retryWhenFailTuple = (times: 3, delay: 2.0)
         
         let url2 = "https://httpbin.org/delay/5"
         let para2: [String : Any] = ["name" : "张三"]
@@ -232,7 +233,7 @@ class ViewController: UIViewController {
                 }
                 if var mimeType = responseModel.urlResponse?.mimeType {
                     mimeType = mimeType.replacingOccurrences(of: "/", with: ".")
-                    let url = URL(fileURLWithPath: "/Users/xin610582/Desktop/" + mimeType, isDirectory: true)
+                    let url = URL(fileURLWithPath: "/Users/wangxin.mao/Desktop/" + mimeType, isDirectory: true)
                     try? rspData.write(to: url)
                 }
             }

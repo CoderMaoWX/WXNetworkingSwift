@@ -101,7 +101,7 @@ public class WXRequestTools {
     /// - Returns: 日志头部字符串
     public static func appendingPrintfLogHeader(request: WXRequestApi,
                                                 responseModel: WXResponseModel) -> String {
-        let isSuccess   = responseModel.isSuccess // (responseModel.responseDict == nil) ? false : true
+        let isSuccess   = responseModel.isSuccess
         let isCacheData = responseModel.isCacheData
         let requestJson = dictionaryToJSON(dictionary: request.finalParameters) ?? "{}"
         let hostTitle = WXRequestConfig.shared.urlResponseLogTuple.hostTitle.map {"【\($0)】"} ?? ""
@@ -190,13 +190,8 @@ public class WXRequestTools {
     public static func dictionaryToJSON(dictionary: WXDictionaryStrAny?) -> String? {
         guard let dictionary = dictionary else { return nil }
         do {
-            if #available(iOS 11.0, *) {
-                let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [.sortedKeys])
-                return String(data: jsonData, encoding: .utf8)
-            } else {
-                let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions())
-                return String(data: jsonData, encoding: .utf8)
-            }
+            let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [.sortedKeys])
+            return String(data: jsonData, encoding: .utf8)
         } catch {
             WXDebugLog("Failed to convert dictionary to JSON: \(error.localizedDescription)")
             return nil
@@ -205,7 +200,8 @@ public class WXRequestTools {
     
     /// JSON String转换为字典
     public static func jsonToDictionary(jsonString: String) -> WXDictionaryStrAny? {
-        if let jsonDict = (try? JSONSerialization.jsonObject(with: jsonString.data(using: .utf8, allowLossyConversion: true)!, options: .mutableContainers)) as? WXDictionaryStrAny {
+        guard let data = jsonString.data(using: .utf8) else { return nil }
+        if let jsonDict = (try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)) as? WXDictionaryStrAny {
             return jsonDict
         }
         return nil
@@ -270,7 +266,7 @@ public class WXRequestTools {
             
             let HUDView: UIView
             //show custom loading
-            if let hudClass = WXRequestConfig.shared.requestHUDCalss {
+            if let hudClass = WXRequestConfig.shared.requestHUDClass {
                 HUDView = hudClass.init()
                 var rect = HUDView.frame
                 HUDWidth = rect.size.width
@@ -280,7 +276,6 @@ public class WXRequestTools {
                 rect.origin.x = (maskWidth - HUDWidth) / 2.0
                 rect.origin.y = (maskHeight - HUDHeight) / 2.0
                 HUDView.frame = rect
-                //screenMaskView.backgroundColor = .init(white: 0, alpha: 0.1)
                 screenMaskView.addSubview(HUDView)
                 
             } else {

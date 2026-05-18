@@ -17,6 +17,40 @@ public typealias WXAnyObjectBlock = (AnyObject) -> ()
 public typealias WXProgressBlock = (Progress) -> Void
 public typealias WXNetworkResponseBlock = (WXResponseModel) -> ()
 
+/// 响应数据来源，便于页面区分缓存、网络和Debug模拟数据。
+public enum WXResponseSource {
+    case network
+    case cache
+    case debug
+}
+
+/// 网络框架内部归一化错误类型，保留原始错误同时区分业务失败、取消、URL异常等场景。
+public enum WXNetworkError: Error {
+    case invalidURL(String)
+    case emptyResponse
+    case cancelled(Error?)
+    case transport(Error)
+    case business(code: Int?, message: String?, response: WXDictionaryStrAny)
+}
+
+public extension WXNetworkError {
+    /// 是否为主动取消导致的错误。
+    var isCancelled: Bool {
+        if case .cancelled = self {
+            return true
+        }
+        return false
+    }
+
+    /// 是否为无效URL导致的错误。
+    var isInvalidURL: Bool {
+        if case .invalidURL = self {
+            return true
+        }
+        return false
+    }
+}
+
 public enum WXRequestSerializerType {
     case EncodingJSON       // application/json
     case EncodingFormURL    // application/x-www-form-urlencoded
@@ -65,19 +99,12 @@ open class WXBaseRequest: NSObject {
                          parameters: WXDictionaryStrAny? = nil) {
         super.init()
         self.requestMethod = method
+        self.requestURL = requestPath
         self.parameters = parameters
         
-        if requestPath.lowercased().hasPrefix("http") {
-            self.requestURL = requestPath
-            
-        } else if let baseURL = WXRequestConfig.shared.baseURL {
-            if baseURL.hasSuffix("/") || requestPath.hasPrefix("/") {
-                self.requestURL = baseURL + requestPath
-            } else {
-                self.requestURL = baseURL + "/" + requestPath
-            }
-        } else {
-            self.requestURL = requestPath
+        if requestPath.lowercased().hasPrefix("http") == false,
+           let baseURL = WXRequestConfig.shared.baseURL as? NSString {
+            self.requestURL = baseURL.appendingPathComponent(requestPath)
         }
     }
     
@@ -298,8 +325,16 @@ open class WXRequestApi: WXBaseRequest {
     /// - Returns: 请求任务对象(可用来取消任务)
     @discardableResult
     public func startRequest(responseBlock: ((_ response: WXResponseModel) -> ())?) -> WXDataRequest? {
-        apiType = .noraml
-        
+        retryCount = 0
+        return startRequest(responseBlock: responseBlock, shouldReadCache: true)
+    }
+
+    /// 执行网络请求，可控制本次请求是否读取缓存。
+    @discardableResult
+    fileprivate func startRequest(responseBlock: WXNetworkResponseBlock?,
+                                  shouldReadCache: Bool) -> WXDataRequest? {
+        apiType = .normal
+
         var isDebugJson = false
 #if DEBUG
         if let debugJsonURL = debugJsonResponse as? String, debugJsonURL.hasPrefix("http") {
@@ -308,7 +343,9 @@ open class WXRequestApi: WXBaseRequest {
         }
 #endif
         guard let _ = URL(string: requestURL) else {
-            configResponseBlock(responseBlock: responseBlock, responseObj: nil)
+            configResponseBlock(responseBlock: responseBlock,
+                                responseObj: nil,
+                                networkError: .invalidURL(requestURL))
             return nil
         }
         cancelTheSameOldRequest()
@@ -320,7 +357,9 @@ open class WXRequestApi: WXBaseRequest {
                 self?.configResponseBlock(responseBlock: responseBlock, responseObj: responseObj)
             }
         }
-        readRequestCacheWithBlock(fetchCacheBlock: networkBlock)
+        if shouldReadCache {
+            readRequestCacheWithBlock(fetchCacheBlock: networkBlock)
+        }
         
 #if DEBUG
         if let debugJsonDict = responseForDebugJson() {
@@ -342,7 +381,9 @@ open class WXRequestApi: WXBaseRequest {
         apiType = .upload
         
         guard let _ = URL(string: requestURL) else {
-            configResponseBlock(responseBlock: responseBlock, responseObj: nil)
+            configResponseBlock(responseBlock: responseBlock,
+                                responseObj: nil,
+                                networkError: .invalidURL(requestURL))
             return nil
         }
         
@@ -363,9 +404,12 @@ open class WXRequestApi: WXBaseRequest {
                 for fileData in uploadFileTuple.dataArr {
                     let dataInfo = WXRequestTools.dataMimeType(for: fileData)
                     let name = (dataInfo.mimeType as NSString).deletingLastPathComponent
-                    /// 生成一个随机的上传文件名称
+                    //生成一个随机的上传文件名称
                     let fileName = name + "-\(Int(Date().timeIntervalSince1970))" + "." + dataInfo.fileType
-                    multipartFormData.append(fileData, withName: uploadFileTuple.withName, fileName: fileName, mimeType:                 dataInfo.mimeType)
+                    multipartFormData.append(fileData,
+                                             withName: uploadFileTuple.withName,
+                                             fileName: fileName,
+                                             mimeType: dataInfo.mimeType)
                 }
             }
             //拼接上传参数
@@ -390,7 +434,9 @@ open class WXRequestApi: WXBaseRequest {
         apiType = .download
         
         guard let _ = URL(string: requestURL) else {
-            configResponseBlock(responseBlock: responseBlock, responseObj: nil)
+            configResponseBlock(responseBlock: responseBlock,
+                                responseObj: nil,
+                                networkError: .invalidURL(requestURL))
             return nil
         }
         
@@ -428,43 +474,64 @@ open class WXRequestApi: WXBaseRequest {
         }
         return nil
     }
-    
-    fileprivate func configResponseBlock(responseBlock: WXNetworkResponseBlock?, responseObj: AnyObject?) {
-        let responseModel = configResponseModel(responseObj: responseObj)
+
+    fileprivate func configResponseBlock(responseBlock: WXNetworkResponseBlock?,
+                                         responseObj: AnyObject?,
+                                         networkError: WXNetworkError? = nil) {
+        let responseModel = configResponseModel(responseObj: responseObj, networkError: networkError)
+        if shouldRetry(responseObj: responseObj, responseModel: responseModel) {
+            retryCount += 1
+            DispatchQueue.main.asyncAfter(deadline: (.now() + (retryWhenFailTuple?.delay ?? 0))) { [weak self] in
+                self?.startRequest(responseBlock: responseBlock, shouldReadCache: false)
+            }
+            return
+        }
         handleMulticenter(type: .WillStop, responseModel: responseModel)
         responseBlock?(responseModel)
         handleMulticenter(type: .DidCompletion, responseModel: responseModel)
-        
-        // code = 15 (isExplicitlyCancelledError): is manual cancelled
-        if let retryTuple = retryWhenFailTuple, retryCount < retryTuple.times,
-           let error = responseObj as? AFError, error.isExplicitlyCancelledError == false {
-            
-            DispatchQueue.main.asyncAfter(deadline: (.now() + retryTuple.delay)) {
-                self.retryCount += 1
-                self.startRequest(responseBlock: responseBlock)
-            }
+    }
+
+    /// 判断当前失败响应是否需要内部重试，重试过程不提前回调到页面。
+    fileprivate func shouldRetry(responseObj: AnyObject?, responseModel: WXResponseModel) -> Bool {
+        guard responseModel.isCacheData == false else { return false }
+        guard let retryTuple = retryWhenFailTuple, retryCount < retryTuple.times else { return false }
+        guard responseModel.isSuccess == false else { return false }
+        guard responseModel.networkError?.isCancelled != true else { return false }
+        guard responseModel.networkError?.isInvalidURL != true else { return false }
+
+        if let afError = responseObj as? AFError {
+            return afError.isExplicitlyCancelledError == false
         }
+        return responseModel.networkError != nil
     }
     
     ///配置数据响应回调模型
-    fileprivate func configResponseModel(responseObj: AnyObject?) -> WXResponseModel {
+    fileprivate func configResponseModel(responseObj: AnyObject?,
+                                         networkError: WXNetworkError? = nil) -> WXResponseModel {
         let rspModel = WXResponseModel()
-        rspModel.responseDuration = getCurrentTimestamp() - requestDuration
+        rspModel.responseDuration = requestDuration > 0 ? (getCurrentTimestamp() - requestDuration) : 0
         rspModel.apiUniquelyIp = apiUniquelyIp
         rspModel.responseObject = responseObj
         rspModel.urlRequest = requestDataTask?.request
         rspModel.urlResponse = requestDataTask?.response
-        
+        rspModel.networkError = networkError
+
         if let error = responseObj as? NSError { // Fail (NSError, AFError, Error都可相互转换)
             rspModel.error = error
             rspModel.responseCode = error.code
             rspModel.responseMsg = configFailMessage
-            
+            if rspModel.networkError == nil {
+                rspModel.networkError = error.code == 15 ? .cancelled(error) : .transport(error)
+            }
+
         } else if responseObj == nil { // Fail
             rspModel.error = NSError(domain: configFailMessage, code: -444, userInfo: nil)
             rspModel.responseCode = rspModel.error?.code
             rspModel.responseMsg = configFailMessage
-            
+            if rspModel.networkError == nil {
+                rspModel.networkError = .emptyResponse
+            }
+
         } else { //Success
             var handleResponse = responseObj!
             //需要解密响应的json结果吗?
@@ -492,10 +559,12 @@ open class WXRequestApi: WXBaseRequest {
             responseDcit[ kWXNetworkDebugResponseKey ].map({
                 responseDcit.removeValue(forKey: kWXNetworkDebugResponseKey)
                 responseModel.isDebugResponse = $0 as! Bool
+                responseModel.responseSource = .debug
             })
             if let _ = responseDcit[kWXRequestDataFromCacheKey] {
                 responseDcit.removeValue(forKey: kWXRequestDataFromCacheKey)
                 responseModel.isCacheData = true
+                responseModel.responseSource = .cache
             }
         } else if responseObj is Data {
             if let rspData = responseObj.mutableCopy() as? Data {
@@ -560,6 +629,11 @@ open class WXRequestApi: WXBaseRequest {
             let domain = rspModel.responseMsg ?? KWXRequestFailueDefaultMessage
             let code = rspModel.responseCode ?? -444
             rspModel.error = NSError(domain: domain, code: code, userInfo: responseDict)
+            if code == 15 {
+                rspModel.networkError = .cancelled(rspModel.error)
+            } else {
+                rspModel.networkError = .business(code: code, message: domain, response: responseDict)
+            }
         }
     }
     
@@ -574,10 +648,10 @@ open class WXRequestApi: WXBaseRequest {
         }
         return nil
     }
-    
-    fileprivate var apiType: WXRequestApiType = .noraml
+
+    fileprivate var apiType: WXRequestApiType = .normal
     fileprivate enum WXRequestApiType: String {
-        case noraml = "请求"
+        case normal = "请求"
         case upload = "上传"
         case download = "下载"
     }
@@ -596,20 +670,19 @@ open class WXRequestApi: WXBaseRequest {
         case .WillStart:
             Self.judgeShowLoading(true, toView: loadingSuperView)
             requestDuration = getCurrentTimestamp()
-            WXRequestConfig.shared.globleRequestList.append(self)
-            
+            WXRequestConfig.shared.addGlobalRequest(self)
+
             // start request log tip
             // if self.urlResponseLogTuple?.printf ?? false ||
-            // WXRequestConfig.shared.urlResponseLogTuple.printf {
-            var typeName = apiType.rawValue
+            //    SRequestConfig.shared.urlResponseLogTuple.printf {
             if retryCount == 0 {
-                typeName = apiType == .noraml ? "" : typeName
+                let typeName = apiType == .normal ? "" : apiType.rawValue
                 WXRequestTools.WXDebugLog("\n👉👉👉已发出\(typeName)网络请求=", requestURL)
             } else {
-                WXRequestTools.WXDebugLog("\n👉👉👉\(typeName)失败,第【 \(retryCount) 】次尝试重新\(typeName)=", requestURL)
+                WXRequestTools.WXDebugLog("\n👉👉👉\(apiType.rawValue)已失败,第【 \(retryCount) 】次尝试重新\(apiType.rawValue)=", requestURL)
             }
-            //}
-            
+            // }
+
             delegate?.requestWillStart(request: self)
             if let requestAccessories = requestAccessories {
                 for accessory in requestAccessories {
@@ -621,7 +694,8 @@ open class WXRequestApi: WXBaseRequest {
             Self.judgeShowLoading(false, toView: loadingSuperView)
             
             if URL(string: requestURL) == nil {
-                WXRequestTools.WXDebugLog("\n❌❌❌无效的 URL \(apiType.rawValue)地址= \(requestURL)")
+                let typeName = apiType.rawValue
+                WXRequestTools.WXDebugLog("\n❌❌❌无效的 URL \(typeName)地址= \(requestURL)")
             }
             
             printfResponseLog(responseModel: responseModel)
@@ -649,8 +723,8 @@ open class WXRequestApi: WXBaseRequest {
             saveResponseObjToCache(responseModel: responseModel)
             
             // remove current request task
-            WXRequestConfig.shared.globleRequestList.removeAll(where: { $0 == self })
-            
+            WXRequestConfig.shared.removeGlobalRequest(self)
+
             // upload network log
             WXRequestTools.uploadNetworkResponseJson(request: self, responseModel: responseModel)
         }
@@ -687,7 +761,7 @@ open class WXRequestApi: WXBaseRequest {
     
     ///添加请求转圈
     fileprivate static func judgeShowLoading(_ show: Bool, toView: UIView?) {
-        guard WXRequestConfig.shared.showRequestLaoding else { return }
+        guard WXRequestConfig.shared.showRequestLoading else { return }
         guard let loadingSuperView = toView else { return }
         if show {
             WXRequestTools.showLoading(to: loadingSuperView)
@@ -706,14 +780,13 @@ open class WXRequestApi: WXBaseRequest {
     
     ///检查是否有相同请求在请求, 有则取消旧的请求
     fileprivate func cancelTheSameOldRequest() {
-        for request in WXRequestConfig.shared.globleRequestList {
+        for request in WXRequestConfig.shared.snapshotGlobalRequestList() {
             if request.autoCancelSameConcurrentRequest {
-                let oldJson = WXRequestTools.dictionaryToJSON(dictionary: request.finalParameters)
-                let oldReq = request.requestURL + request.requestMethod.rawValue + (oldJson ?? "")
-                
-                let newJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters)
-                let newReq = requestURL + requestMethod.rawValue + (newJson ?? "")
-                
+                guard let oldReq = request.requestIdentity,
+                      let newReq = requestIdentity else {
+                    continue
+                }
+
                 if oldReq == newReq {
                     request.requestDataTask?.cancel()
                     //注意:这里不能立即break退出遍历,因为取消后可能不会立马回调
@@ -724,17 +797,36 @@ open class WXRequestApi: WXBaseRequest {
     
     lazy var cacheKey: String = {
         if cacheResponseBlock != nil || autoCacheResponse {
-            let parameterJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters)
-            let originValue = requestURL + requestMethod.rawValue + (parameterJson ?? "")
+            guard let parameterJson = serializedFinalParametersForIdentity() else {
+                //缓存Key生成失败: 请求参数无法序列化为JSON，已跳过缓存
+                return ""
+            }
+            let originValue = requestURL + requestMethod.rawValue + parameterJson
             return WXRequestTools.convertToMD5(originStr: originValue)
         }
         return ""
     }()
-    
+
+    fileprivate var requestIdentity: String? {
+        guard let parameterJson = serializedFinalParametersForIdentity() else {
+            //请求唯一标识生成失败: 请求参数无法序列化为JSON，已跳过相同请求自动取消
+            return nil
+        }
+        return requestURL + requestMethod.rawValue + parameterJson
+    }
+
+    /// 将最终请求参数转为稳定JSON字符串，用于请求去重和缓存Key生成。
+    fileprivate func serializedFinalParametersForIdentity() -> String? {
+        guard let finalParameters = finalParameters else { return "" }
+        guard let parameterJson = WXRequestTools.dictionaryToJSON(dictionary: finalParameters) else {
+            return nil
+        }
+        return parameterJson
+    }
+
     ///如果本地需要有缓存: 则读取接口本地缓存数据返回
     fileprivate func readRequestCacheWithBlock(fetchCacheBlock: @escaping WXAnyObjectBlock) {
-        if cacheResponseBlock != nil || autoCacheResponse {
-            
+        if (cacheResponseBlock != nil || autoCacheResponse), cacheKey.count > 0 {
             DispatchQueue.global().async {
                 var cachePath = WXRequestTools.fetchCachePath() ///缓存目录
                 cachePath = (cachePath as NSString).appendingPathComponent(self.cacheKey)
@@ -755,10 +847,10 @@ open class WXRequestApi: WXBaseRequest {
     
     ///保存接口响应数据到本地缓存
     fileprivate func saveResponseObjToCache(responseModel: WXResponseModel) {
+        guard responseModel.isSuccess, cacheKey.count > 0 else { return }
         var saveRspJson: String? = nil
         
-        if let cacheBlock = cacheResponseBlock, responseModel.isSuccess,
-           let saveResponseDict = cacheBlock(responseModel) {
+        if let cacheBlock = cacheResponseBlock, let saveResponseDict = cacheBlock(responseModel) {
             if let responseJson = WXRequestTools.dictionaryToJSON(dictionary: saveResponseDict) {
                 saveRspJson = responseJson
             }
@@ -858,16 +950,8 @@ open class WXBatchRequestApi {
     
     ///标记是否都成功: 一个失败就标记不是都成功
     fileprivate func refreshIsAllSuccess() {
-        var success = false
-        for respModel in responseDataArray where respModel.isCacheData == false {
-            if respModel.responseDict == nil {
-                success = false//一个失败就标记不是都成功
-                break
-            } else {
-                success = true
-            }
-        }
-        isAllSuccess = success
+        let networkResponses = responseDataArray.filter { $0.isCacheData == false }
+        isAllSuccess = networkResponses.count == requestArray.count && networkResponses.allSatisfy { $0.isSuccess }
     }
     
     ///待所有请求都响应才回调到页面
@@ -928,6 +1012,8 @@ public class WXResponseModel: NSObject {
     public var responseMsg: String? = nil
     ///本次数据是否为缓存
     public var isCacheData: Bool = false
+    ///本次响应数据来源
+    public var responseSource: WXResponseSource = .network
     ///请求耗时(毫秒)
     public var responseDuration: TimeInterval? = nil
     ///解析数据的模型: 可KeyPath匹配, 返回 Model对象 或者 模型数组 [Model]
@@ -940,6 +1026,8 @@ public class WXResponseModel: NSObject {
     public var isDebugResponse: Bool = false
     ///失败时的错误信息
     public var error: NSError? = nil
+    ///框架归一化后的错误信息
+    public var networkError: WXNetworkError? = nil
     ///原始响应
     public var urlResponse: HTTPURLResponse? = nil
     ///原始请求

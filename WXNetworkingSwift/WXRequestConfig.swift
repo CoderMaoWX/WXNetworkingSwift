@@ -10,8 +10,8 @@ import Foundation
 let KWXUploadAppsFlyerStatisticsKey = "KWXUploadAppsFlyerStatisticsKey"
 let kWXNetworkResponseCache         = "kWXNetworkResponseCache"
 let kWXNetworkDebugResponseKey      = "kWXNetworkDebugResponseKey"
-let KWXRequestFailueDefaultMessage  = "Loading failed, please try again later."
 let kWXRequestDataFromCacheKey      = "WXNetwork_DataFromCacheKey"
+let KWXRequestFailueDefaultMessage  = "Loading failed, please try again later."
 
 @objc public enum WXRequestMulticenterType: Int {
     case WillStart
@@ -54,9 +54,17 @@ let kWXRequestDataFromCacheKey      = "WXNetwork_DataFromCacheKey"
 public class WXRequestConfig {
     
     ///全局保存请求对象, 外部可管理全局请求对象 (注意: 请求对象在请求完成后会从数组被清空掉)
-    public var globleRequestList: [ WXRequestApi ] = []
+    public var globalRequestList: [ WXRequestApi ] {
+        requestListLock.lock()
+        let list = requestList
+        requestListLock.unlock()
+        return list
+    }
+
+    private let requestListLock = NSLock()
+    private var requestList: [ WXRequestApi ] = []
     
-    ///请求基础URL；如果有设置基础url, 则单个Api可直接使用path请求, 也可http全路径请求
+    ///请求基础URL；如果有设置基础url, 则单个Api可直接使用path请求, 也可http全路径URL请求
     public var baseURL: String? = nil
     
     ///全局设置一次请求序列化对象 (json, form表单);  ( 如果单个Api对象未设置序列化对象值,  则每个Api请求对象默认使用该值 )
@@ -65,12 +73,12 @@ public class WXRequestConfig {
     ///全局设置一次请求头信息;  ( 如果单个Api对象未设置序列化对象值,  则每个Api请求对象默认使用该值 )
     public var globleRequestHeaderDict: [String : String]? = nil
     
-    ///与服务器后台约定一直全局请求成功映射: key/value;  ( 如果单个Api对象未设置成功映射值,  则每个Api请求对象默认使用该值 )
+    ///与服务器后台约定一致全局请求成功映射: key/value;  (如果单个Api对象未设置成功映射值, 则每个Api请求对象默认使用该值)
     ///(key可以是KeyPath模式进行匹配 如: (key: "data.status", value: "200")
     public var successStatusMap: (key: String, value: String)? = nil
     
     ///约定全局请求的提示tipKey, 返回值会保存在: WXResponseModel.responseMsg中
-    ///如果接口没有返回此key 或者HTTP连接失败时 则取defaultTip当做通用提示文案, 页面直接取responseMsg当作通用提示即可
+    ///如果接口没有返回此key 或者HTTP连接失败时 则取defaultTip当做通用提示文案, 页面放心直接取responseMsg当作通用提示即可
     public var messageTipKeyAndFailInfo: (tipKey: String, defaultTip: String)? = nil
     
     /**
@@ -93,11 +101,11 @@ public class WXRequestConfig {
     public var openMultipathService: Bool = false
     
     ///请求HUD时的类名
-    public var requestHUDCalss: UIView.Type? = nil
-    
+    public var requestHUDClass: UIView.Type? = nil
+
     ///是否显示请求HUD,全局开关,  (默认显示: true)
-    public var showRequestLaoding: Bool = true
-    
+    public var showRequestLoading: Bool = true
+
     ///是否为正式上线环境: 如果为真,则下面的所有日志上传将全都被忽略
     public var isDistributionOnlineRelease: Bool = false
     
@@ -118,17 +126,43 @@ public class WXRequestConfig {
     public static let shared = WXRequestConfig()
     private init() {
     }
-    
+
+    /// 记录正在执行的网络请求，保证局部创建的请求对象在回调完成前不被释放。
+    internal func addGlobalRequest(_ request: WXRequestApi) {
+        requestListLock.lock()
+        if requestList.contains(where: { $0 === request }) == false {
+            requestList.append(request)
+        }
+        requestListLock.unlock()
+    }
+
+    /// 移除已完成的网络请求对象。
+    internal func removeGlobalRequest(_ request: WXRequestApi) {
+        requestListLock.lock()
+        requestList.removeAll(where: { $0 === request })
+        requestListLock.unlock()
+    }
+
+    /// 获取当前正在执行的请求快照，避免遍历时和增删操作互相影响。
+    internal func snapshotGlobalRequestList() -> [WXRequestApi] {
+        return globalRequestList
+    }
+
     ///清除所有缓存
     public func clearWXNetworkAllRequestCache(completion: @escaping (Bool) -> ()) {
         DispatchQueue.global().async {
             let cachePath = WXRequestTools.fetchCachePath()
             let fileManager = FileManager.default
+            var success = true
             if fileManager.fileExists(atPath: cachePath) {
-                try? fileManager.removeItem(atPath: cachePath)
-                DispatchQueue.main.async {
-                    completion(true)
+                do {
+                    try fileManager.removeItem(atPath: cachePath)
+                } catch {
+                    success = false
                 }
+            }
+            DispatchQueue.main.async {
+                completion(success)
             }
         }
     }
@@ -138,15 +172,19 @@ public class WXRequestConfig {
         DispatchQueue.global().async {
             let cachePath = WXRequestTools.fetchCachePath()
             let fileManager = FileManager.default
-            if fileManager.fileExists(atPath: cachePath) {
-                let deletePath = (cachePath as NSString).appendingPathComponent(serverApi.cacheKey)
-                try? fileManager.removeItem(atPath: deletePath)
-                DispatchQueue.main.async {
-                    completion(true)
+            let deletePath = (cachePath as NSString).appendingPathComponent(serverApi.cacheKey)
+            var success = true
+            if serverApi.cacheKey.count > 0, fileManager.fileExists(atPath: deletePath) {
+                do {
+                    try fileManager.removeItem(atPath: deletePath)
+                } catch {
+                    success = false
                 }
+            }
+            DispatchQueue.main.async {
+                completion(success)
             }
         }
     }
-    
-}
 
+}
